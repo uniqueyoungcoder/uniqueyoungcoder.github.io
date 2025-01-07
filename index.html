@@ -3,219 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun Interactive Page</title>
-    <link rel="icon" href="https://img.freepik.com/free-vector/simple-vibing-cat-square-meme_742173-4493.jpg" type="image/x-icon">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to right, #ffafbd, #ffc3a0);
-            color: #333;
-        }
-        .container {
-            padding: 50px;
-        }
-        .button {
-            display: inline-block;
-            padding: 15px 30px;
-            font-size: 18px;
-            color: white;
-            background-color: #ff6f61;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 20px;
-            transition: transform 0.2s;
-        }
-        .button:hover {
-            transform: scale(1.1);
-            background-color: #ff8566;
-        }
-        .fun-section {
-            margin-top: 30px;
-        }
-        .quote {
-            font-size: 24px;
-            font-style: italic;
-            margin: 20px;
-        }
-        canvas {
-            border: 2px solid #ff6f61;
-            margin: 20px auto;
-            display: block;
-        }
-        .volume-control {
-            margin-top: 20px;
-        }
-    </style>
+    <title>Image and Music Generator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Fun Interactive Page!</h1>
-        <p>Click the buttons below to see something cool:</p>
-
-        <button class="button" onclick="showQuote()">Show Random Quote</button>
-        <button class="button" onclick="startDrawing()">Start Drawing</button>
-        <button class="button" onclick="changeBackground()">Change Background Color</button>
-        <button class="button" onclick="showTime()">Show Current Time</button>
-        <button class="button" onclick="playSound('beep')">Play Song 1</button>
-        <button class="button" onclick="playSound('chime')">Play Song 2</button>
-        <button class="button" onclick="playSound('click')">Play Song 3</button>
-        <button class="button" onclick="stopSound()">Stop Sound</button>
-        <button class="button" onclick="generateRandomNumber()">Generate Random Number</button>
-        <button class="button" onclick="showDate()">Show Current Date</button>
-        <button class="button" onclick="flipCoin()">Flip a Coin</button>
-        <button class="button" onclick="countClicks()">Count Clicks</button>
-        <button class="button" onclick="toggleVisibility()">Toggle Visibility</button>
-        <button class="button" onclick="changeFont()">Change Font Style</button>
-        <button class="button" onclick="rollDice()">Roll a Dice</button>
-
-        <div class="volume-control">
-            <label for="volume">Volume: </label>
-            <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5" onchange="adjustVolume(this.value)">
+    <div id="container">
+        <h1>Image and Music Generator</h1>
+        <div id="imageContainer">
+            <img id="displayImage" src="" alt="Displayed Image">
         </div>
-
-        <div class="fun-section" id="fun-section">
-            <!-- Content will appear here -->
+        <div id="buttons">
+            <button onclick="showContent(0)">Button 1</button>
+            <button onclick="showContent(1)">Button 2</button>
+            <button onclick="showContent(2)">Button 3</button>
+            <button onclick="showContent(3)">Button 4</button>
+            <button onclick="showContent(4)">Button 5</button>
+            <button onclick="showContent(5)">Button 6</button>
+            <button onclick="showContent(6)">Button 7</button>
+            <button onclick="showContent(7)">Button 8</button>
+            <button onclick="showContent(8)">Button 9</button>
+            <button onclick="showContent(9)">Button 10</button>
         </div>
-
-        <canvas id="drawingCanvas" width="400" height="400" style="display: none;"></canvas>
     </div>
-
-    <script>
-        const quotes = [
-            "The best way to predict the future is to invent it.",
-            "Life is better when you're laughing.",
-            "Believe you can and you're halfway there.",
-            "Happiness is not by chance, but by choice.",
-            "Dream big and dare to fail."
-        ];
-
-        const audioFiles = {
-            beep: 'https://kappa.vgmsite.com/soundtracks/wii-music-collection/obhnjhotpz/17.%20Title%20%28Wii%20Play%29.mp3',
-            chime: 'https://eta.vgmtreasurechest.com/soundtracks/kirby-planet-robobot-hoshi-no-kirby-robobo-planet-gamerip-2016/ihawlvhupy/2-12.%20Toy%20Box%20%5B%22Toy%20Rhythm%22%20from%20Kirby%20-%20Triple%20Deluxe%5D.mp3',
-            click: 'https://eta.vgmtreasurechest.com/soundtracks/animal-crossing-gc-rip/qevhqsgwas/83.%207%20PM%20%28Cherry%20Blossoms%29.mp3'
-        };
-
-        let audioVolume = 0.5; // Default volume
-        let clickCount = 0;
-        let currentAudio = null; // Track the currently playing audio
-
-        function showQuote() {
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            const funSection = document.getElementById('fun-section');
-            funSection.innerHTML = `<p class='quote'>"${randomQuote}"</p>`;
-        }
-
-        function startDrawing() {
-            const canvas = document.getElementById('drawingCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.style.display = 'block';
-
-            let drawing = false;
-
-            canvas.addEventListener('mousedown', () => drawing = true);
-            canvas.addEventListener('mouseup', () => drawing = false);
-            canvas.addEventListener('mousemove', draw);
-
-            function draw(event) {
-                if (!drawing) return;
-                ctx.fillStyle = '#ff6f61';
-                ctx.beginPath();
-                ctx.arc(event.offsetX, event.offsetY, 5, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function changeBackground() {
-            const colors = ['#ffafbd', '#ffc3a0', '#a1c4fd', '#c2e59c', '#fbc2eb'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            document.body.style.background = `linear-gradient(to right, ${randomColor}, #ffffff)`;
-        }
-
-        function showTime() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            const funSection = document.getElementById('fun-section');
-            funSection.innerHTML = `<p class='quote'>Current Time: ${timeString}</p>`;
-        }
-
-        function playSound(type) {
-            if (!audioFiles[type]) {
-                console.error("Sound type not found:", type);
-                return;
-            }
-
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-            }
-
-            currentAudio = new Audio(audioFiles[type]);
-            currentAudio.volume = audioVolume;
-            currentAudio.play().catch(error => {
-                console.error("Audio playback failed:", error);
-            });
-        }
-
-        function stopSound() {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-            }
-        }
-
-        function adjustVolume(value) {
-            audioVolume = parseFloat(value);
-            console.log("Volume adjusted to:", audioVolume);
-            if (currentAudio) {
-                currentAudio.volume = audioVolume;
-            }
-        }
-
-        function generateRandomNumber() {
-            const randomNumber = Math.floor(Math.random() * 100) + 1;
-            const funSection = document.getElementById('fun-section');
-            funSection.innerHTML = `<p class='quote'>Random Number: ${randomNumber}</p>`;
-        }
-
-        function showDate() {
-            const now = new Date();
-            const dateString = now.toDateString();
-            const funSection = document.getElementById('fun-section');
-            funSection.innerHTML = `<p class='quote'>Current Date: ${dateString}</p>`;
-        }
-
-        function flipCoin() {
-            const result = Math.random() < 0.5 ? 'Heads' : 'Tails';
-            const funSection = document.getElementById('fun-section');
-            funSection.innerHTML = `<p class='quote'>Coin Flip: ${result}</p>`;
-        }
-
-        function countClicks() {
-            clickCount++;
-            const funSection = document.getElementById('fun-section');
-            funSection.innerHTML = `<p class='quote'>Button Clicks: ${clickCount}</p>`;
-        }
-
-        function toggleVisibility() {
-            const canvas = document.getElementById('drawingCanvas');
-            canvas.style.display = canvas.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function changeFont() {
-            const fonts = ['Arial', 'Courier New', 'Georgia', 'Times New Roman', 'Verdana'];
-            const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
-            document.body.style.fontFamily = randomFont;
-        }
-
-        function rollDice() {
-            const diceRoll = Math.floor(Math.random() * 6) + 1;
-            const funSection = document.getElementById('fun-section');
-            funSection.innerHTML = `<p class='quote'>You rolled a: ${diceRoll}</p>`;
-        }
-    </script>
+    <audio id="audioPlayer" src="" preload="auto"></audio>
+    <script src="script.js"></script>
 </body>
 </html>
