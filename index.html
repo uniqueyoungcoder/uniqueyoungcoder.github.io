@@ -3,29 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image and Music Generator</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Image Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #game {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #displayImage {
+            max-width: 200px;
+            max-height: 200px;
+            margin-bottom: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #guess {
+            padding: 5px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div id="container">
-        <h1>Image and Music Generator</h1>
-        <div id="imageContainer">
-            <img id="displayImage" src="" alt="Displayed Image">
-        </div>
-        <div id="buttons">
-            <button onclick="showContent(0)">Button 1</button>
-            <button onclick="showContent(1)">Button 2</button>
-            <button onclick="showContent(2)">Button 3</button>
-            <button onclick="showContent(3)">Button 4</button>
-            <button onclick="showContent(4)">Button 5</button>
-            <button onclick="showContent(5)">Button 6</button>
-            <button onclick="showContent(6)">Button 7</button>
-            <button onclick="showContent(7)">Button 8</button>
-            <button onclick="showContent(8)">Button 9</button>
-            <button onclick="showContent(9)">Button 10</button>
-        </div>
-    </div>
-    <audio id="audioPlayer" src="" preload="auto"></audio>
-    <script src="script.js"></script>
+
+<div id="game">
+    <h2>Guess the Image</h2>
+    <img id="displayImage" src="" alt="Image to Guess">
+    <br>
+    <input type="text" id="guess" placeholder="Your guess...">
+    <button onclick="checkGuess()">Guess</button>
+    <button onclick="showNewImage()">New Image</button>
+    <p id="result"></p>
+</div>
+
+<script>
+    // Array of image paths and their answers
+    const images = [
+        { path: 'https://www.istockphoto.com/photo/cute-tabby-cat-sleeping-wrapped-in-wool-orange-blanket-fall-mood-autumn-vibes-gm2170099490-590043417?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_image_sponsored_ratiochange&utm_content=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fcat%2F&utm_term=cat', answer: 'Cat 😸' },
+        { path: 'https://www.istockphoto.com/photo/cute-springer-spaniel-mix-dog-outdoors-in-nature-forest-in-long-leash-and-harness-gm2083899972-565420214?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_image_sponsored_ratiochange&utm_content=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fdog%2F&utm_term=dog', answer: 'Dog 🐶' },
+        { path: 'https://cdn.pixabay.com/photo/2014/06/21/08/43/rabbit-373691_640.jpg', answer: 'Bunny 🐰' },
+        { path: 'https://pixabay.com/photos/hamster-rodent-dwarf-hamster-1772742/', answer: 'Hamster 🐹' },
+        { path: 'https://www.istockphoto.com/photo/turtle-gm2152426336-573433782?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_photo_sponsored_ratiochange&utm_content=https%3A%2F%2Fpixabay.com%2Fphotos%2Fsearch%2Fturtle%2F&utm_term=turtle', answer: 'Turtle 🐢' },
+        { path: 'https://pixabay.com/photos/fishes-underwater-yellow-fish-7314666/', answer: 'Fish 🐠' },
+        // Add more images here
+    ];
+
+    let currentImageIndex = -1;
+
+    // Function to show a new random image
+    function showNewImage() {
+        currentImageIndex = Math.floor(Math.random() * images.length);
+        document.getElementById('displayImage').src = images[currentImageIndex].path;
+        document.getElementById('result').textContent = ''; // Clear previous result
+        document.getElementById('guess').value = ''; // Clear guess input
+    }
+
+    // Function to check if the guess is correct
+    function checkGuess() {
+        const guess = document.getElementById('guess').value.toLowerCase();
+        const correctAnswer = images[currentImageIndex].answer.toLowerCase();
+        
+        if(guess === correctAnswer) {
+            document.getElementById('result').textContent = 'Correct!';
+        } else {
+            document.getElementById('result').textContent = `Wrong! The answer was ${images[currentImageIndex].answer}.`;
+        }
+    }
+
+    // Show the first image when the page loads
+    window.onload = showNewImage;
+</script>
+
 </body>
 </html>
