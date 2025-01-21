@@ -1,10 +1,107 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyApF4aLLrcgk3zi99v-__P93R0exmqWk1M",
-  authDomain: "funwebsitez-3e5bb.firebaseapp.com",
-  databaseURL: "https://funwebsitez-3e5bb-default-rtdb.firebaseio.com",
-  projectId: "funwebsitez-3e5bb",
-  storageBucket: "funwebsitez-3e5bb.firebasestorage.app",
-  messagingSenderId: "106805188255",
-  appId: "1:106805188255:web:a199cde5046938da16b4aa",
-  measurementId: "G-XN19NYV5WK"
-};
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Users</title>
+    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Online Users</h1>
+    <div id="login">
+        <input type="text" id="username" placeholder="Enter your username" />
+        <button onclick="join()">Join</button>
+    </div>
+    <div id="app" style="display: none;">
+        <h2>Welcome, <span id="currentUser"></span>!</h2>
+        <p>Users online:</p>
+        <ul id="userList"></ul>
+        <button onclick="leave()">Leave</button>
+    </div>
+
+    <script>
+        // Replace with your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyApF4aLLrcgk3zi99v-__P93R0exmqWk1M",
+            authDomain: "funwebsitez-3e5bb.firebaseapp.com",
+            databaseURL: "https://funwebsitez-3e5bb-default-rtdb.firebaseio.com",
+            projectId: "funwebsitez-3e5bb",
+            storageBucket: "funwebsitez-3e5bb.firebasestorage.app",
+            messagingSenderId: "106805188255",
+            appId: "1:106805188255:web:a199cde5046938da16b4aa",
+            measurementId: "G-XN19NYV5WK"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let currentUser = null;
+        const userListRef = database.ref("users");
+
+        // Join the website
+        function join() {
+            const username = document.getElementById("username").value.trim();
+            if (!username) {
+                alert("Please enter a username!");
+                return;
+            }
+            currentUser = username;
+            document.getElementById("currentUser").textContent = username;
+
+            // Add user to the database
+            const userRef = userListRef.child(username);
+            userRef.set(true);
+
+            // Remove user when they leave
+            userRef.onDisconnect().remove();
+
+            // Show the app
+            document.getElementById("login").style.display = "none";
+            document.getElementById("app").style.display = "block";
+
+            // Listen for changes in the user list
+            userListRef.on("value", (snapshot) => {
+                const users = snapshot.val();
+                const userList = document.getElementById("userList");
+                userList.innerHTML = "";
+                for (const user in users) {
+                    const li = document.createElement("li");
+                    li.textContent = user;
+                    userList.appendChild(li);
+                }
+            });
+        }
+
+        // Leave the website
+        function leave() {
+            if (currentUser) {
+                userListRef.child(currentUser).remove();
+                currentUser = null;
+            }
+            document.getElementById("login").style.display = "block";
+            document.getElementById("app").style.display = "none";
+        }
+    </script>
+</body>
+</html>
