@@ -45,34 +45,6 @@
             background: #fff;
             border-radius: 10px;
         }
-        .secret-btn {
-            background: none;
-            border: none;
-            color: transparent;
-            cursor: pointer;
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            z-index: 1000;
-        }
-        .secret-btn:hover {
-            animation: rainbow 2s linear infinite;
-        }
-        #secret-btn1 { bottom: 10px; right: 10px; }
-        #secret-btn2 { top: 10px; right: 10px; }
-        #secret-btn3 { bottom: 10px; left: 10px; }
-        #secret-btn4 { top: 10px; left: 10px; }
-        #secret-btn5 { top: 50%; left: 10px; transform: translateY(-50%); }
-        #secret-btn6 { top: 50%; right: 10px; transform: translateY(-50%); }
-        #secret-btn7 { bottom: 50%; left: 50%; transform: translate(-50%, 50%); }
-        #secret-btn8 { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-        
-        @keyframes rainbow {
-            0% { background-color: red; }
-            33% { background-color: yellow; }
-            66% { background-color: blue; }
-            100% { background-color: red; }
-        }
         .links {
             margin: 20px 0;
         }
@@ -90,14 +62,14 @@
 <body>
     <div class="container">
         <h1>🎉 Super Fun Website! 🎉</h1>
-        
+
         <div class="music-controls">
             <h2>🎵 Music Controls 🎵</h2>
             <button class="button" onclick="playMusic('song1')">Play Song 1</button>
             <button class="button" onclick="playMusic('song2')">Play Song 2</button>
-            <button class="button" onclick="playMusic('song3')">Play Song 3</button>
             <button class="button" onclick="stopMusic()">Stop Music</button>
-            
+            <button class="button" onclick="changeBackground()">Play Song 3 / Change Background</button>
+
             <audio id="song1" src="https://cdnjs.cloudflare.com/ajax/libs/web-audio-api/0.1.0/audio/sound1.mp3"></audio>
             <audio id="song2" src="https://cdnjs.cloudflare.com/ajax/libs/web-audio-api/0.1.0/audio/sound2.mp3"></audio>
             <audio id="song3" src="https://cdnjs.cloudflare.com/ajax/libs/web-audio-api/0.1.0/audio/sound3.mp3"></audio>
@@ -111,11 +83,14 @@
         </div>
     </div>
 
-    <!-- Secret Buttons -->
-    <a class="secret-btn" id="secret-btn1" href="https://www.nyan.cat" target="_blank" title="Nyan Cat!">Secret 1</a>
-    <a class="secret-btn" id="secret-btn2" href="https://www.youtube.com" target="_blank" title="Youtube!">Secret 2</a>
     <script>
         let currentAudio = null;
+        const backgrounds = [
+            'https://via.placeholder.com/1920x1080/ff6b6b/ffffff?text=Background+1',
+            'https://via.placeholder.com/1920x1080/4ecdc4/ffffff?text=Background+2',
+            'https://via.placeholder.com/1920x1080/2c3e50/ffffff?text=Background+3'
+        ];
+        let currentBackgroundIndex = 0;
 
         function playMusic(songId) {
             // Stop current audio if playing
@@ -123,7 +98,7 @@
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
             }
-            
+
             // Play new audio
             const audio = document.getElementById(songId);
             audio.play();
@@ -136,6 +111,18 @@
                 currentAudio.currentTime = 0;
                 currentAudio = null;
             }
+        }
+
+        function changeBackground() {
+            // Change background image
+            document.body.style.backgroundImage = `url(${backgrounds[currentBackgroundIndex]})`;
+            document.body.style.backgroundSize = 'cover';
+
+            // Cycle through the images
+            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
+
+            // Play song 3
+            playMusic('song3');
         }
     </script>
 </body>
