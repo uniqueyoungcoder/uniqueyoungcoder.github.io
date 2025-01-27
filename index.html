@@ -1,106 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Users</title>
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
             text-align: center;
         }
-        input, button {
-            padding: 10px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
             margin: 10px;
-            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: transform 0.2s;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
+        .button:hover {
+            transform: scale(1.1);
         }
-        li {
-            margin: 5px 0;
+        .music-controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+        }
+        .secret-btn {
+            background: none;
+            border: none;
+            color: transparent;
+            cursor: pointer;
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            z-index: 1000;
+        }
+        .secret-btn:hover {
+            animation: rainbow 2s linear infinite;
+        }
+        #secret-btn1 { bottom: 10px; right: 10px; }
+        #secret-btn2 { top: 10px; right: 10px; }
+        #secret-btn3 { bottom: 10px; left: 10px; }
+        #secret-btn4 { top: 10px; left: 10px; }
+        #secret-btn5 { top: 50%; left: 10px; transform: translateY(-50%); }
+        #secret-btn6 { top: 50%; right: 10px; transform: translateY(-50%); }
+        #secret-btn7 { bottom: 50%; left: 50%; transform: translate(-50%, 50%); }
+        #secret-btn8 { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        
+        @keyframes rainbow {
+            0% { background-color: red; }
+            33% { background-color: yellow; }
+            66% { background-color: blue; }
+            100% { background-color: red; }
+        }
+        .links {
+            margin: 20px 0;
+        }
+        .links a {
+            color: #2c3e50;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        .links a:hover {
+            color: #ff6b6b;
         }
     </style>
 </head>
 <body>
-    <h1>Online Users</h1>
-    <div id="login">
-        <input type="text" id="username" placeholder="Enter your username" />
-        <button onclick="join()">Join</button>
+    <div class="container">
+        <h1>🎉 Super Fun Website! 🎉</h1>
+        
+        <div class="music-controls">
+            <h2>🎵 Music Controls 🎵</h2>
+            <button class="button" onclick="playMusic('song1')">Play Song 1</button>
+            <button class="button" onclick="playMusic('song2')">Play Song 2</button>
+            <button class="button" onclick="playMusic('song3')">Play Song 3</button>
+            <button class="button" onclick="stopMusic()">Stop Music</button>
+            
+            <audio id="song1" src="https://cdnjs.cloudflare.com/ajax/libs/web-audio-api/0.1.0/audio/sound1.mp3"></audio>
+            <audio id="song2" src="https://cdnjs.cloudflare.com/ajax/libs/web-audio-api/0.1.0/audio/sound2.mp3"></audio>
+            <audio id="song3" src="https://cdnjs.cloudflare.com/ajax/libs/web-audio-api/0.1.0/audio/sound3.mp3"></audio>
+        </div>
+
+        <div class="links">
+            <h2>🌟 Cool Links 🌟</h2>
+            <a href="https://www.wikipedia.org" target="_blank">Wikipedia</a>
+            <a href="https://www.nasa.gov" target="_blank">NASA</a>
+            <a href="https://www.nationalgeographic.com" target="_blank">National Geographic</a>
+        </div>
     </div>
-    <div id="app" style="display: none;">
-        <h2>Welcome, <span id="currentUser"></span>!</h2>
-        <p>Users online:</p>
-        <ul id="userList"></ul>
-        <button onclick="leave()">Leave</button>
-    </div>
+
+    <!-- Secret Buttons -->
+    <a class="secret-btn" id="secret-btn1" href="https://www.nyan.cat" target="_blank" title="Nyan Cat!">Secret 1</a>
+    <a class="secret-btn" id="secret-btn2" href="https://zoomquilt.org" target="_blank" title="Infinite Zoom Art!">Secret 2</a>
+    <a class="secret-btn" id="secret-btn3" href="https://pbskids.org" target="_blank" title="PBS Kids!">Secret 3</a>
+    <a class="secret-btn" id="secret-btn4" href="https://www.coolmathgames.com" target="_blank" title="Cool Math Games!">Secret 4</a>
+    <a class="secret-btn" id="secret-btn5" href="https://www.nickjr.com" target="_blank" title="Nick Jr.!">Secret 5</a>
+    <a class="secret-btn" id="secret-btn6" href="https://www.starfall.com" target="_blank" title="Starfall for Learning!">Secret 6</a>
+    <a class="secret-btn" id="secret-btn7" href="https://www.sesamestreet.org" target="_blank" title="Sesame Street Games!">Secret 7</a>
+    <a class="secret-btn" id="secret-btn8" href="https://www.scratch.mit.edu" target="_blank" title="Create with Scratch!">Secret 8</a>
 
     <script>
-        // Replace with your Firebase config
-        const firebaseConfig = {
-            apiKey: "AIzaSyApF4aLLrcgk3zi99v-__P93R0exmqWk1M",
-            authDomain: "funwebsitez-3e5bb.firebaseapp.com",
-            databaseURL: "https://funwebsitez-3e5bb-default-rtdb.firebaseio.com",
-            projectId: "funwebsitez-3e5bb",
-            storageBucket: "funwebsitez-3e5bb.firebasestorage.app",
-            messagingSenderId: "106805188255",
-            appId: "1:106805188255:web:a199cde5046938da16b4aa",
-            measurementId: "G-XN19NYV5WK"
-        };
+        let currentAudio = null;
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        let currentUser = null;
-        const userListRef = database.ref("users");
-
-        // Join the website
-        function join() {
-            const username = document.getElementById("username").value.trim();
-            if (!username) {
-                alert("Please enter a username!");
-                return;
+        function playMusic(songId) {
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
             }
-            currentUser = username;
-            document.getElementById("currentUser").textContent = username;
-
-            // Add user to the database
-            const userRef = userListRef.child(username);
-            userRef.set(true);
-
-            // Remove user when they leave
-            userRef.onDisconnect().remove();
-
-            // Show the app
-            document.getElementById("login").style.display = "none";
-            document.getElementById("app").style.display = "block";
-
-            // Listen for changes in the user list
-            userListRef.on("value", (snapshot) => {
-                const users = snapshot.val();
-                const userList = document.getElementById("userList");
-                userList.innerHTML = "";
-                for (const user in users) {
-                    const li = document.createElement("li");
-                    li.textContent = user;
-                    userList.appendChild(li);
-                }
-            });
+            
+            // Play new audio
+            const audio = document.getElementById(songId);
+            audio.play();
+            currentAudio = audio;
         }
 
-        // Leave the website
-        function leave() {
-            if (currentUser) {
-                userListRef.child(currentUser).remove();
-                currentUser = null;
+        function stopMusic() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
             }
-            document.getElementById("login").style.display = "block";
-            document.getElementById("app").style.display = "none";
         }
     </script>
 </body>
