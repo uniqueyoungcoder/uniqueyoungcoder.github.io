@@ -1,128 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✨ cool website ✨</title>
-    <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg">
+    <link rel="icon" href="https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
         body {
-            font-family: 'Comic Sans MS', cursive;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+            background-image: url('https://i.pinimg.com/originals/73/60/8d/73608d53d118b9dd032b41b95a8cf30b.jpg'); /* Cute cafe background */
+            background-size: cover;
+            background-position: center;
+            font-family: 'Pacifico', cursive;
             text-align: center;
+            color: #5B3A29;
+            padding: 20px;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: inline-block;
         }
-        h1 {
-            color: #2c3e50;
-            font-size: 3em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        .button {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: transform 0.2s;
-        }
-        .button:hover {
-            transform: scale(1.1);
-        }
-        .music-controls {
-            margin: 20px 0;
-            padding: 15px;
-            background: #fff;
-            border-radius: 10px;
-        }
-        .links {
-            margin: 20px 0;
-        }
-        .links a {
-            color: #2c3e50;
+        a {
             text-decoration: none;
-            margin: 0 10px;
-            font-weight: bold;
+            color: #D2691E;
+            font-size: 20px;
         }
-        .links a:hover {
-            color: #ff6b6b;
+        audio {
+            display: block;
+            margin: 10px auto;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎉 Super Fun Website! 🎉</h1>
-
-        <div class="music-controls">
-            <h2>🎵 Music Controls 🎵</h2>
-            <button class="button" onclick="playMusic('song1')">Play Song 1</button>
-            <button class="button" onclick="playMusic('song2')">Play Song 2</button>
-            <button class="button" onclick="stopMusic()">Stop Music</button>
-            <button class="button" onclick="changeBackground()">Change Background</button>
-
-            <audio id="song1" src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/jkophibxfw/04.%20Mii%20Plaza.mp3"></audio>
-            <audio id="song2" src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/mqwcxcbzcc/07.%20Shop%20Channel.mp3"></audio>
-        </div>
-
-        <div class="links">
-            <h2>🌟 Cool Links 🌟</h2>
-            <a href="https://www.wikipedia.org" target="_blank">Wikipedia</a>
-            <a href="https://www.nasa.gov" target="_blank">NASA</a>
-            <a href="https://www.nationalgeographic.com" target="_blank">National Geographic</a>
-        </div>
+        <h1>✨ cool website ✨</h1>
+        <p>Welcome to this cool website! Check out this amazing YouTube channel:</p>
+        <a href="https://www.youtube.com/" target="_blank">Visit the YouTube Channel</a>
+        <br><br>
+        <audio controls loop>
+            <source src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/jkophibxfw/04.%20Mii%20Plaza.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio controls loop>
+            <source src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/mqwcxcbzcc/07.%20Shop%20Channel.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
     </div>
-
-    <script>
-        let currentAudio = null;
-        const backgrounds = [
-            "https://wallpapers.com/images/high/chill-background-5fikyout0f9xk8us.webp",
-            "https://wallpapers.com/images/hd/chill-4k-mountain-sunset-art-6jor3hh9q5cm5bjj.jpg",
-            "https://wallpapers.com/images/high/chill-rocky-mountains-by-sea-gvwhbhv4fg9nmsnc.webp"
-        ];
-        let currentBackgroundIndex = 0;
-
-        function playMusic(songId) {
-            // Stop current audio if playing
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
-
-            // Play new audio
-            const audio = document.getElementById(songId);
-            audio.play();
-            currentAudio = audio;
-        }
-
-        function stopMusic() {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-                currentAudio = null;
-            }
-        }
-
-        function changeBackground() {
-            // Change background image
-            document.body.style.backgroundImage = `url(${backgrounds[currentBackgroundIndex]})`;
-            document.body.style.backgroundSize = 'cover';
-
-            // Cycle through the images
-            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
-
-            // Play song 3
-            playMusic('song3');
-        }
-    </script>
 </body>
 </html>
+
