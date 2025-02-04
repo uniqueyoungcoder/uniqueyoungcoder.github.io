@@ -8,19 +8,22 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
         body {
-            background-image: url('https://assets.userstyles.org/assets_packs/type=style/user_id=1284480/screenshot_eb70391e-ff60-4454-adf1-fe44edd17493.webp'); /* Cute pastel cafe background */
+            background-image: url('https://assets.userstyles.org/assets_packs/type=style/user_id=1284480/screenshot_eb70391e-ff60-4454-adf1-fe44edd17493.webp');
             background-size: cover;
             background-position: center;
             font-family: 'Pacifico', cursive;
             text-align: center;
             color: #5B3A29;
             padding: 20px;
+            overflow: hidden;
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
             border-radius: 15px;
             padding: 20px;
             display: inline-block;
+            position: relative;
+            z-index: 1;
         }
         a {
             text-decoration: none;
@@ -40,14 +43,21 @@
         .music-buttons button:hover {
             background-color: #ffb366;
         }
-        .cute-images {
-            margin-top: 20px;
+        .floating-emoji {
+            position: absolute;
+            font-size: 24px;
+            opacity: 1;
+            animation: floatUp 3s linear forwards;
         }
-        .cute-images img {
-            width: 100px;
-            height: auto;
-            margin: 10px;
-            border-radius: 10px;
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -79,11 +89,22 @@
                     currentAudio.currentTime = 0;
                 }
             }
+            function createFloatingEmoji() {
+                const emoji = document.createElement('div');
+                emoji.textContent = '(❁´◡`❁)';
+                emoji.classList.add('floating-emoji');
+                document.body.appendChild(emoji);
+                
+                const startX = Math.random() * window.innerWidth;
+                emoji.style.left = `${startX}px`;
+                emoji.style.top = `${window.innerHeight}px`;
+                
+                setTimeout(() => {
+                    emoji.remove();
+                }, 3000);
+            }
+            setInterval(createFloatingEmoji, 500);
         </script>
-        <div class="cute-images">
-            
-        </div>
     </div>
 </body>
 </html>
-
