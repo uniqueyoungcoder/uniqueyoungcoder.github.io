@@ -8,7 +8,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
         body {
-            background-image: url('https://i.pinimg.com/originals/73/60/8d/73608d53d118b9dd032b41b95a8cf30b.jpg'); /* Cute cafe background */
+            background-image: url('https://i.pinimg.com/originals/81/d8/3d/81d83d860237057671a9184b1573b14b.jpg'); /* New cute cafe background */
             background-size: cover;
             background-position: center;
             font-family: 'Pacifico', cursive;
@@ -27,9 +27,27 @@
             color: #D2691E;
             font-size: 20px;
         }
-        audio {
-            display: block;
-            margin: 10px auto;
+        .music-buttons button {
+            background-color: #ffcc99;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            font-family: 'Pacifico', cursive;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .music-buttons button:hover {
+            background-color: #ffb366;
+        }
+        .cute-images {
+            margin-top: 20px;
+        }
+        .cute-images img {
+            width: 100px;
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -39,15 +57,33 @@
         <p>Welcome to this cool website! Check out this amazing YouTube channel:</p>
         <a href="https://www.youtube.com/" target="_blank">Visit the YouTube Channel</a>
         <br><br>
-        <audio controls loop>
-            <source src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/jkophibxfw/04.%20Mii%20Plaza.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <audio controls loop>
-            <source src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/mqwcxcbzcc/07.%20Shop%20Channel.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+        <div class="music-buttons">
+            <button onclick="playMusic('miiPlaza')">Play Mii Plaza</button>
+            <button onclick="playMusic('shopChannel')">Play Shop Channel</button>
+            <button onclick="stopMusic()">Stop Music</button>
+        </div>
+        <audio id="miiPlaza" src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/jkophibxfw/04.%20Mii%20Plaza.mp3"></audio>
+        <audio id="shopChannel" src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/mqwcxcbzcc/07.%20Shop%20Channel.mp3"></audio>
+        <script>
+            let currentAudio = null;
+            function playMusic(id) {
+                if (currentAudio) {
+                    currentAudio.pause();
+                }
+                currentAudio = document.getElementById(id);
+                currentAudio.play();
+            }
+            function stopMusic() {
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+            }
+        </script>
+        <div class="cute-images">
+            <img src="https://i.pinimg.com/564x/ae/6a/1f/ae6a1f2f74f25591529b2520400e1a81.jpg" alt="Cute cafe image 1">
+            <img src="https://i.pinimg.com/564x/63/2d/13/632d13b2d1f33e4979a4073eae3f4977.jpg" alt="Cute cafe image 2">
+        </div>
     </div>
 </body>
 </html>
-
