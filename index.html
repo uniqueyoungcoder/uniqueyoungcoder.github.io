@@ -111,8 +111,9 @@
                 document.body.appendChild(img);
                 
                 const startX = Math.random() * window.innerWidth;
-                img.style.left = ${startX}px;
-                img.style.top = ${window.innerHeight}px;
+                img.style.left = `${startX}px`;
+                img.style.top = `${window.innerHeight}px`;
+
                 
                 setTimeout(() => {
                     img.remove();
