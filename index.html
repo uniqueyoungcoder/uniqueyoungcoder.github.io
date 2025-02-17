@@ -1,19 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ cool website ✨</title>
+    <link rel="icon" href="https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+        body {
+            background-image: url('https://assets.userstyles.org/assets_packs/type=style/user_id=1284480/screenshot_eb70391e-ff60-4454-adf1-fe44edd17493.webp');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Pacifico', cursive;
+            text-align: center;
+            color: #5B3A29;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+        a {
+            text-decoration: none;
+            color: #D2691E;
+            font-size: 20px;
+        }
+        .music-buttons button {
+            background-color: #ffcc99;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            font-family: 'Pacifico', cursive;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .music-buttons button:hover {
+            background-color: #ffb366;
+        }
+        .floating-image {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            opacity: 1;
+            animation: floatUp 3s linear forwards;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ cool website ✨</h1>
+        <p>Welcome to this cool website! Check out this amazing YouTube channel:</p>
+        <a href="https://www.youtube.com/@afghani_munchkin" target="_blank">➡️ Visit the YouTube Channel ⬅️</a>
         
-        <script>
-            let currentAudio = null;
-            function playMusic(id) {
-                if (currentAudio) {
-                    currentAudio.pause();
-                }
-                currentAudio = document.getElementById(id);
-                currentAudio.play();
-            }
-            function stopMusic() {
-                if (currentAudio) {
-                    currentAudio.pause();
-                    currentAudio.currentTime = 0;
-                }
-            }
+        <br><br>
+        
+        <br>
+        
+        <div class="music-buttons">
+            <button onclick="playMusic('song1')">Play Song 1</button>
+            <button onclick="playMusic('song2')">Play Song 2</button>
+            <button onclick="playMusic('song3')">Play Song 3</button>
+            <button onclick="stopMusic()">Stop Music</button>
+        </div>
+        
+        <audio id="song1" src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/jkophibxfw/04.%20Mii%20Plaza.mp3"></audio>
+        <audio id="song2" src="https://kappa.vgmsite.com/soundtracks/wii-music-collection/ganfxgskdk/08.%20Title%20%28Wii%20Sports%29.mp3"></audio>
+        <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
+        
+     <script>
+    let currentAudio = null;
+
+    function playMusic(id) {
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+        currentAudio = document.getElementById(id);
+        currentAudio.loop = true; // Loop the music indefinitely
+        currentAudio.play();
+    }
+
+    function stopMusic() {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio.loop = false; // Stop looping when stopped
+        }
+    }
+
+
             function createFloatingImage() {
                 const img = document.createElement('img');
                 img.src = 'https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg';
@@ -21,8 +111,8 @@
                 document.body.appendChild(img);
                 
                 const startX = Math.random() * window.innerWidth;
-                img.style.left = `${startX}px`;
-                img.style.top = `${window.innerHeight}px`;
+                img.style.left = ${startX}px;
+                img.style.top = ${window.innerHeight}px;
                 
                 setTimeout(() => {
                     img.remove();
@@ -32,3 +122,4 @@
         </script>
     </div>
 </body>
+</html>
