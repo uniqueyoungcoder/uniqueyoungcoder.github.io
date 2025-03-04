@@ -15,7 +15,8 @@
             text-align: center;
             color: #5B3A29;
             padding: 20px;
-            overflow: hidden;
+            min-height: 100vh; /* Enables scrolling */
+            overflow-y: auto;
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
@@ -24,6 +25,7 @@
             display: inline-block;
             position: relative;
             z-index: 1;
+            max-width: 90%;
         }
         a {
             text-decoration: none;
@@ -39,9 +41,17 @@
             font-family: 'Pacifico', cursive;
             border-radius: 10px;
             cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
         }
         .music-buttons button:hover {
             background-color: #ffb366;
+            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
+        }
+        #volumeSlider {
+            width: 100px;
+            margin-left: 10px;
+            cursor: pointer;
         }
         .floating-image {
             position: absolute;
@@ -51,36 +61,8 @@
             animation: floatUp 3s linear forwards;
         }
         @keyframes floatUp {
-            0% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh);
-                opacity: 0;
-            }
-            body {
-    background-image: url('https://assets.userstyles.org/assets_packs/type=style/user_id=1284480/screenshot_eb70391e-ff60-4454-adf1-fe44edd17493.webp');
-    background-size: cover;
-    background-position: center;
-    font-family: 'Pacifico', cursive;
-    text-align: center;
-    color: #5B3A29;
-    padding: 20px;
-    min-height: 100vh; /* Ensures content takes at least full screen height */
-    overflow-y: auto; /* Enables vertical scrolling */
-}
-
-.container {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 15px;
-    padding: 20px;
-    display: inline-block;
-    position: relative;
-    z-index: 1;
-    max-width: 90%;
-}
-
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
         }
     </style>
 </head>
@@ -92,152 +74,53 @@
         
         <br><br>
         
-        <br>
-        
         <div class="music-buttons">
             <button onclick="playMusic('song1')">Play Song 1</button>
             <button onclick="playMusic('song2')">Play Song 2</button>
             <button onclick="playMusic('song3')">Play Song 3</button>
             <button onclick="stopMusic()">Stop Music</button>
+            <button onclick="toggleMute()">🔇 Mute/Unmute</button>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
         </div>
         
         <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
         <audio id="song2" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
         <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
 
-        <p> Munchkin – The Warrior of the Lost Stars  
+        <script>
+            let currentAudio = null;
+            let isMuted = false;
 
- Species: Alien Feline (Felorian Warrior)  
- Gender: Female  
- Alignment: Heroic, but haunted by her past  
+            function playMusic(id) {
+                if (currentAudio) {
+                    currentAudio.pause();
+                }
+                currentAudio = document.getElementById(id);
+                currentAudio.loop = true;
+                currentAudio.volume = document.getElementById("volumeSlider").value;
+                currentAudio.play();
+            }
 
----
+            function stopMusic() {
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                    currentAudio.loop = false;
+                }
+            }
 
- Appearance:  
-Munchkin is a small but deadly feline warrior, her sleek white fur and soft appearance hiding a battle-hardened fighter. Her spiral tuft of hair is a signature of her royal Felorian bloodline, always bouncing slightly as she moves.  
+            function toggleMute() {
+                if (currentAudio) {
+                    isMuted = !isMuted;
+                    currentAudio.muted = isMuted;
+                }
+            }
 
-She has a short, fluffy bobtail, resembling a bunny’s, which twitches when she’s deep in thought or preparing for battle.  
-
-She wears a Frieza Force scouter over her right eye, a relic from her past that she refuses to part with.  
-
-Her battle attire includes a purple fuzzy top and matching fuzzy boots, made from lightweight but durable Felorian fibers, allowing maximum speed and agility.  
-
----
-
- Personality:  
-- General Disposition: Reserved yet strong-willed. She speaks only when necessary and carries herself with quiet confidence.  
-- Strengths: Blazing-fast reflexes, sharp battle instincts, and a strong sense of honor.  
-- Weaknesses: Emotionally guarded, slow to trust others, and sometimes too independent for her own good.  
-
----
-
- Backstory:  
-Munchkin was born on Planet Feloris, home to a race of agile and powerful feline warriors. As a princess, she was raised to be a leader, but her life was shattered when Frieza targeted her planet for destruction.  
-
-Captured and forced into Frieza’s army, she endured years of servitude, wearing the scouter as a tool of war. However, she never broke. She waited, trained, and when the time was right—she escaped.  
-
-She wandered the galaxy, seeking revenge and purpose, until her journey led her to Earth.  
-
-Meeting Goku and the Z Fighters, she at first kept her distance, uninterested in their easygoing nature. But after seeing their strength and determination, she decided to train alongside them—not because she needed help, but because she longed for something more than just survival.  
-
----
-
- Abilities and Fighting Style:  
-Munchkin’s fighting style is lightning-fast, precise, and devastating at close range.  
-
-- Celestial Claw Strike – Her claws glow with cosmic energy, allowing her to slice through even the toughest armor.  
-- Lunar Step – A teleportation-like technique where she moves so fast, she leaves multiple afterimages.  
-- Feline Fury – A relentless barrage of clawed strikes too fast to block.  
-- Scouter Shockwave – Overloads her scouter to release an energy pulse, stunning nearby opponents.  
-- Final Eclipse – Her ultimate move: she creates a miniature collapsing black star and hurls it at her opponent. The gravity crushes their energy before detonating in an explosive burst.  
-
----
-
- Munchkin & Beerus – An Unspoken Bond  
-
-From the moment Beerus met Munchkin, he was immediately intrigued. Unlike most mortals, she neither feared nor revered him. She simply acknowledged his presence with quiet respect.  
-
-At first, their interactions were minimal, but as they trained and fought alongside each other, Beerus found himself paying more attention to her.  
-
-Her speed was unmatched, her fighting style both graceful and deadly. She moved like flowing water, her instincts nearly perfect.  
-
-And yet… she had no idea that he was watching her so closely.  
-
-For the first time in his existence, Beerus felt something strange. Not just admiration, but genuine curiosity. Why did he care what she thought? Why did he find himself looking forward to their spars?  
-
-Whis, of course, saw through it immediately. "My, my, Lord Beerus. You do seem rather invested in our little warrior."  
-
-Beerus scoffed. "Nonsense. I merely find her… unique."  
-
-But Whis knew the truth. Beerus had fallen for her.  
-
-The problem?  
-
-Munchkin didn’t seem to notice.  
-
-She treated Beerus like any other warrior—with respect, but without any special interest. She trained alongside him, exchanged brief words, but she had no idea how deeply he had come to admire her.  
-
-And that frustrated Beerus more than he would ever admit.  
-
----
-
- Munchkin & Vegeta – An Annoyed Ally  
-
-Vegeta and Munchkin had an… interesting dynamic.  
-
-At first, Vegeta dismissed her as "just another fast fighter," but after seeing her in action, he begrudgingly admitted (to himself) that she was impressive.  
-
-The problem?  
-
-She was faster than him.  
-
-And that infuriated him.  
-
-Every time they sparred, she dodged his attacks with ease, using her agility to stay one step ahead. He could never quite land a solid hit, and that drove him insane.  
-
-"Tch. You and your damn speed."  
-
-Munchkin, unfazed, simply shrugged. "You and your damn temper."  
-
-Despite his annoyance, Vegeta respected her strength, and in battle, they fought well together. But outside of battle? He was always just a little bit irritated by her existence.  
-
-It didn’t help that Beerus clearly had a soft spot for her, which Vegeta found hilarious and frustrating at the same time.  
-
----
-
- Allies and Rivals:  
-- Allies: Goku, Vegeta (annoyed by her speed), Gohan, Trunks, Piccolo, Bulma (who upgrades her scouter),Krillin, all of Goku's friends and family (most of them), Beerus (not that she realizes his feelings).  
-- Rivals: Frieza , Frieza’s forces, any warrior who underestimates her.  
-
----
-
- Goals and Motivations:  
-- Short-term Goal: Master her speed and surpass Goku and Vegeta.  
-- Long-term Goal: Find a purpose beyond vengeance and become stronger than she ever imagined.  
-
-Munchkin is not just another fighter—she is a survivor, a warrior seeking her place in the universe.  
-
-And whether she realizes it or not, she has already caught the eye of a God.</p>
-     <script>
-    let currentAudio = null;
-
-    function playMusic(id) {
-        if (currentAudio) {
-            currentAudio.pause();
-        }
-        currentAudio = document.getElementById(id);
-        currentAudio.loop = true; // Loop the music indefinitely
-        currentAudio.play();
-    }
-
-    function stopMusic() {
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-            currentAudio.loop = false; // Stop looping when stopped
-        }
-    }
-
+            function setVolume(volume) {
+                if (currentAudio) {
+                    currentAudio.volume = volume;
+                }
+            }
 
             function createFloatingImage() {
                 const img = document.createElement('img');
@@ -249,13 +132,14 @@ And whether she realizes it or not, she has already caught the eye of a God.</p>
                 img.style.left = `${startX}px`;
                 img.style.top = `${window.innerHeight}px`;
 
-                
                 setTimeout(() => {
                     img.remove();
                 }, 3000);
             }
-            setInterval(createFloatingImage, 500);
+
+            setInterval(createFloatingImage, 2000);
         </script>
     </div>
 </body>
 </html>
+
