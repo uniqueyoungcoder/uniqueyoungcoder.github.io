@@ -237,23 +237,24 @@ And whether she realizes it or not, she has already caught the eye of a God.</p>
                 }
             }
 
-            function createFloatingImage() {
-                const img = document.createElement('img');
-                img.src = 'https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg';
-                img.classList.add('floating-image');
-                document.body.appendChild(img);
-                
-                const startX = Math.random() * window.innerWidth;
-                img.style.left = `${startX}px`;
-                img.style.top = `${window.innerHeight}px`;
+        function createFloatingImage() {
+            const img = document.createElement('img');
+            img.src = 'https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg';
+            img.classList.add('floating-image');
+            document.body.appendChild(img);
 
-                setTimeout(() => {
-                    img.remove();
-                }, 3000);
-            }
+            const startX = Math.random() * window.innerWidth;
+            img.style.left = `${startX}px`;
+            img.style.bottom = '0px';
 
-            setInterval(createFloatingImage, 2000);
-        </script>
+            setTimeout(() => {
+                img.remove();
+            }, 3000);
+        }
+        setInterval(createFloatingImage, 2000);
+    </script>
+</body>
+</html>
     </div>
 </body>
 </html>
