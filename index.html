@@ -17,6 +17,18 @@
             padding: 20px;
             min-height: 100vh; /* Enables scrolling */
             overflow-y: auto;
+                }
+        .floating-image {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            bottom: 0;
+            opacity: 1;
+            animation: floatUp 5s linear forwards;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
@@ -252,10 +264,23 @@ And whether she realizes it or not, she has already caught the eye of a God.</p>
             }, 3000);
         }
         setInterval(createFloatingImage, 2000);
+            }
+        function createFloatingImage() {
+            const img = document.createElement('img');
+            img.src = 'https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg';
+            img.classList.add('floating-image');
+            document.body.appendChild(img);
+
+            const startX = Math.random() * window.innerWidth;
+            img.style.left = `${startX}px`;
+
+            setTimeout(() => {
+                img.remove();
+            }, 5000);
+        }
+        setInterval(createFloatingImage, 2000);
     </script>
 </body>
 </html>
-    </div>
-</body>
-</html>
+
 
