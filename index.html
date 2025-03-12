@@ -17,12 +17,11 @@
             padding: 20px;
             min-height: 100vh; /* Enables scrolling */
             overflow-y: auto;
-                }
+        }
         .floating-image {
-            position: fixed;
+            position: absolute;
             width: 50px;
             height: 50px;
-            bottom: 0;
             opacity: 1;
             animation: floatUp 5s linear forwards;
         }
@@ -65,17 +64,6 @@
             margin-left: 10px;
             cursor: pointer;
         }
-        .floating-image {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            opacity: 1;
-            animation: floatUp 3s linear forwards;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-100vh); opacity: 0; }
-        }
     </style>
 </head>
 <body>
@@ -111,7 +99,7 @@
  Appearance:  
 Munchkin is a small but deadly feline warrior, her sleek white fur and soft appearance hiding a battle-hardened fighter. Her spiral tuft of hair is a signature of her royal Felorian bloodline, always bouncing slightly as she moves.  
 
-She has a short, fluffy bobtail, resembling a bunny’s, which twitches when she’s deep in thought or preparing for battle.  
+She has a short, fluffy bobtail, resembling a bunny's, which twitches when she's deep in thought or preparing for battle.  
 
 She wears a Frieza Force scouter over her right eye, a relic from her past that she refuses to part with.  
 
@@ -129,7 +117,7 @@ Her battle attire includes a purple fuzzy top and matching fuzzy boots, made fro
  Backstory:  
 Munchkin was born on Planet Feloris, home to a race of agile and powerful feline warriors. As a princess, she was raised to be a leader, but her life was shattered when Frieza targeted her planet for destruction.  
 
-Captured and forced into Frieza’s army, she endured years of servitude, wearing the scouter as a tool of war. However, she never broke. She waited, trained, and when the time was right—she escaped.  
+Captured and forced into Frieza's army, she endured years of servitude, wearing the scouter as a tool of war. However, she never broke. She waited, trained, and when the time was right—she escaped.  
 
 She wandered the galaxy, seeking revenge and purpose, until her journey led her to Earth.  
 
@@ -138,7 +126,7 @@ Meeting Goku and the Z Fighters, she at first kept her distance, uninterested in
 ---
 
  Abilities and Fighting Style:  
-Munchkin’s fighting style is lightning-fast, precise, and devastating at close range.  
+Munchkin's fighting style is lightning-fast, precise, and devastating at close range.  
 
 - Celestial Claw Strike – Her claws glow with cosmic energy, allowing her to slice through even the toughest armor.  
 - Lunar Step – A teleportation-like technique where she moves so fast, she leaves multiple afterimages.  
@@ -168,7 +156,7 @@ But Whis knew the truth. Beerus had fallen for her.
 
 The problem?  
 
-Munchkin didn’t seem to notice.  
+Munchkin didn't seem to notice.  
 
 She treated Beerus like any other warrior—with respect, but without any special interest. She trained alongside him, exchanged brief words, but she had no idea how deeply he had come to admire her.  
 
@@ -196,13 +184,13 @@ Munchkin, unfazed, simply shrugged. "You and your damn temper."
 
 Despite his annoyance, Vegeta respected her strength, and in battle, they fought well together. But outside of battle? He was always just a little bit irritated by her existence.  
 
-It didn’t help that Beerus clearly had a soft spot for her, which Vegeta found hilarious and frustrating at the same time.  
+It didn't help that Beerus clearly had a soft spot for her, which Vegeta found hilarious and frustrating at the same time.  
 
 ---
 
  Allies and Rivals:  
 - Allies: Goku, Vegeta (annoyed by her speed), Gohan, Trunks, Piccolo, Bulma (who upgrades her scouter),Krillin, all of Goku's friends and family (most of them), Beerus (not that she realizes his feelings).  
-- Rivals: Frieza , Frieza’s forces, any warrior who underestimates her.  
+- Rivals: Frieza , Frieza's forces, any warrior who underestimates her.  
 
 ---
 
@@ -249,37 +237,24 @@ And whether she realizes it or not, she has already caught the eye of a God.</p>
                 }
             }
 
-        function createFloatingImage() {
-            const img = document.createElement('img');
-            img.src = 'https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg';
-            img.classList.add('floating-image');
-            document.body.appendChild(img);
+            function createFloatingImage() {
+                const img = document.createElement('img');
+                img.src = 'https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg';
+                img.classList.add('floating-image');
+                document.body.appendChild(img);
 
-            const startX = Math.random() * window.innerWidth;
-            img.style.left = `${startX}px`;
-            img.style.bottom = '0px';
+                const startX = Math.random() * window.innerWidth;
+                img.style.left = `${startX}px`;
+                img.style.bottom = '0px';
 
-            setTimeout(() => {
-                img.remove();
-            }, 3000);
-        }
-        setInterval(createFloatingImage, 2000);
+                setTimeout(() => {
+                    img.remove();
+                }, 5000);
             }
-        function createFloatingImage() {
-            const img = document.createElement('img');
-            img.src = 'https://i.pinimg.com/736x/2a/7c/56/2a7c563a46bcc86704fc216a4a5bc0f4.jpg';
-            img.classList.add('floating-image');
-            document.body.appendChild(img);
-
-            const startX = Math.random() * window.innerWidth;
-            img.style.left = `${startX}px`;
-
-            setTimeout(() => {
-                img.remove();
-            }, 5000);
-        }
-        setInterval(createFloatingImage, 2000);
-    </script>
+            
+            setInterval(createFloatingImage, 2000);
+        </script>
+    </div>
 </body>
 </html>
 
