@@ -17,6 +17,11 @@
             padding: 20px;
             min-height: 100vh; /* Enables scrolling */
             overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full height of the viewport */
+            margin: 0;/
         }
         .floating-image {
             position: absolute;
@@ -101,6 +106,9 @@
 
         <button type="button" onclick="document.getElementById('demo').innerHTML=Date()">the time right now :D</button>
         <p id="demo"></p>
+        <p>you reached the bottom bestie :D</p>
+        
+
         
         <script>
             let currentAudio = null;
