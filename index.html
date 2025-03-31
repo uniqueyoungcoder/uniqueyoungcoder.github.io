@@ -6,263 +6,193 @@
     <title>✨ cool website ✨</title>
     <link rel="icon" href="https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-        body {
-            background-image: url('https://i.pinimg.com/564x/bf/e8/30/bfe83058a8796313404e50e1ce29c5d4.jpg');
-            background-size: cover;
-            background-position: center;
-            font-family: 'Pacifico', cursive;
+        /* [Previous CSS remains the same until the end] */
+        
+        /* Ban Message Styles */
+        .ban-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 50px auto;
             text-align: center;
+            font-family: 'Pacifico', cursive;
             color: #5B3A29;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 150vh; /* Full height of the viewport */
-            margin: 0;/
-            min-height: 100vh; /* Enables scrolling */
-        }
-        .floating-image {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            opacity: 1;
-            animation: floatUp 5s linear forwards;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-100vh); opacity: 0; }
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 15px;
-            padding: 20px;
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-            max-width: 90%;
-        }
-        a {
-            text-decoration: none;
-            color: #D2691E;
-            font-size: 20px;
-        }
-        .music-buttons button {
-            background-color: #ffcc99;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            font-family: 'Pacifico', cursive;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
-        }
-        .music-buttons button:hover {
-            background-color: #ffb366;
-            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
-        }
-        #volumeSlider {
-            width: 100px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-        button{
-            background-color: #ffcc99;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            font-family: 'Pacifico', cursive;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
+            border: 3px solid #ff69b4;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
         }
         
-        /* Fairy lights styles */
-        .fairy-light {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: #ff69b4;
-            box-shadow: 0 0 10px 5px #ff69b4;
-            animation: twinkle 2s infinite alternate;
-            z-index: 0;
+        .ban-title {
+            font-size: 2.5em;
+            color: #ff69b4;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
         
-        @keyframes twinkle {
-            0% { opacity: 0.3; }
-            100% { opacity: 1; }
-        }
-        
-        /* Rotating cube styles */
-        .cube-container {
-            perspective: 800px;
+        .ban-mascot {
+            width: 150px;
             margin: 20px auto;
-            width: 200px;
-            height: 200px;
+            animation: bounce 2s infinite;
         }
         
-        .cube {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            animation: rotate 10s infinite linear;
+        .appeal-button {
+            background-color: #ffcc99;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-family: 'Pacifico', cursive;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(255, 153, 102, 0.3);
         }
         
-        .cube-face {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 182, 193, 0.7);
-            border: 2px solid #ff69b4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: white;
-            text-shadow: 0 0 5px #ff69b4;
+        .appeal-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 153, 102, 0.4);
         }
         
-        .front { transform: translateZ(100px); }
-        .back { transform: rotateY(180deg) translateZ(100px); }
-        .right { transform: rotateY(90deg) translateZ(100px); }
-        .left { transform: rotateY(-90deg) translateZ(100px); }
-        .top { transform: rotateX(90deg) translateZ(100px); }
-        .bottom { transform: rotateX(-90deg) translateZ(100px); }
+        .ban-countdown {
+            font-size: 1.2em;
+            margin: 15px 0;
+            color: #D2691E;
+        }
         
-        @keyframes rotate {
-            from { transform: rotateX(0) rotateY(0); }
-            to { transform: rotateX(360deg) rotateY(360deg); }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>✨ cool website ✨</h1>
-        <p>Welcome to this cool website! Check out this amazing YouTube channel:</p>
-        <a href="https://www.youtube.com/@afghani_munchkin" target="_blank">➡️ Visit the YouTube Channel ⬅️</a>
-        <p>this website gets updates frequently :3</p>
-        <label for="fname">hey um what song do u like?</label>
-        <input type="text" id="fname" name="fname">
+    <!-- [Previous HTML remains the same until the script section] -->
+
+    <script>
+        // Ban System Constants
+        const VIOLATION_LEVELS = [
+            { violations: 3,  banDuration: 1 * 60 * 60 * 1000 },    // 1 hour
+            { violations: 5,  banDuration: 24 * 60 * 60 * 1000 },   // 1 day
+            { violations: 10, banDuration: 7 * 24 * 60 * 60 * 1000 } // 1 week
+        ];
+        const BAN_KEY = 'user_banned_until';
+        const VIOLATION_KEY = 'user_violations';
+        const APPEAL_KEY = 'ban_appeal_pending';
+        const APPEAL_COOLDOWN = 12 * 60 * 60 * 1000; // 12 hours
         
-        <br><br>
-        
-        <div class="music-buttons">
-            <button onclick="playMusic('song1')">Play Song 1</button>
-            <button onclick="playMusic('song2')">Play Song 2</button>
-            <button onclick="playMusic('song3')">Play Song 3</button>
-            <button onclick="stopMusic()">Stop Music</button>
-            <button onclick="toggleMute()">🔇 Mute/Unmute</button>
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
-        </div>
-        
-        <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
-        <audio id="song2" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
-        <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
-
-        <button type="button" onclick="document.getElementById('demo').innerHTML=Date()">the time right now :D</button>
-        <p id="demo"></p>
-        <p>you reached the bottom bestie :D</p>
-        
-        <!-- Rotating Cube -->
-        <div class="cube-container">
-            <div class="cube">
-                <div class="cube-face front">✨</div>
-                <div class="cube-face back">💖</div>
-                <div class="cube-face right">🌸</div>
-                <div class="cube-face left">🌷</div>
-                <div class="cube-face top">💕</div>
-                <div class="cube-face bottom">🌺</div>
-            </div>
-        </div>
-        
-        <img src="https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg" alt="." width="200" height="100">
-        
-        <script>
-            let currentAudio = null;
-            let isMuted = false;
-
-            function playMusic(id) {
-                if (currentAudio) {
-                    currentAudio.pause();
-                }
-                currentAudio = document.getElementById(id);
-                currentAudio.loop = true;
-                currentAudio.volume = document.getElementById("volumeSlider").value;
-                currentAudio.play();
-            }
-
-            function stopMusic() {
-                if (currentAudio) {
-                    currentAudio.pause();
-                    currentAudio.currentTime = 0;
-                    currentAudio.loop = false;
-                }
-            }
-
-            function toggleMute() {
-                if (currentAudio) {
-                    isMuted = !isMuted;
-                    currentAudio.muted = isMuted;
-                }
-            }
-
-            function setVolume(volume) {
-                if (currentAudio) {
-                    currentAudio.volume = volume;
-                }
-            }
-
-            function createFloatingImage() {
-                const img = document.createElement('img');
-                img.src = 'https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg';
-                img.classList.add('floating-image');
-                document.body.appendChild(img);
-
-                const startX = Math.random() * window.innerWidth;
-                img.style.left = `${startX}px`;
-                img.style.bottom = '0px';
-
-                setTimeout(() => {
-                    img.remove();
-                }, 5000);
-            }
+        // Enhanced Ban Check
+        function checkBanStatus() {
+            const bannedUntil = localStorage.getItem(BAN_KEY);
+            const appealPending = localStorage.getItem(APPEAL_KEY);
             
-            setInterval(createFloatingImage, 2000);
-            
-            // Create fairy lights
-            function createFairyLights() {
-                const container = document.querySelector('.container');
-                const lightCount = 30;
+            if (bannedUntil && Date.now() < parseInt(bannedUntil)) {
+                // Calculate time remaining
+                const remaining = parseInt(bannedUntil) - Date.now();
+                const hours = Math.floor(remaining / (1000 * 60 * 60));
+                const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
                 
-                for (let i = 0; i < lightCount; i++) {
-                    const light = document.createElement('div');
-                    light.classList.add('fairy-light');
-                    
-                    // Position lights around the container
-                    const posX = Math.random() * 100;
-                    const posY = Math.random() * 100;
-                    const delay = Math.random() * 2;
-                    
-                    light.style.left = `${posX}%`;
-                    light.style.top = `${posY}%`;
-                    light.style.animationDelay = `${delay}s`;
-                    
-                    document.body.appendChild(light);
+                // Create cute ban message
+                document.body.innerHTML = `
+                    <div class="ban-container">
+                        <img src="https://i.pinimg.com/236x/8a/5b/1d/8a5b1d5a6a3e9e8f0e6e3e8f3e8f3e8f.jpg" class="ban-mascot" alt="Sad Sanrio Character">
+                        <h1 class="ban-title">⛔ Oh no! ⛔</h1>
+                        <p>You've been temporarily banned for not following our rules.</p>
+                        
+                        <div class="ban-countdown">
+                            ${hours > 0 ? `${hours} hour${hours !== 1 ? 's' : ''} and ` : ''}
+                            ${minutes} minute${minutes !== 1 ? 's' : ''} remaining
+                        </div>
+                        
+                        ${appealPending ? `
+                            <p>Your appeal is being reviewed by our cute staff!</p>
+                            <p>Check back later~</p>
+                        ` : `
+                            <p>Think this was a mistake?</p>
+                            <button class="appeal-button" onclick="submitAppeal()">
+                                ✨ Appeal Ban ✨
+                            </button>
+                        `}
+                        
+                        <p style="margin-top: 30px; font-size: 0.8em;">
+                            Remember to be kind to everyone! 💖
+                        </p>
+                    </div>
+                `;
+                return true;
+            }
+            return false;
+        }
+        
+        // Appeal System
+        function submitAppeal() {
+            localStorage.setItem(APPEAL_KEY, "true");
+            localStorage.setItem(BAN_KEY, (Date.now() + APPEAL_COOLDOWN).toString());
+            
+            // In a real system, you would send this to a server
+            console.log("Ban appeal submitted!");
+            
+            // Show confirmation
+            document.querySelector('.ban-container').innerHTML = `
+                <img src="https://i.pinimg.com/474x/1e/a0/fc/1ea0fc67b8b4de5751131623047d7a0d.jpg" class="ban-mascot" alt="Happy Sanrio Character">
+                <h1 class="ban-title">Appeal Received!</h1>
+                <p>Your appeal has been sent to our team of cute moderators!</p>
+                <p>We'll review it within 12 hours~</p>
+                <p>💖 Thank you for your patience! 💖</p>
+            `;
+        }
+        
+        // Enhanced Violation Tracking
+        function trackViolation() {
+            let violations = parseInt(localStorage.getItem(VIOLATION_KEY)) || 0;
+            violations++;
+            localStorage.setItem(VIOLATION_KEY, violations.toString());
+            
+            // Check if this violation triggers a new ban level
+            for (const level of VIOLATION_LEVELS) {
+                if (violations === level.violations) {
+                    const banUntil = Date.now() + level.banDuration;
+                    localStorage.setItem(BAN_KEY, banUntil.toString());
+                    checkBanStatus(); // Immediately enforce ban
+                    return true;
                 }
             }
+            return false;
+        }
+        
+        // [Modified saveMessage function]
+        function saveMessage() {
+            if (checkBanStatus()) return;
             
-            // Call the function when the page loads
-            window.onload = function() {
-                createFairyLights();
-            };
-        </script>
-    </div>
+            // [Previous message validation code...]
+            
+            if (containsBadWord) {
+                const wasBanned = trackViolation();
+                if (!wasBanned) {
+                    const nextBanLevel = VIOLATION_LEVELS.find(level => 
+                        (parseInt(localStorage.getItem(VIOLATION_KEY)) || 0) < level.violations
+                    );
+                    const warningsLeft = nextBanLevel.violations - (parseInt(localStorage.getItem(VIOLATION_KEY)) || 0);
+                    
+                    alert(`Oopsie! That word isn't allowed~ 
+(${warningsLeft} more ${warningsLeft === 1 ? 'warning' : 'warnings'} until ${formatDuration(nextBanLevel.banDuration)} ban)`);
+                }
+                return;
+            }
+            
+            // [Rest of saveMessage remains the same]
+        }
+        
+        // Helper function to format duration
+        function formatDuration(ms) {
+            const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            if (days > 0) return `${days} day${days !== 1 ? 's' : ''}`;
+            if (hours > 0) return `${hours} hour${hours !== 1 ? 's' : ''}`;
+            return "a short while";
+        }
+        
+        // [Rest of your existing JavaScript...]
+    </script>
 </body>
 </html>
