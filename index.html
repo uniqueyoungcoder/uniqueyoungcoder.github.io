@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Sanrio Global Chat ✨</title>
+    <title>✨ cool website ✨</title>
     <link rel="icon" href="https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
         
+        /* BASE STYLES */
         body {
             background-image: url('https://i.pinimg.com/564x/bf/e8/30/bfe83058a8796313404e50e1ce29c5d4.jpg');
             background-size: cover;
@@ -16,112 +17,80 @@
             text-align: center;
             color: #5B3A29;
             padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             margin: 0;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* Floating Images */
+        /* VISUAL EFFECTS (BACKGROUND ELEMENTS) */
         .floating-image {
-            position: absolute;
-            width: 50px;
-            height: 50px;
+            position: fixed;
+            width: 40px;
+            height: 40px;
             opacity: 0;
-            z-index: 10;
-            filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.7));
+            z-index: 1;
+            filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6));
             pointer-events: none;
-            animation: float 15s linear forwards;
+            animation: float 18s linear forwards;
         }
 
         @keyframes float {
-            0% {
-                transform: translate(0, 0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.9;
-            }
-            90% {
-                opacity: 0.9;
-            }
-            100% {
-                transform: translate(var(--end-x), var(--end-y)) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translate(0,0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translate(var(--end-x), var(--end-y)) rotate(360deg); opacity: 0; }
         }
 
-        /* Fairy Lights */
         .fairy-light {
             position: fixed;
-            width: 12px;
-            height: 12px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background-color: #ff69b4;
-            box-shadow: 0 0 15px 5px #ff69b4;
-            animation: twinkle 3s infinite alternate;
-            z-index: 10;
+            box-shadow: 0 0 8px 2px #ff69b4;
+            animation: twinkle 2s infinite alternate;
+            z-index: 1;
             pointer-events: none;
+            opacity: 0.6;
         }
 
         @keyframes twinkle {
-            0% { opacity: 0.6; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1.1); }
+            0% { opacity: 0.4; transform: scale(0.8); }
+            100% { opacity: 0.8; transform: scale(1); }
+        }
+
+        /* CONTENT LAYER (FOREGROUND) */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             border-radius: 15px;
-            padding: 20px;
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-            max-width: 90%;
-            width: 800px;
-            margin: 40px 0;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
+        /* LINK STYLES */
         a {
             text-decoration: none;
             color: #D2691E;
             font-size: 20px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        
+        a:hover {
+            text-shadow: 0 0 5px rgba(210, 105, 30, 0.5);
         }
 
-        .music-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .music-buttons button {
-            background-color: #ffcc99;
-            border: none;
-            padding: 10px 15px;
-            font-size: 14px;
-            font-family: 'Pacifico', cursive;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5));
-            flex: 1 0 120px;
-        }
-
-        .music-buttons button:hover {
-            background-color: #ffb366;
-            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8));
-        }
-
-        #volumeSlider {
-            width: 100px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
+        /* BUTTON STYLES */
         button {
             background-color: #ffcc99;
             border: none;
@@ -131,10 +100,122 @@
             font-family: 'Pacifico', cursive;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5));
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
         }
 
+        button:hover {
+            background-color: #ffb366;
+            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
+        }
+
+        /* MUSIC PLAYER */
+        .music-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .music-buttons button {
+            flex: 1 0 120px;
+        }
+
+        #volumeSlider {
+            width: 100px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        /* ADMIN SYSTEM */
+        #adminLogin {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        .admin-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 105, 180, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            z-index: 20;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            cursor: pointer;
+        }
+
+        .admin-controls {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px solid #ff69b4;
+        }
+
+        .admin-controls button {
+            background-color: #ff69b4;
+            color: white;
+            margin: 5px;
+        }
+
+        /* CHAT INTERFACE */
+        .message-board {
+            margin: 20px auto;
+            max-width: 90%;
+        }
+
+        .message-input {
+            margin-bottom: 15px;
+        }
+
+        #userName, #userMessage {
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #ffcc99;
+            font-family: 'Pacifico', cursive;
+        }
+
+        #userName {
+            width: 30%;
+            margin-right: 10px;
+        }
+
+        #userMessage {
+            width: 50%;
+        }
+
+        #messagesDisplay {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            min-height: 50px;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .message {
+            margin-bottom: 8px;
+            padding: 5px;
+            border-bottom: 1px dashed #ffcc99;
+        }
+        
+        .message-name {
+            font-weight: bold;
+            color: #D2691E;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* 3D CUBE */
         .cube-container {
             perspective: 800px;
             margin: 40px auto;
@@ -174,90 +255,11 @@
             to { transform: rotateX(360deg) rotateY(360deg); }
         }
 
-        .message-board {
-            margin: 20px auto;
-            max-width: 80%;
-        }
-
-        .message-input {
-            margin-bottom: 15px;
-        }
-
-        #userName {
-            width: 30%;
-            padding: 8px;
-            border-radius: 10px;
-            border: 1px solid #ffcc99;
-            font-family: 'Pacifico', cursive;
-            margin-right: 10px;
-        }
-
-        #userMessage {
-            width: 50%;
-            padding: 8px;
-            border-radius: 10px;
-            border: 1px solid #ffcc99;
-            font-family: 'Pacifico', cursive;
-        }
-
-        .input-label {
-            font-size: 14px;
-            display: block;
-            margin-bottom: 5px;
+        /* TIME DISPLAY */
+        #timeDisplay {
+            font-size: 18px;
+            margin: 10px 0;
             color: #5B3A29;
-        }
-
-        #messagesDisplay {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-            padding: 15px;
-            min-height: 50px;
-            margin-top: 10px;
-            text-align: left;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .name-required {
-            font-size: 12px;
-            color: #D2691E;
-            margin-top: 5px;
-        }
-        
-        /* Hidden admin login */
-        #adminLogin {
-            position: absolute;
-            left: -9999px;
-        }
-        
-        /* Admin badge */
-        .admin-badge {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 105, 180, 0.8);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            z-index: 100;
-        }
-        
-        /* Message styles */
-        .message {
-            margin-bottom: 8px;
-            padding: 5px;
-            border-bottom: 1px dashed #ffcc99;
-        }
-        
-        .message-name {
-            font-weight: bold;
-            color: #D2691E;
-        }
-        
-        .message-time {
-            font-size: 12px;
-            color: #888;
         }
     </style>
 </head>
@@ -266,215 +268,200 @@
     <input type="password" id="adminLogin" placeholder="Enter admin password">
     
     <!-- Admin badge (hidden by default) -->
-    <div id="adminBadge" class="admin-badge" style="display: none;">ADMIN MODE</div>
-    
-    <div class="container">
-        <h1>✨ Sanrio Global Chat ✨</h1>
-        <p>Welcome to our cute global chat! Everyone can see your messages here!</p>
-        <a href="https://www.youtube.com/@afghani_munchkin" target="_blank">➡️ Visit our YouTube Channel ⬅️</a>
-        <p>Share your love for Sanrio with everyone around the world! 💖</p>
-        
-        <div class="message-board">
-            <div class="message-input">
-                <label for="userName" class="input-label">Enter your name:</label>
-                <input type="text" id="userName" placeholder="Your cute nickname">
-                <label for="userMessage" class="input-label">Type your message:</label>
-                <input type="text" id="userMessage" placeholder="Say something nice...">
-                <button onclick="saveMessage()">Send 💌</button>
-                <p class="name-required">* You must enter a name to chat</p>
-            </div>
-            <div id="messagesDisplay">Loading global messages...</div>
-        </div>
-        
-        <div class="music-buttons">
-            <button onclick="playMusic('song1')">Play Song 1</button>
-            <button onclick="playMusic('song2')">Play Song 2</button>
-            <button onclick="playMusic('song3')">Play Song 3</button>
-            <button onclick="playMusic('song4')">Play Song 4</button>
-            <button onclick="playMusic('song5')">Play Song 5</button>
-            <button onclick="playMusic('song6')">Play Song 6</button>
-            <button onclick="stopMusic()">Stop Music</button>
-            <button onclick="toggleMute()">🔇 Mute/Unmute</button>
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
-        </div>
-        
-        <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
-        <audio id="song2" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
-        <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
-        <audio id="song4" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/06%20-%20BGM001.mp3"></audio>
-        <audio id="song5" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/08%20-%20BGM003.mp3"></audio>
-        <audio id="song6" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/07%20-%20BGM002.mp3"></audio>
-
-        <button type="button" onclick="document.getElementById('demo').innerHTML=Date()">Show Current Time 🕒</button>
-        <p id="demo"></p>
-        
-        <div class="cube-container">
-            <div class="cube">
-                <div class="cube-face front"></div>
-                <div class="cube-face back"></div>
-                <div class="cube-face right"></div>
-                <div class="cube-face left"></div>
-                <div class="cube-face top"></div>
-                <div class="cube-face bottom"></div>
-            </div>
-        </div>
-        
-        <p>Thanks for visiting our cute website! 💖</p>
+    <div id="adminBadge" class="admin-badge" style="display: none;">
+        ADMIN MODE <span id="adminControlsToggle">⚙️</span>
     </div>
+    
+    <!-- Main Content Layer -->
+    <div class="content-layer">
+        <div class="container">
+            <h1>✨ cool website ✨</h1>
+            <p>welcome to the cool website! its awesome, right?</p>
+            
+            <!-- YouTube Link -->
+            <a href="https://www.youtube.com/@afghani_munchkin" target="_blank">➡️ visit this awesome YouTube channel ⬅️</a>
+            
+            <p>welcome to the global chat! please no hurtful words!!!</p>
+            
+            <!-- Message Board -->
+            <div class="message-board">
+                <div class="message-input">
+                    <div>
+                        <label for="userName">enter a nickname (dont use your real name!) :</label>
+                        <input type="text" id="userName" placeholder="Your cute nickname">
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label for="userMessage">Type your message:</label>
+                        <input type="text" id="userMessage" placeholder="Say something nice...">
+                        <button onclick="saveMessage()">send</button>
+                    </div>
+                </div>
+                <div id="messagesDisplay">Loading messages...</div>
+            </div>
+            
+            <!-- Admin Controls (hidden until activated) -->
+            <div id="adminControls" class="admin-controls">
+                <h3>✨ Admin Controls ✨</h3>
+                <button onclick="clearChat()">Clear All Messages</button>
+                <button onclick="removeLastMessage()">Remove Last Message</button>
+                <button onclick="toggleBadWords()">Toggle Bad Word Filter</button>
+            </div>
+            
+            <!-- Music Player -->
+            <div class="music-buttons">
+                <button onclick="playMusic('song1')">Play Song 1</button>
+                <button onclick="playMusic('song2')">Play Song 2</button>
+                <button onclick="playMusic('song3')">Play Song 3</button>
+                <button onclick="playMusic('song4')">Play Song 4</button>
+                <button onclick="playMusic('song5')">Play Song 5</button>
+                <button onclick="playMusic('song6')">Play Song 6</button>
+                <button onclick="stopMusic()">Stop Music</button>
+                <button onclick="toggleMute()">🔇 Mute/Unmute</button>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
+            </div>
+            
+            <!-- Audio Elements -->
+            <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
+            <audio id="song2" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
+            <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
+            <audio id="song4" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/06%20-%20BGM001.mp3"></audio>
+            <audio id="song5" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/08%20-%20BGM003.mp3"></audio>
+            <audio id="song6" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/07%20-%20BGM002.mp3"></audio>
+
+            <!-- Time Display -->
+            <button id="timeButton">show the time</button>
+            <div id="timeDisplay"></div>
+            
+            <!-- 3D Cube -->
+            <div class="cube-container">
+                <div class="cube">
+                    <div class="cube-face front"></div>
+                    <div class="cube-face back"></div>
+                    <div class="cube-face right"></div>
+                    <div class="cube-face left"></div>
+                    <div class="cube-face top"></div>
+                    <div class="cube-face bottom"></div>
+                </div>
+            </div>
+            
+            <p>thx for visiting my website <3</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <script>
         // ======================
-        // ADMIN PROTECTION SYSTEM
+        // FIREBASE CONFIGURATION
         // ======================
-        const ADMIN_PASSWORD = "sanrio123"; // CHANGE THIS TO YOUR OWN SECRET PASSWORD
-        let isAdmin = false;
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3RX465yKlHYCIur0_GiDmtcHds4Jq04Y",
+            authDomain: "sanrio-global-chat.firebaseapp.com",
+            databaseURL: "https://sanrio-global-chat-default-rtdb.firebaseio.com",
+            projectId: "sanrio-global-chat",
+            storageBucket: "sanrio-global-chat.firebasestorage.app",
+            messagingSenderId: "842022490271",
+            appId: "1:842022490271:web:86fe18373aabeae84f52aa",
+            measurementId: "G-2K6FKNTS36"
+        };
         
-        // Check if admin status was saved
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // ======================
+        // ADMIN SYSTEM
+        // ======================
+        const ADMIN_PASSWORD = "cinnamoroll!";
+        let isAdmin = false;
+        let badWordsEnabled = true;
+
         function checkAdminStatus() {
-            const savedPassword = localStorage.getItem('admin_password');
-            if (savedPassword === ADMIN_PASSWORD) {
+            if (localStorage.getItem('admin_password') === ADMIN_PASSWORD) {
                 activateAdminMode();
             }
         }
-        
-        // Activate admin mode
+
         function activateAdminMode() {
             isAdmin = true;
             localStorage.setItem('admin_password', ADMIN_PASSWORD);
             document.getElementById('adminBadge').style.display = 'block';
-            console.log("Admin mode activated!");
         }
-        
-        // Secret key detector (press A then type password)
-        document.addEventListener('keydown', function(e) {
+
+        function clearChat() {
+            if (confirm("Are you sure you want to clear ALL messages?")) {
+                database.ref('messages').remove();
+            }
+        }
+
+        function removeLastMessage() {
+            database.ref('messages').limitToLast(1).once('value', (snapshot) => {
+                snapshot.forEach((child) => {
+                    database.ref('messages/' + child.key).remove();
+                });
+            });
+        }
+
+        function toggleBadWords() {
+            badWordsEnabled = !badWordsEnabled;
+            alert("Bad word filter is now " + (badWordsEnabled ? "ENABLED" : "DISABLED"));
+        }
+
+        document.addEventListener('keydown', (e) => {
             if (e.key.toLowerCase() === 'a' && !isAdmin) {
                 document.getElementById('adminLogin').focus();
             }
         });
-        
-        // Check admin password when entered
-        document.getElementById('adminLogin').addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') {
-                if (e.target.value === ADMIN_PASSWORD) {
-                    activateAdminMode();
-                    e.target.value = '';
-                    alert("✨ Admin privileges activated! ✨");
-                }
+
+        document.getElementById('adminLogin').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter' && e.target.value === ADMIN_PASSWORD) {
+                activateAdminMode();
+                e.target.value = '';
+                alert("✨ Admin privileges activated! ✨");
             }
         });
-        
-        // ======================
-        // FLOATING ELEMENTS
-        // ======================
-        function createFloatingImage() {
-            const img = document.createElement('img');
-            img.src = 'https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg';
-            img.classList.add('floating-image');
-            document.body.appendChild(img);
-            
-            const startX = Math.random() * window.innerWidth;
-            const startY = Math.random() * window.innerHeight;
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 200 + Math.random() * 300;
-            const endX = Math.cos(angle) * distance;
-            const endY = Math.sin(angle) * distance;
-            
-            img.style.left = `${startX}px`;
-            img.style.top = `${startY}px`;
-            img.style.setProperty('--end-x', `${endX}px`);
-            img.style.setProperty('--end-y', `${endY}px`);
-            img.style.animationDuration = `${10 + Math.random() * 10}s`;
-            
-            setTimeout(() => img.remove(), 20000);
-        }
 
-        function createFairyLights() {
-            const colors = ['#ff69b4', '#ffb6c1', '#ffc0cb', '#ffd700', '#87cefa'];
-            for (let i = 0; i < 30; i++) {
-                const light = document.createElement('div');
-                light.classList.add('fairy-light');
-                light.style.left = `${Math.random() * 100}%`;
-                light.style.top = `${Math.random() * 100}%`;
-                light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                light.style.animationDelay = `${Math.random() * 3}s`;
-                document.body.appendChild(light);
-            }
-        }
+        document.getElementById('adminControlsToggle').addEventListener('click', () => {
+            const controls = document.getElementById('adminControls');
+            controls.style.display = controls.style.display === 'block' ? 'none' : 'block';
+        });
 
         // ======================
         // GLOBAL CHAT SYSTEM
         // ======================
-        // Firebase configuration - REPLACE WITH YOUR OWN FIREBASE CONFIG
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            databaseURL: "YOUR_DATABASE_URL",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-        
-        // Initialize Firebase (commented out for now - see instructions below)
-        // firebase.initializeApp(firebaseConfig);
-        // const database = firebase.database();
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyD3RX465yKlHYCIur0_GiDmtcHds4Jq04Y",
-  authDomain: "sanrio-global-chat.firebaseapp.com",
-  projectId: "sanrio-global-chat",
-  storageBucket: "sanrio-global-chat.firebasestorage.app",
-  messagingSenderId: "842022490271",
-  appId: "1:842022490271:web:86fe18373aabeae84f52aa",
-  measurementId: "G-2K6FKNTS36"
-};
-        
         const BAD_WORDS = ['stupid', 'dumb', 'poop', 'fart', 'butt', 'shut up', 
              'hate', 'ugly', 'smelly', 'loser', 'dummy', 'sucks',
-             'poop', 'gross', 'barf', 'girlfriend', 'boyfriend'
-              ,'boring', 'lame', 'you suck', 'die', 'kill', 'murder'
-             'jerk', 'idiot', 'crybaby', 'booger','ass' ,
+             'poop', 'gross', 'barf', 'girlfriend', 'boyfriend',
+             'boring', 'lame', 'you suck', 'die', 'kill', 'murder',
+             'jerk', 'idiot', 'crybaby', 'booger','ass',
              'nerd', 'weirdo', 'fat', 'smell', 'stinky','dork', 
              'geek', 'wimp', 'scaredy', 'butt', 'fart', 'poopy', 
              'pee', 'gyatt', 'gyat'];
         
-        // Initialize messages (using localStorage as fallback)
         function initializeMessages() {
-            // Try to connect to Firebase if available
-            if (typeof firebase !== 'undefined') {
-                // Firebase implementation would go here
-                console.log("Firebase connected - using global chat");
-                // database.ref('messages').limitToLast(50).on('value', (snapshot) => {
-                //     const messages = [];
-                //     snapshot.forEach((childSnapshot) => {
-                //         messages.push(childSnapshot.val());
-                //     });
-                //     displayMessages(messages);
-                // });
-            } else {
-                // Fallback to localStorage
-                console.log("Using localStorage (messages will only be visible to you)");
-                let messages = JSON.parse(localStorage.getItem('global_messages')) || [];
+            database.ref('messages').limitToLast(50).on('value', (snapshot) => {
+                const messages = [];
+                snapshot.forEach((childSnapshot) => {
+                    messages.push(childSnapshot.val());
+                });
                 displayMessages(messages);
-            }
+            });
             
-            // Load saved name if it exists
             const savedName = localStorage.getItem('user_name');
             if (savedName) document.getElementById('userName').value = savedName;
         }
         
-        // Save message to global chat
         function saveMessage() {
-            if (checkBanStatus()) return;
-            
             const name = document.getElementById('userName').value.trim();
             const message = document.getElementById('userMessage').value.trim();
             
             if (!name) return alert('Please enter your name!');
             if (!message) return;
             
-            // Skip bad word check for admin
-            if (!isAdmin && BAD_WORDS.some(word => new RegExp(`\\b${word}\\b`, 'i').test(message))) {
+            if (badWordsEnabled && !isAdmin && BAD_WORDS.some(word => 
+                new RegExp(`\\b${word}\\b`, 'i').test(message))) {
                 trackViolation();
                 return alert("No bad words please!");
             }
@@ -485,27 +472,11 @@ const firebaseConfig = {
                 timestamp: new Date().toISOString()
             };
             
-            // Try to save to Firebase if available
-            if (typeof firebase !== 'undefined') {
-                // Firebase implementation would go here
-                // database.ref('messages').push(newMessage);
-                console.log("Message would be saved to Firebase in production");
-            } else {
-                // Fallback to localStorage
-                let messages = JSON.parse(localStorage.getItem('global_messages')) || [];
-                messages.push(newMessage);
-                localStorage.setItem('global_messages', JSON.stringify(messages));
-            }
-            
+            database.ref('messages').push(newMessage);
             localStorage.setItem('user_name', name);
             document.getElementById('userMessage').value = '';
-            
-            // In a real implementation, Firebase would automatically update the display
-            // For now, we'll manually refresh
-            initializeMessages();
         }
         
-        // Display messages
         function displayMessages(messages) {
             const display = document.getElementById('messagesDisplay');
             
@@ -514,7 +485,6 @@ const firebaseConfig = {
                 return;
             }
             
-            // Format messages with timestamp
             display.innerHTML = messages.map(msg => {
                 const date = new Date(msg.timestamp);
                 const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -530,9 +500,6 @@ const firebaseConfig = {
             display.scrollTop = display.scrollHeight;
         }
         
-        // ======================
-        // BAN SYSTEM
-        // ======================
         function trackViolation() {
             if (isAdmin) return false;
             
@@ -541,7 +508,7 @@ const firebaseConfig = {
             localStorage.setItem('user_violations', violations.toString());
             
             if (violations >= 3) {
-                const banUntil = Date.now() + (24 * 60 * 60 * 1000); // 24 hour ban
+                const banUntil = Date.now() + (24 * 60 * 60 * 1000);
                 localStorage.setItem('user_banned_until', banUntil.toString());
                 checkBanStatus();
                 return true;
@@ -550,8 +517,6 @@ const firebaseConfig = {
         }
         
         function checkBanStatus() {
-            if (isAdmin) return false;
-            
             const bannedUntil = localStorage.getItem('user_banned_until');
             if (bannedUntil && Date.now() < parseInt(bannedUntil)) {
                 const remaining = parseInt(bannedUntil) - Date.now();
@@ -570,7 +535,7 @@ const firebaseConfig = {
             }
             return false;
         }
-        
+
         // ======================
         // MUSIC PLAYER
         // ======================
@@ -592,24 +557,85 @@ const firebaseConfig = {
         }
 
         // ======================
+        // TIME DISPLAY
+        // ======================
+        document.getElementById('timeButton').addEventListener('click', function() {
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            const now = new Date().toLocaleTimeString('en-US', options);
+            document.getElementById('timeDisplay').textContent = now;
+        });
+
+        // ======================
+        // VISUAL EFFECTS
+        // ======================
+        function createFloatingImage() {
+            const img = document.createElement('img');
+            img.src = 'https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg';
+            img.classList.add('floating-image');
+            
+            const startX = Math.random() < 0.5 ? 
+                Math.random() * window.innerWidth * 0.2 : 
+                window.innerWidth * 0.8 + Math.random() * window.innerWidth * 0.2;
+            
+            const startY = Math.random() * window.innerHeight;
+            
+            const endX = startX < window.innerWidth/2 ? 
+                window.innerWidth * 0.8 : 
+                window.innerWidth * 0.2;
+            
+            const endY = startY + (Math.random() * 200 - 100);
+            
+            img.style.left = `${startX}px`;
+            img.style.top = `${startY}px`;
+            img.style.setProperty('--end-x', `${endX - startX}px`);
+            img.style.setProperty('--end-y', `${endY - startY}px`);
+            img.style.animationDuration = `${15 + Math.random() * 10}s`;
+            
+            document.body.appendChild(img);
+            setTimeout(() => img.remove(), 25000);
+        }
+
+        function createFairyLights() {
+            const colors = ['#ff69b4', '#ffb6c1', '#ffc0cb', '#ffd700', '#87cefa'];
+            for (let i = 0; i < 15; i++) {
+                const light = document.createElement('div');
+                light.classList.add('fairy-light');
+                light.style.left = `${Math.random() < 0.5 ? 
+                    Math.random() * 15 : 
+                    85 + Math.random() * 15}%`;
+                light.style.top = `${Math.random() * 100}%`;
+                light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                light.style.animationDelay = `${Math.random() * 3}s`;
+                document.body.appendChild(light);
+            }
+        }
+
+        // ======================
         // INITIALIZE EVERYTHING
         // ======================
         window.onload = function() {
             checkAdminStatus();
             initializeMessages();
             createFairyLights();
-            setInterval(createFloatingImage, 1000);
+            setInterval(createFloatingImage, 2000);
             
             // Create initial floating images
-            for (let i = 0; i < 5; i++) {
-                setTimeout(createFloatingImage, i * 500);
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createFloatingImage, i * 1000);
             }
             
             // Add Enter key support for message input
             document.getElementById('userMessage').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    saveMessage();
-                }
+                if (e.key === 'Enter') saveMessage();
             });
         };
     </script>
