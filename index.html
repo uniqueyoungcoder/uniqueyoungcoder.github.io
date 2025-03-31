@@ -6,9 +6,181 @@
     <title>✨ cool website ✨</title>
     <link rel="icon" href="https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg">
     <style>
-        /* [Previous CSS remains the same until the end] */
-        
-        /* Ban Message Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+        body {
+            background-image: url('https://i.pinimg.com/564x/bf/e8/30/bfe83058a8796313404e50e1ce29c5d4.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Pacifico', cursive;
+            text-align: center;
+            color: #5B3A29;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .floating-image {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 1;
+            animation: floatUp 4s linear forwards;
+            z-index: 0;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            max-width: 90%;
+            width: 800px;
+            margin: 40px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #D2691E;
+            font-size: 20px;
+        }
+        .music-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .music-buttons button {
+            background-color: #ffcc99;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-family: 'Pacifico', cursive;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
+            flex: 1 0 120px;
+        }
+        .music-buttons button:hover {
+            background-color: #ffb366;
+            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
+        }
+        #volumeSlider {
+            width: 100px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        button {
+            background-color: #ffcc99;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            font-family: 'Pacifico', cursive;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
+        }
+        .fairy-light {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ff69b4;
+            box-shadow: 0 0 10px 5px #ff69b4;
+            animation: twinkle 2s infinite alternate;
+            z-index: 0;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        .cube-container {
+            perspective: 800px;
+            margin: 40px auto;
+            width: 150px;
+            height: 150px;
+        }
+        .cube {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: rotate 10s infinite linear;
+        }
+        .cube-face {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .front { transform: translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
+        .back { transform: rotateY(180deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
+        .right { transform: rotateY(90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
+        .left { transform: rotateY(-90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
+        .top { transform: rotateX(90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
+        .bottom { transform: rotateX(-90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
+        @keyframes rotate {
+            from { transform: rotateX(0) rotateY(0); }
+            to { transform: rotateX(360deg) rotateY(360deg); }
+        }
+        .message-board {
+            margin: 20px auto;
+            max-width: 80%;
+        }
+        .message-input {
+            margin-bottom: 15px;
+        }
+        #userName {
+            width: 30%;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #ffcc99;
+            font-family: 'Pacifico', cursive;
+            margin-right: 10px;
+        }
+        #userMessage {
+            width: 50%;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #ffcc99;
+            font-family: 'Pacifico', cursive;
+        }
+        .input-label {
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
+            color: #5B3A29;
+        }
+        #messagesDisplay {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            min-height: 50px;
+            margin-top: 10px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .name-required {
+            font-size: 12px;
+            color: #D2691E;
+            margin-top: 5px;
+        }
         .ban-container {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
@@ -21,20 +193,17 @@
             border: 3px solid #ff69b4;
             box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
         }
-        
         .ban-title {
             font-size: 2.5em;
             color: #ff69b4;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
-        
         .ban-mascot {
             width: 150px;
             margin: 20px auto;
             animation: bounce 2s infinite;
         }
-        
         .appeal-button {
             background-color: #ffcc99;
             border: none;
@@ -47,18 +216,15 @@
             transition: all 0.3s;
             box-shadow: 0 4px 8px rgba(255, 153, 102, 0.3);
         }
-        
         .appeal-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(255, 153, 102, 0.4);
         }
-        
         .ban-countdown {
             font-size: 1.2em;
             margin: 15px 0;
             color: #D2691E;
         }
-        
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
@@ -66,9 +232,120 @@
     </style>
 </head>
 <body>
-    <!-- [Previous HTML remains the same until the script section] -->
+    <!-- Ban Check - This will show if user is banned -->
+    <div class="container" id="main-content">
+        <h1>✨ cool website ✨</h1>
+        <p>Welcome to this cool website! Check out this amazing YouTube channel:</p>
+        <a href="https://www.youtube.com/@afghani_munchkin" target="_blank">➡️ Visit the YouTube Channel ⬅️</a>
+        <p>this website gets updates frequently :3</p>
+        
+        <!-- Message Board -->
+        <div class="message-board">
+            <div class="message-input">
+                <label for="userName" class="input-label">Enter your name:</label>
+                <input type="text" id="userName" placeholder="Your name">
+                <label for="userMessage" class="input-label">type something! (no bad or rude words!)</label>
+                <input type="text" id="userMessage" placeholder="Write something nice...">
+                <button onclick="saveMessage()">Submit</button>
+                <p class="name-required">* You must enter a name to post messages</p>
+            </div>
+            <div id="messagesDisplay">Loading messages...</div>
+        </div>
+        
+        <div class="music-buttons">
+            <button onclick="playMusic('song1')">Play Song 1</button>
+            <button onclick="playMusic('song2')">Play Song 2</button>
+            <button onclick="playMusic('song3')">Play Song 3</button>
+            <button onclick="playMusic('song4')">Play Song 4</button>
+            <button onclick="playMusic('song5')">Play Song 5</button>
+            <button onclick="playMusic('song6')">Play Song 6</button>
+            <button onclick="stopMusic()">Stop Music</button>
+            <button onclick="toggleMute()">🔇 Mute/Unmute</button>
+            <h1>Did you know? : all these songs are from 2 games - Sanrio Puroland : Waku Waku Okaimono  and  Sanrio Puroland - All Characters! </h1>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
+        </div>
+        
+        <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
+        <audio id="song2" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
+        <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
+        <audio id="song4" src="https://kappa.vgmsite.com/soundtracks/sanrio-puroland-all-characters-2003-gba/kxvjbcjsaq/15%20BGM%20%2315.mp3"></audio>
+        <audio id="song5" src="https://kappa.vgmsite.com/soundtracks/sanrio-puroland-all-characters-2003-gba/umharircoa/06%20BGM%20%2306.mp3"></audio>
+        <audio id="song6" src="https://kappa.vgmsite.com/soundtracks/sanrio-puroland-all-characters-2003-gba/uztfigcwrr/02%20BGM%20%2302.mp3"></audio>
+
+        <button type="button" onclick="document.getElementById('demo').innerHTML=Date()">the time right now :D</button>
+        <p id="demo"></p>
+        
+        <!-- Smaller Rotating Cube -->
+        <div class="cube-container">
+            <div class="cube">
+                <div class="cube-face front"></div>
+                <div class="cube-face back"></div>
+                <div class="cube-face right"></div>
+                <div class="cube-face left"></div>
+                <div class="cube-face top"></div>
+                <div class="cube-face bottom"></div>
+            </div>
+        </div>
+        
+        <p>you reached the bottom bestie :D</p>
+    </div>
 
     <script>
+        // Music player functions
+        let currentAudio = null;
+        let isMuted = false;
+
+        function playMusic(id) {
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+            currentAudio = document.getElementById(id);
+            currentAudio.loop = true;
+            currentAudio.volume = document.getElementById("volumeSlider").value;
+            currentAudio.play();
+        }
+
+        function stopMusic() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio.loop = false;
+            }
+        }
+
+        function toggleMute() {
+            if (currentAudio) {
+                isMuted = !isMuted;
+                currentAudio.muted = isMuted;
+            }
+        }
+
+        function setVolume(volume) {
+            if (currentAudio) {
+                currentAudio.volume = volume;
+            }
+        }
+
+        // Message board functionality
+        const MESSAGE_KEY = 'global_messages';
+        const LAST_RESET_KEY = 'last_reset_date';
+        const USER_NAME_KEY = 'user_name';
+        
+        // Comprehensive list of kid-friendly bad words
+        const BAD_WORDS = [
+            'stupid', 'dumb', 'poop', 'fart', 'butt', 'shut up', 
+            'hate', 'ugly', 'smelly', 'loser', 'dummy', 'sucks',
+            'eww', 'gross', 'barf', 'toilet', 'boring', 'lame',
+            'mean', 'jerk', 'idiot', 'silly', 'baby', 'crybaby',
+            'nerd', 'weirdo', 'fat', 'smell', 'stinky', 'yuck',
+            'shoo', 'go away', 'dork', 'geek', 'wimp', 'chicken',
+            'scaredy', 'cat', 'dog', 'butthead', 'buttface', 'fartface',
+            'poopy', 'pee', 'wiener', 'booger', 'snot', 'toot',
+            'buttlick', 'buttmunch', 'doodoo', 'number two', 'turd',
+            'farthead', 'poophead', 'boogerface', 'snotface', 'smellface',
+            'dumbhead', 'poopypants', 'stinkbug', 'toiletface', 'barfbag'
+        ];
+        
         // Ban System Constants
         const VIOLATION_LEVELS = [
             { violations: 3,  banDuration: 1 * 60 * 60 * 1000 },    // 1 hour
@@ -80,7 +357,15 @@
         const APPEAL_KEY = 'ban_appeal_pending';
         const APPEAL_COOLDOWN = 12 * 60 * 60 * 1000; // 12 hours
         
-        // Enhanced Ban Check
+        // Check ban status on page load
+        if (checkBanStatus()) {
+            document.getElementById('main-content').style.display = 'none';
+        } else {
+            initializeMessages();
+            createFairyLights();
+            setInterval(createFloatingImage, 800); // More frequent spawning (every 800ms)
+        }
+
         function checkBanStatus() {
             const bannedUntil = localStorage.getItem(BAN_KEY);
             const appealPending = localStorage.getItem(APPEAL_KEY);
@@ -92,9 +377,9 @@
                 const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
                 
                 // Create cute ban message
-                document.body.innerHTML = `
+                const banHTML = `
                     <div class="ban-container">
-                        <img src="https://i.pinimg.com/236x/8a/5b/1d/8a5b1d5a6a3e9e8f0e6e3e8f3e8f3e8f.jpg" class="ban-mascot" alt="Sad Sanrio Character">
+                        <img src="https://64.media.tumblr.com/c0678641b267e1af9251d58a0c977df3/tumblr_pnrwtvb3n11wpz8k8_1280.jpg" class="ban-mascot" alt="Sad Sanrio Character">
                         <h1 class="ban-title">⛔ Oh no! ⛔</h1>
                         <p>You've been temporarily banned for not following our rules.</p>
                         
@@ -118,12 +403,13 @@
                         </p>
                     </div>
                 `;
+                
+                document.body.innerHTML = banHTML;
                 return true;
             }
             return false;
         }
         
-        // Appeal System
         function submitAppeal() {
             localStorage.setItem(APPEAL_KEY, "true");
             localStorage.setItem(BAN_KEY, (Date.now() + APPEAL_COOLDOWN).toString());
@@ -141,7 +427,6 @@
             `;
         }
         
-        // Enhanced Violation Tracking
         function trackViolation() {
             let violations = parseInt(localStorage.getItem(VIOLATION_KEY)) || 0;
             violations++;
@@ -152,22 +437,58 @@
                 if (violations === level.violations) {
                     const banUntil = Date.now() + level.banDuration;
                     localStorage.setItem(BAN_KEY, banUntil.toString());
-                    checkBanStatus(); // Immediately enforce ban
                     return true;
                 }
             }
             return false;
         }
         
-        // [Modified saveMessage function]
-        function saveMessage() {
-            if (checkBanStatus()) return;
+        function initializeMessages() {
+            const today = new Date().toDateString();
+            const lastReset = localStorage.getItem(LAST_RESET_KEY);
             
-            // [Previous message validation code...]
+            if (!lastReset || lastReset !== today) {
+                localStorage.setItem(LAST_RESET_KEY, today);
+                localStorage.setItem(MESSAGE_KEY, JSON.stringify([]));
+                // Reset daily violations (but keep bans)
+                localStorage.removeItem(VIOLATION_KEY);
+            }
+            
+            // Load saved name if exists
+            const savedName = localStorage.getItem(USER_NAME_KEY);
+            if (savedName) {
+                document.getElementById('userName').value = savedName;
+            }
+            
+            displayMessages();
+        }
+        
+        function saveMessage() {
+            const nameInput = document.getElementById('userName');
+            const messageInput = document.getElementById('userMessage');
+            const name = nameInput.value.trim();
+            const message = messageInput.value.trim();
+            
+            if (name === '') {
+                alert('Please enter your name before posting!');
+                return;
+            }
+            
+            if (message === '') return;
+            
+            // Check for bad words (case insensitive)
+            const containsBadWord = BAD_WORDS.some(word => {
+                const regex = new RegExp(`\\b${word}\\b`, 'i');
+                return regex.test(message);
+            });
             
             if (containsBadWord) {
                 const wasBanned = trackViolation();
-                if (!wasBanned) {
+                if (wasBanned) {
+                    document.getElementById('main-content').style.display = 'none';
+                    checkBanStatus();
+                    return;
+                } else {
                     const nextBanLevel = VIOLATION_LEVELS.find(level => 
                         (parseInt(localStorage.getItem(VIOLATION_KEY)) || 0) < level.violations
                     );
@@ -179,10 +500,38 @@
                 return;
             }
             
-            // [Rest of saveMessage remains the same]
+            // Save name for future use
+            localStorage.setItem(USER_NAME_KEY, name);
+            
+            const messages = JSON.parse(localStorage.getItem(MESSAGE_KEY)) || [];
+            messages.push({
+                name: name,
+                text: message,
+                timestamp: new Date().toLocaleTimeString()
+            });
+            
+            localStorage.setItem(MESSAGE_KEY, JSON.stringify(messages));
+            messageInput.value = '';
+            displayMessages();
         }
         
-        // Helper function to format duration
+        function displayMessages() {
+            const messages = JSON.parse(localStorage.getItem(MESSAGE_KEY)) || [];
+            const display = document.getElementById('messagesDisplay');
+            
+            if (messages.length === 0) {
+                display.innerHTML = 'No messages yet. Be the first to say something nice!';
+                return;
+            }
+            
+            display.innerHTML = messages.map(msg => 
+                `<div><strong>${msg.name}</strong> (${msg.timestamp}): ${msg.text}</div>`
+            ).join('');
+            
+            // Auto-scroll to bottom
+            display.scrollTop = display.scrollHeight;
+        }
+        
         function formatDuration(ms) {
             const days = Math.floor(ms / (1000 * 60 * 60 * 24));
             const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -192,7 +541,41 @@
             return "a short while";
         }
         
-        // [Rest of your existing JavaScript...]
+        // Floating images - spawn more frequently
+        function createFloatingImage() {
+            const img = document.createElement('img');
+            img.src = 'https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg';
+            img.classList.add('floating-image');
+            document.body.appendChild(img);
+
+            const startX = Math.random() * window.innerWidth;
+            img.style.left = `${startX}px`;
+            img.style.bottom = '0px';
+
+            setTimeout(() => {
+                img.remove();
+            }, 4000);
+        }
+        
+        // Fairy lights
+        function createFairyLights() {
+            const lightCount = 30;
+            
+            for (let i = 0; i < lightCount; i++) {
+                const light = document.createElement('div');
+                light.classList.add('fairy-light');
+                
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 2;
+                
+                light.style.left = `${posX}%`;
+                light.style.top = `${posY}%`;
+                light.style.animationDelay = `${delay}s`;
+                
+                document.body.appendChild(light);
+            }
+        }
     </script>
 </body>
 </html>
