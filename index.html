@@ -261,7 +261,7 @@
             <button onclick="playMusic('song6')">Play Song 6</button>
             <button onclick="stopMusic()">Stop Music</button>
             <button onclick="toggleMute()">🔇 Mute/Unmute</button>
-            <h1>Did you know? : all these songs are from 2 games - Sanrio Puroland : Waku Waku Okaimono  and  Sanrio Puroland - All Characters! </h1>
+            <h3>Did you know? : all these songs are from 2 games - Sanrio Puroland : Waku Waku Okaimono  and  Sanrio Puroland - All Characters! </h3>
             <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
         </div>
         
@@ -331,19 +331,16 @@
         const LAST_RESET_KEY = 'last_reset_date';
         const USER_NAME_KEY = 'user_name';
         
-        // Comprehensive list of kid-friendly bad words
+        // Comprehensive list of bad words
         const BAD_WORDS = [
             'stupid', 'dumb', 'poop', 'fart', 'butt', 'shut up', 
             'hate', 'ugly', 'smelly', 'loser', 'dummy', 'sucks',
-            'eww', 'gross', 'barf', 'toilet', 'boring', 'lame',
-            'mean', 'jerk', 'idiot', 'silly', 'baby', 'crybaby',
-            'nerd', 'weirdo', 'fat', 'smell', 'stinky', 'yuck',
-            'shoo', 'go away', 'dork', 'geek', 'wimp', 'chicken',
-            'scaredy', 'cat', 'dog', 'butthead', 'buttface', 'fartface',
-            'poopy', 'pee', 'wiener', 'booger', 'snot', 'toot',
-            'buttlick', 'buttmunch', 'doodoo', 'number two', 'turd',
-            'farthead', 'poophead', 'boogerface', 'snotface', 'smellface',
-            'dumbhead', 'poopypants', 'stinkbug', 'toiletface', 'barfbag'
+            'poop', 'gross', 'barf', 'girlfriend', 'boyfriend'
+             ,'boring', 'lame', 'you suck', 'die', 'kill', 'murder'
+            'jerk', 'idiot', 'crybaby', 'booger','ass' ,
+            'nerd', 'weirdo', 'fat', 'smell', 'stinky','dork', 
+            'geek', 'wimp', 'scaredy', 'butt', 'fart', 'poopy', 
+            'pee', 'gyatt', 'gyat'
         ];
         
         // Ban System Constants
@@ -379,7 +376,7 @@
                 // Create cute ban message
                 const banHTML = `
                     <div class="ban-container">
-                        <img src="https://64.media.tumblr.com/c0678641b267e1af9251d58a0c977df3/tumblr_pnrwtvb3n11wpz8k8_1280.jpg" class="ban-mascot" alt="Sad Sanrio Character">
+                        <img src="https://i.pinimg.com/474x/1e/a0/fc/1ea0fc67b8b4de5751131623047d7a0d.jpg" class="ban-mascot" alt="Sad Sanrio Character">
                         <h1 class="ban-title">⛔ Oh no! ⛔</h1>
                         <p>You've been temporarily banned for not following our rules.</p>
                         
@@ -419,7 +416,7 @@
             
             // Show confirmation
             document.querySelector('.ban-container').innerHTML = `
-                <img src="https://i.pinimg.com/474x/1e/a0/fc/1ea0fc67b8b4de5751131623047d7a0d.jpg" class="ban-mascot" alt="Happy Sanrio Character">
+                <img src="https://64.media.tumblr.com/c0678641b267e1af9251d58a0c977df3/tumblr_pnrwtvb3n11wpz8k8_1280.jpg" class="ban-mascot" alt="Happy Sanrio Character">
                 <h1 class="ban-title">Appeal Received!</h1>
                 <p>Your appeal has been sent to our team of cute moderators!</p>
                 <p>We'll review it within 12 hours~</p>
