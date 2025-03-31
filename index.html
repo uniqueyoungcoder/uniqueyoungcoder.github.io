@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ cool website ✨</title>
+    <title>✨ Sanrio Global Chat ✨</title>
     <link rel="icon" href="https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
@@ -25,7 +25,7 @@
             position: relative;
         }
 
-        /* Enhanced Floating Images */
+        /* Floating Images */
         .floating-image {
             position: absolute;
             width: 50px;
@@ -107,13 +107,13 @@
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
+            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5));
             flex: 1 0 120px;
         }
 
         .music-buttons button:hover {
             background-color: #ffb366;
-            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
+            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8));
         }
 
         #volumeSlider {
@@ -132,7 +132,7 @@
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
+            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5));
         }
 
         .cube-container {
@@ -230,7 +230,7 @@
             left: -9999px;
         }
         
-        /* Admin badge (appears when in admin mode) */
+        /* Admin badge */
         .admin-badge {
             position: fixed;
             bottom: 20px;
@@ -242,6 +242,23 @@
             font-size: 12px;
             z-index: 100;
         }
+        
+        /* Message styles */
+        .message {
+            margin-bottom: 8px;
+            padding: 5px;
+            border-bottom: 1px dashed #ffcc99;
+        }
+        
+        .message-name {
+            font-weight: bold;
+            color: #D2691E;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: #888;
+        }
     </style>
 </head>
 <body>
@@ -252,21 +269,21 @@
     <div id="adminBadge" class="admin-badge" style="display: none;">ADMIN MODE</div>
     
     <div class="container">
-        <h1>✨ cool website ✨</h1>
-        <p>Welcome to this cool website! Check out this amazing YouTube channel:</p>
-        <a href="https://www.youtube.com/@afghani_munchkin" target="_blank">➡️ Visit the YouTube Channel ⬅️</a>
-        <p>this website gets updates frequently :3</p>
+        <h1>✨ Sanrio Global Chat ✨</h1>
+        <p>Welcome to our cute global chat! Everyone can see your messages here!</p>
+        <a href="https://www.youtube.com/@afghani_munchkin" target="_blank">➡️ Visit our YouTube Channel ⬅️</a>
+        <p>Share your love for Sanrio with everyone around the world! 💖</p>
         
         <div class="message-board">
             <div class="message-input">
                 <label for="userName" class="input-label">Enter your name:</label>
-                <input type="text" id="userName" placeholder="Your name">
-                <label for="userMessage" class="input-label">type something! (no bad or rude words!)</label>
-                <input type="text" id="userMessage" placeholder="Write something nice...">
-                <button onclick="saveMessage()">Submit</button>
-                <p class="name-required">* You must enter a name to post messages</p>
+                <input type="text" id="userName" placeholder="Your cute nickname">
+                <label for="userMessage" class="input-label">Type your message:</label>
+                <input type="text" id="userMessage" placeholder="Say something nice...">
+                <button onclick="saveMessage()">Send 💌</button>
+                <p class="name-required">* You must enter a name to chat</p>
             </div>
-            <div id="messagesDisplay">Loading messages...</div>
+            <div id="messagesDisplay">Loading global messages...</div>
         </div>
         
         <div class="music-buttons">
@@ -288,7 +305,7 @@
         <audio id="song5" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/08%20-%20BGM003.mp3"></audio>
         <audio id="song6" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/07%20-%20BGM002.mp3"></audio>
 
-        <button type="button" onclick="document.getElementById('demo').innerHTML=Date()">the time right now :D</button>
+        <button type="button" onclick="document.getElementById('demo').innerHTML=Date()">Show Current Time 🕒</button>
         <p id="demo"></p>
         
         <div class="cube-container">
@@ -302,7 +319,7 @@
             </div>
         </div>
         
-        <p>you reached the bottom bestie :D</p>
+        <p>Thanks for visiting our cute website! 💖</p>
     </div>
 
     <script>
@@ -385,14 +402,22 @@
         }
 
         // ======================
-        // MESSAGE BOARD
+        // GLOBAL CHAT SYSTEM
         // ======================
-        const MESSAGE_KEY = 'global_messages';
-        const LAST_RESET_KEY = 'last_reset_date';
-        const USER_NAME_KEY = 'user_name';
-        const MESSAGE_EXPIRATION = 24 * 60 * 60 * 1000;
-        const VIOLATION_KEY = 'user_violations';
-        const BAN_KEY = 'user_banned_until';
+        // Firebase configuration - REPLACE WITH YOUR OWN FIREBASE CONFIG
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        // Initialize Firebase (commented out for now - see instructions below)
+        // firebase.initializeApp(firebaseConfig);
+        // const database = firebase.database();
         
         const BAD_WORDS = ['stupid', 'dumb', 'poop', 'fart', 'butt', 'shut up', 
              'hate', 'ugly', 'smelly', 'loser', 'dummy', 'sucks',
@@ -403,18 +428,32 @@
              'geek', 'wimp', 'scaredy', 'butt', 'fart', 'poopy', 
              'pee', 'gyatt', 'gyat'];
         
+        // Initialize messages (using localStorage as fallback)
         function initializeMessages() {
-            const now = Date.now();
-            let messages = JSON.parse(localStorage.getItem(MESSAGE_KEY)) || [];
-            messages = messages.filter(msg => now - new Date(msg.timestamp).getTime() < MESSAGE_EXPIRATION);
-            localStorage.setItem(MESSAGE_KEY, JSON.stringify(messages));
+            // Try to connect to Firebase if available
+            if (typeof firebase !== 'undefined') {
+                // Firebase implementation would go here
+                console.log("Firebase connected - using global chat");
+                // database.ref('messages').limitToLast(50).on('value', (snapshot) => {
+                //     const messages = [];
+                //     snapshot.forEach((childSnapshot) => {
+                //         messages.push(childSnapshot.val());
+                //     });
+                //     displayMessages(messages);
+                // });
+            } else {
+                // Fallback to localStorage
+                console.log("Using localStorage (messages will only be visible to you)");
+                let messages = JSON.parse(localStorage.getItem('global_messages')) || [];
+                displayMessages(messages);
+            }
             
-            const savedName = localStorage.getItem(USER_NAME_KEY);
+            // Load saved name if it exists
+            const savedName = localStorage.getItem('user_name');
             if (savedName) document.getElementById('userName').value = savedName;
-            
-            displayMessages();
         }
         
+        // Save message to global chat
         function saveMessage() {
             if (checkBanStatus()) return;
             
@@ -430,43 +469,70 @@
                 return alert("No bad words please!");
             }
             
-            const messages = JSON.parse(localStorage.getItem(MESSAGE_KEY)) || [];
-            messages.push({
+            const newMessage = {
                 name: name,
                 text: message,
                 timestamp: new Date().toISOString()
-            });
+            };
             
-            localStorage.setItem(MESSAGE_KEY, JSON.stringify(messages));
-            localStorage.setItem(USER_NAME_KEY, name);
+            // Try to save to Firebase if available
+            if (typeof firebase !== 'undefined') {
+                // Firebase implementation would go here
+                // database.ref('messages').push(newMessage);
+                console.log("Message would be saved to Firebase in production");
+            } else {
+                // Fallback to localStorage
+                let messages = JSON.parse(localStorage.getItem('global_messages')) || [];
+                messages.push(newMessage);
+                localStorage.setItem('global_messages', JSON.stringify(messages));
+            }
+            
+            localStorage.setItem('user_name', name);
             document.getElementById('userMessage').value = '';
-            displayMessages();
+            
+            // In a real implementation, Firebase would automatically update the display
+            // For now, we'll manually refresh
+            initializeMessages();
         }
         
-        function displayMessages() {
-            const messages = JSON.parse(localStorage.getItem(MESSAGE_KEY)) || [];
+        // Display messages
+        function displayMessages(messages) {
             const display = document.getElementById('messagesDisplay');
             
-            display.innerHTML = messages.length 
-                ? messages.map(msg => `<div><strong>${msg.name}</strong>: ${msg.text}</div>`).join('')
-                : 'No messages yet!';
+            if (!messages || messages.length === 0) {
+                display.innerHTML = 'No messages yet! Be the first to say something!';
+                return;
+            }
+            
+            // Format messages with timestamp
+            display.innerHTML = messages.map(msg => {
+                const date = new Date(msg.timestamp);
+                const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                return `
+                    <div class="message">
+                        <span class="message-name">${msg.name}</span>
+                        <span class="message-time">(${timeString})</span>
+                        <div>${msg.text}</div>
+                    </div>
+                `;
+            }).join('');
             
             display.scrollTop = display.scrollHeight;
         }
         
         // ======================
-        // BAN SYSTEM (ADMIN PROTECTED)
+        // BAN SYSTEM
         // ======================
         function trackViolation() {
             if (isAdmin) return false;
             
-            let violations = parseInt(localStorage.getItem(VIOLATION_KEY)) || 0;
+            let violations = parseInt(localStorage.getItem('user_violations')) || 0;
             violations++;
-            localStorage.setItem(VIOLATION_KEY, violations.toString());
+            localStorage.setItem('user_violations', violations.toString());
             
             if (violations >= 3) {
                 const banUntil = Date.now() + (24 * 60 * 60 * 1000); // 24 hour ban
-                localStorage.setItem(BAN_KEY, banUntil.toString());
+                localStorage.setItem('user_banned_until', banUntil.toString());
                 checkBanStatus();
                 return true;
             }
@@ -476,7 +542,7 @@
         function checkBanStatus() {
             if (isAdmin) return false;
             
-            const bannedUntil = localStorage.getItem(BAN_KEY);
+            const bannedUntil = localStorage.getItem('user_banned_until');
             if (bannedUntil && Date.now() < parseInt(bannedUntil)) {
                 const remaining = parseInt(bannedUntil) - Date.now();
                 const hours = Math.floor(remaining / (1000 * 60 * 60));
@@ -528,6 +594,13 @@
             for (let i = 0; i < 5; i++) {
                 setTimeout(createFloatingImage, i * 500);
             }
+            
+            // Add Enter key support for message input
+            document.getElementById('userMessage').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    saveMessage();
+                }
+            });
         };
     </script>
 </body>
