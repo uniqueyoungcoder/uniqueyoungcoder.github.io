@@ -582,26 +582,22 @@
             img.src = 'https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg';
             img.classList.add('floating-image');
             
-            const startX = Math.random() < 0.5 ? 
-                Math.random() * window.innerWidth * 0.2 : 
-                window.innerWidth * 0.8 + Math.random() * window.innerWidth * 0.2;
+            // Favor positions toward the top of the screen (0-60% of screen height)
+            const startX = Math.random() * window.innerWidth;
+            const startY = Math.random() * window.innerHeight * 0.6;
             
-            const startY = Math.random() * window.innerHeight;
-            
-            const endX = startX < window.innerWidth/2 ? 
-                window.innerWidth * 0.8 : 
-                window.innerWidth * 0.2;
-            
-            const endY = startY + (Math.random() * 200 - 100);
+            // More varied end positions
+            const endX = Math.random() * window.innerWidth;
+            const endY = startY + (Math.random() * 300 - 100);
             
             img.style.left = `${startX}px`;
             img.style.top = `${startY}px`;
             img.style.setProperty('--end-x', `${endX - startX}px`);
             img.style.setProperty('--end-y', `${endY - startY}px`);
-            img.style.animationDuration = `${15 + Math.random() * 10}s`;
+            img.style.animationDuration = `${8 + Math.random() * 10}s`; // Faster animation
             
             document.body.appendChild(img);
-            setTimeout(() => img.remove(), 25000);
+            setTimeout(() => img.remove(), 20000); // Remove a bit sooner
         }
 
         function createFairyLights() {
@@ -626,11 +622,13 @@
             checkAdminStatus();
             initializeMessages();
             createFairyLights();
-            setInterval(createFloatingImage, 2000);
             
-            // Create initial floating images
-            for (let i = 0; i < 3; i++) {
-                setTimeout(createFloatingImage, i * 1000);
+            // Create images more frequently (every 1 second instead of 2)
+            setInterval(createFloatingImage, 500);
+            
+            // Create more initial floating images
+            for (let i = 0; i < 8; i++) {
+                setTimeout(createFloatingImage, i * 500);
             }
             
             // Add Enter key support for message input
