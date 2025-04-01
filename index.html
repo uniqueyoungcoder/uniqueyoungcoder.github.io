@@ -23,6 +23,24 @@
             overflow-x: hidden;
         }
 
+        /* ADMIN LOGIN STYLE */
+        #adminLogin {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #ff69b4;
+            font-family: 'Pacifico';
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 0 15px rgba(255,105,180,0.6);
+            width: 250px;
+            text-align: center;
+        }
+
         /* VISUAL EFFECTS (BACKGROUND ELEMENTS) */
         .floating-image {
             position: fixed;
@@ -32,7 +50,7 @@
             z-index: 1;
             filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6));
             pointer-events: none;
-            animation: float 18s linear forwards;
+            animation: float 8s linear forwards;
         }
 
         @keyframes float {
@@ -143,12 +161,7 @@
             cursor: pointer;
         }
 
-        /* ADMIN SYSTEM */
-        #adminLogin {
-            position: absolute;
-            left: -9999px;
-        }
-        
+        /* ADMIN BADGE */
         .admin-badge {
             position: fixed;
             bottom: 20px;
@@ -161,6 +174,7 @@
             z-index: 20;
             box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
             cursor: pointer;
+            display: none;
         }
 
         .admin-controls {
@@ -279,11 +293,11 @@
     </style>
 </head>
 <body>
-    <!-- Hidden admin login -->
-    <input type="password" id="adminLogin" placeholder="enter da password">
+    <!-- Visible admin login (hidden by default) -->
+    <input type="password" id="adminLogin" placeholder="Enter admin password (press A to show)">
     
     <!-- Admin badge (hidden by default) -->
-    <div id="adminBadge" class="admin-badge" style="display: none;">
+    <div id="adminBadge" class="admin-badge">
         YIPPEE ADMIN MODE <span id="adminControlsToggle">⚙️</span>
     </div>
     
@@ -291,7 +305,8 @@
     <div class="content-layer">
         <div class="container">
             <h1>✨ cool website ✨</h1>
-            <p>welcome to the cool website! its awesome, right?</p>
+            <h3>welcome to the cool website! its awesome, right?</h3>
+            <p>this website gets daily updates :D</p>
             
             <!-- YouTube Link -->
             <a href="https://www.youtube.com/@afghani_munchkin" target="_blank">➡️ visit this awesome YouTube channel ⬅️</a>
@@ -334,7 +349,6 @@
                 <button onclick="toggleMute()">🔇 Mute/Unmute</button>
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
             </div>
-            
             
             <!-- Audio Elements -->
             <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
@@ -388,22 +402,47 @@
         const database = firebase.database();
 
         // ======================
-        // ADMIN SYSTEM
+        // IMPROVED ADMIN SYSTEM
         // ======================
-        const ADMIN_PASSWORD = "cinnamoroll!";
+        const ADMIN_PASSWORD = "hadidi";
         let isAdmin = false;
         let badWordsEnabled = true;
 
+        // Show admin field when pressing A
+        document.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'a' && !isAdmin) {
+                const field = document.getElementById('adminLogin');
+                field.style.display = 'block';
+                field.focus();
+                
+                // Hide after 10 seconds if not used
+                setTimeout(() => {
+                    if (!isAdmin) field.style.display = 'none';
+                }, 10000);
+            }
+        });
+
+        // Check password on enter
+        document.getElementById('adminLogin').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                if (e.target.value === ADMIN_PASSWORD) {
+                    isAdmin = true;
+                    localStorage.setItem('admin_password', ADMIN_PASSWORD);
+                    document.getElementById('adminBadge').style.display = 'block';
+                    e.target.style.display = 'none';
+                    alert("✨ Admin mode activated! ✨");
+                } else {
+                    alert("Wrong password! Try again");
+                    e.target.value = '';
+                }
+            }
+        });
+
         function checkAdminStatus() {
             if (localStorage.getItem('admin_password') === ADMIN_PASSWORD) {
-                activateAdminMode();
+                isAdmin = true;
+                document.getElementById('adminBadge').style.display = 'block';
             }
-        }
-
-        function activateAdminMode() {
-            isAdmin = true;
-            localStorage.setItem('admin_password', ADMIN_PASSWORD);
-            document.getElementById('adminBadge').style.display = 'block';
         }
 
         function clearChat() {
@@ -425,20 +464,6 @@
             alert("Bad word filter is now " + (badWordsEnabled ? "ENABLED" : "DISABLED"));
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key.toLowerCase() === 'a' && !isAdmin) {
-                document.getElementById('adminLogin').focus();
-            }
-        });
-
-        document.getElementById('adminLogin').addEventListener('keyup', (e) => {
-            if (e.key === 'Enter' && e.target.value === ADMIN_PASSWORD) {
-                activateAdminMode();
-                e.target.value = '';
-                alert("✨ Admin privileges activated! ✨");
-            }
-        });
-
         document.getElementById('adminControlsToggle').addEventListener('click', () => {
             const controls = document.getElementById('adminControls');
             controls.style.display = controls.style.display === 'block' ? 'none' : 'block';
@@ -456,7 +481,6 @@
             'nerd', 'weirdo', 'fat', 'smell', 'stinky','dork', 
             'geek', 'wimp', 'scaredy', 'butt', 'fart', 'poopy', 
             'pee', 'gyatt', 'gyat',
-            // Additional banned words
             'damn', 'hell', 'crap', 'wtf', 'omg', 'wtaf', 'wtf', 'omfg',
             'trash', 'garbage', 'bad', 'awful', 'horrible', 'terrible',
             'worst', 'nasty', 'annoying', 'hack', 'scam', 'fraud',
@@ -468,8 +492,6 @@
             'useless', 'waste', 'dumb', 'stupid', 'freak', 'weird',
             'crazy', 'insane', 'mental', 'toxic', 'creepy', 'stalker',
             'bozo', 'lmao', 'lmfao', 'wtg', 'fuck', 'asshole','bitch','nigga',
-            
-            // Additional bad words
             'shit', 'bullshit', 'dick', 'cock', 'penis', 'vagina', 'pussy', 'whore',
             'slut', 'hoe', 'thot', 'retard', 'retarded', 'kys', 'kms', 'simp',
             'incel', 'nazi', 'racist', 'sexist', 'homo', 'gay', 'lesbian', 'queer',
@@ -643,11 +665,8 @@
             img.src = 'https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg';
             img.classList.add('floating-image');
             
-            // Favor positions toward the top of the screen (0-60% of screen height)
             const startX = Math.random() * window.innerWidth;
             const startY = Math.random() * window.innerHeight * 0.6;
-            
-            // More varied end positions
             const endX = Math.random() * window.innerWidth;
             const endY = startY + (Math.random() * 300 - 100);
             
@@ -655,10 +674,10 @@
             img.style.top = `${startY}px`;
             img.style.setProperty('--end-x', `${endX - startX}px`);
             img.style.setProperty('--end-y', `${endY - startY}px`);
-            img.style.animationDuration = `${8 + Math.random() * 10}s`; // Faster animation
+            img.style.animationDuration = `${8 + Math.random() * 10}s`;
             
             document.body.appendChild(img);
-            setTimeout(() => img.remove(), 20000); // Remove a bit sooner
+            setTimeout(() => img.remove(), 20000);
         }
 
         function createFairyLights() {
@@ -666,9 +685,7 @@
             for (let i = 0; i < 15; i++) {
                 const light = document.createElement('div');
                 light.classList.add('fairy-light');
-                light.style.left = `${Math.random() < 0.5 ? 
-                    Math.random() * 15 : 
-                    85 + Math.random() * 15}%`;
+                light.style.left = `${Math.random() * 100}%`;
                 light.style.top = `${Math.random() * 100}%`;
                 light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 light.style.animationDelay = `${Math.random() * 3}s`;
@@ -684,10 +701,8 @@
             initializeMessages();
             createFairyLights();
             
-            // Create images more frequently (every 1 second instead of 2)
+            // Create floating images more frequently
             setInterval(createFloatingImage, 500);
-            
-            // Create more initial floating images
             for (let i = 0; i < 8; i++) {
                 setTimeout(createFloatingImage, i * 500);
             }
