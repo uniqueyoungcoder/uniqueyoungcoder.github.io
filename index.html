@@ -76,6 +76,21 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
+        /* BAN SCREEN */
+        .banned-image {
+            width: 200px;
+            height: auto;
+            margin: 0 auto 20px auto;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+            animation: shake 2s infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
         /* LINK STYLES */
         a {
             text-decoration: none;
@@ -431,14 +446,28 @@
         // ======================
         // GLOBAL CHAT SYSTEM
         // ======================
-        const BAD_WORDS = ['stupid', 'dumb', 'poop', 'fart', 'butt', 'shut up', 
-             'hate', 'ugly', 'smelly', 'loser', 'dummy', 'sucks',
-             'poop', 'gross', 'barf', 'girlfriend', 'boyfriend',
-             'boring', 'lame', 'you suck', 'die', 'kill', 'murder',
-             'jerk', 'idiot', 'crybaby', 'booger','ass',
-             'nerd', 'weirdo', 'fat', 'smell', 'stinky','dork', 
-             'geek', 'wimp', 'scaredy', 'butt', 'fart', 'poopy', 
-             'pee', 'gyatt', 'gyat'];
+        const BAD_WORDS = [
+            'stupid', 'dumb', 'poop', 'fart', 'butt', 'shut up', 
+            'hate', 'ugly', 'smelly', 'loser', 'dummy', 'sucks',
+            'poop', 'gross', 'barf', 'girlfriend', 'boyfriend',
+            'boring', 'lame', 'you suck', 'die', 'kill', 'murder',
+            'jerk', 'idiot', 'crybaby', 'booger','ass',
+            'nerd', 'weirdo', 'fat', 'smell', 'stinky','dork', 
+            'geek', 'wimp', 'scaredy', 'butt', 'fart', 'poopy', 
+            'pee', 'gyatt', 'gyat',
+            // Additional banned words
+            'damn', 'hell', 'crap', 'wtf', 'omg', 'wtaf', 'wtf', 'omfg',
+            'trash', 'garbage', 'bad', 'awful', 'horrible', 'terrible',
+            'worst', 'nasty', 'annoying', 'hack', 'scam', 'fraud',
+            'failure', 'pathetic', 'noob', 'sus', 'baka', 'ew',
+            'dating', 'date', 'marry', 'kiss', 'kissing', 'love',
+            'crush', 'romance', 'sexy', 'hot', 'inappropriate',
+            'shooting', 'gun', 'weapon', 'bomb', 'explode', 'explosion',
+            'violence', 'violent', 'blood', 'dead', 'death', 'dying',
+            'useless', 'waste', 'dumb', 'stupid', 'freak', 'weird',
+            'crazy', 'insane', 'mental', 'toxic', 'creepy', 'stalker',
+            'bozo', 'lmao', 'lmfao', 'wtg'
+        ];
         
         function initializeMessages() {
             database.ref('messages').limitToLast(50).on('value', (snapshot) => {
@@ -525,6 +554,7 @@
                 
                 document.body.innerHTML = `
                     <div class="container">
+                        <img src="https://i.pinimg.com/originals/81/f2/17/81f217068db8f8a7c4da6f12c1641ce8.gif" class="banned-image" alt="Banned">
                         <h1>⛔ Temporarily Banned ⛔</h1>
                         <p>You've been banned for violating the rules.</p>
                         <p>Time remaining: ${hours}h ${minutes}m</p>
