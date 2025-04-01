@@ -303,7 +303,7 @@
                 <div class="message-input">
                     <div>
                         <label for="userName">enter a nickname (dont use your real name!) :</label>
-                        <input type="text" id="userName" placeholder="Your cute nickname">
+                        <input type="text" id="userName" placeholder="Your nickname">
                     </div>
                     <div style="margin-top: 10px;">
                         <label for="userMessage">Type your message:</label>
@@ -467,6 +467,58 @@
             'useless', 'waste', 'dumb', 'stupid', 'freak', 'weird',
             'crazy', 'insane', 'mental', 'toxic', 'creepy', 'stalker',
             'bozo', 'lmao', 'lmfao', 'wtg', 'fuck', 'asshole','bitch','nigga'
+            const BAD_WORDS = [
+    // Original words
+    'stupid', 'dumb', 'poop', 'fart', 'butt', 'shut up', 
+    'hate', 'ugly', 'smelly', 'loser', 'dummy', 'sucks',
+    'poop', 'gross', 'barf', 'girlfriend', 'boyfriend',
+    'boring', 'lame', 'you suck', 'die', 'kill', 'murder',
+    'jerk', 'idiot', 'crybaby', 'booger','ass',
+    'nerd', 'weirdo', 'fat', 'smell', 'stinky','dork', 
+    'geek', 'wimp', 'scaredy', 'butt', 'fart', 'poopy', 
+    'pee', 'gyatt', 'gyat',
+    'damn', 'hell', 'crap', 'wtf', 'omg', 'wtaf', 'wtf', 'omfg',
+    'trash', 'garbage', 'bad', 'awful', 'horrible', 'terrible',
+    'worst', 'nasty', 'annoying', 'hack', 'scam', 'fraud',
+    'failure', 'pathetic', 'noob', 'sus', 'baka', 'ew',
+    'dating', 'date', 'marry', 'kiss', 'kissing', 'love',
+    'crush', 'romance', 'sexy', 'hot', 'inappropriate',
+    'shooting', 'gun', 'weapon', 'bomb', 'explode', 'explosion',
+    'violence', 'violent', 'blood', 'dead', 'death', 'dying',
+    'useless', 'waste', 'dumb', 'stupid', 'freak', 'weird',
+    'crazy', 'insane', 'mental', 'toxic', 'creepy', 'stalker',
+    'bozo', 'lmao', 'lmfao', 'wtg', 'fuck', 'asshole','bitch','nigga',
+    
+    // Additional bad words - with bruh and internet slang removed
+    'shit', 'bullshit', 'dick', 'cock', 'penis', 'vagina', 'pussy', 'whore',
+    'slut', 'hoe', 'thot', 'retard', 'retarded', 'kys', 'kms', 'simp',
+    'incel', 'nazi', 'racist', 'sexist', 'homo', 'gay', 'lesbian', 'queer',
+    'faggot', 'fag', 'dyke', 'tranny', 'trans', 'n-word', 'negro',
+    'cunt', 'twat', 'moron', 'imbecile', 'autistic', 'autism', 'spastic',
+    'bastard', 'wanker', 'minge', 'slag', 'wench', 'spaz', 'spastic',
+    'tits', 'boobs', 'breasts', 'anal', 'oral', 'blowjob', 'handjob',
+    'rimjob', 'cumshot', 'cum', 'orgasm', 'masturbate', 'fingering',
+    'dildo', 'vibrator', 'fleshlight', 'porn', 'pornography', 'hentai',
+    'yaoi', 'ecchi', 'nsfw', 'xxx', 'milf', 'gilf', 'dilf', 'pawg',
+    'bbc', 'bbw', 'rule34', 'gangbang', 'orgy', 'threesome', 'foursome',
+    'rape', 'rapist', 'molest', 'molester', 'pedo', 'pedophile', 'zoophile',
+    'necrophile', 'necrophilia', 'zoophilia', 'bestiality', 'incest',
+    'underage', 'minor', 'jail', 'prison', 'criminal', 'felon', 'convict',
+    'terrorist', 'jihad', 'bomb', 'suicide', 'suicidal', 'self-harm',
+    'cutting', 'drugs', 'drug', 'cocaine', 'heroin', 'meth', 'weed', 'marijuana',
+    'lsd', 'acid', 'ecstasy', 'mdma', 'crack', 'crackhead', 'junkie', 'addict',
+    'alcoholic', 'drunk', 'wasted', 'high', 'stoned', 'alcohol', 'vodka', 'whiskey',
+    'rum', 'gin', 'beer', 'wine', 'champagne', 'liquor', 'shots',
+    'holocaust', 'slavery', 'abuse', 'abuser', 'molester', 'trafficker',
+    'trafficking', 'prostitute', 'hooker', 'escort', 'sugar daddy', 'sugar mommy',
+    'sugar baby', 'onlyfans', 'stripper', 'strip club', 'brothel',
+    'ghetto', 'thug', 'gangster', 'gang', 'bloods', 'crips', 'ms13',
+    'yakuza', 'mafia', 'cartel', 'crime', 'criminal',
+    'racist', 'sexist', 'homophobic', 'transphobic', 'bigot', 'bigotry',
+    'misogyny', 'misogynist', 'misandry', 'discrimination', 'prejudice',
+    'antisemitic', 'antisemitism', 'islamophobic', 'islamophobia',
+    'virgin'
+]
         ];
         
         function initializeMessages() {
