@@ -95,18 +95,50 @@
         }
 
         /* BAN SCREEN */
+        .ban-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 235, 235, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            font-family: 'Pacifico', cursive;
+        }
+
         .banned-image {
             width: 200px;
             height: auto;
             margin: 0 auto 20px auto;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
-            animation: shake 2s infinite;
+            filter: 
+                drop-shadow(0 0 5px #5B3A29)
+                drop-shadow(0 0 10px #5B3A29)
+                drop-shadow(0 0 15px #5B3A29)
+                drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
+            animation: shake 2s infinite, pulse 2s infinite alternate;
         }
         
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
             20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes pulse {
+            0% { filter: 
+                drop-shadow(0 0 5px #5B3A29)
+                drop-shadow(0 0 10px #5B3A29)
+                drop-shadow(0 0 15px #5B3A29)
+                drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)); }
+            100% { filter: 
+                drop-shadow(0 0 10px #5B3A29)
+                drop-shadow(0 0 20px #5B3A29)
+                drop-shadow(0 0 30px #5B3A29)
+                drop-shadow(0 0 20px rgba(255, 0, 0, 0.7)); }
         }
 
         /* LINK STYLES */
@@ -601,19 +633,46 @@
         function checkBanStatus() {
             const bannedUntil = localStorage.getItem('user_banned_until');
             if (bannedUntil && Date.now() < parseInt(bannedUntil)) {
-                const remaining = parseInt(bannedUntil) - Date.now();
-                const hours = Math.floor(remaining / (1000 * 60 * 60));
-                const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                // Create ban screen container
+                const banScreen = document.createElement('div');
+                banScreen.className = 'ban-screen';
                 
-                document.body.innerHTML = `
-                    <div class="container">
+                // Calculate remaining time
+                const updateTimer = () => {
+                    const remaining = parseInt(bannedUntil) - Date.now();
+                    if (remaining <= 0) {
+                        location.reload();
+                        return;
+                    }
+                    const hours = Math.floor(remaining / (1000 * 60 * 60));
+                    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+                    
+                    banScreen.innerHTML = `
                         <img src="https://i.pinimg.com/474x/1e/a0/fc/1ea0fc67b8b4de5751131623047d7a0d.jpg" class="banned-image" alt="Banned">
                         <h1>⛔ Temporarily Banned ⛔</h1>
                         <p>You've been banned for violating the rules.</p>
-                        <p>Time remaining: ${hours}h ${minutes}m</p>
+                        <p>Time remaining: <strong>${hours}h ${minutes}m ${seconds}s</strong></p>
                         <p>Come back later!</p>
-                    </div>
-                `;
+                    `;
+                };
+                
+                // Initial update
+                updateTimer();
+                
+                // Update every second
+                setInterval(updateTimer, 1000);
+                
+                // Add to document
+                document.body.innerHTML = '';
+                document.body.appendChild(banScreen);
+                
+                // Block all interactions
+                document.addEventListener('keydown', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+                
                 return true;
             }
             return false;
@@ -700,6 +759,7 @@
             checkAdminStatus();
             initializeMessages();
             createFairyLights();
+            checkBanStatus(); // Check ban status on load
             
             // Create floating images more frequently
             setInterval(createFloatingImage, 500);
