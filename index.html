@@ -23,6 +23,30 @@
             overflow-x: hidden;
         }
 
+        /* NEWS TICKER */
+        .news-ticker {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            margin: 0 auto 20px auto;
+            border-radius: 10px;
+            max-width: 800px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .marquee {
+            color: #5B3A29;
+            font-size: 18px;
+            white-space: nowrap;
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
         /* ADMIN LOGIN STYLE */
         #adminLogin {
             display: none;
@@ -336,6 +360,17 @@
     <!-- Main Content Layer -->
     <div class="content-layer">
         <div class="container">
+            <!-- News Ticker -->
+            <div class="news-ticker">
+                <div class="marquee">
+                    ✨ Welcome to the cool website! ✨ &nbsp;&nbsp;&nbsp; 
+                    ✨ Please be nice in the chat! ✨ &nbsp;&nbsp;&nbsp; 
+                    ✨ Check out the YouTube channel below! ✨ &nbsp;&nbsp;&nbsp; 
+                    ✨ Enjoy the music player! ✨ &nbsp;&nbsp;&nbsp; 
+                    ✨ Have fun! ✨
+                </div>
+            </div>
+            
             <h1>✨ cool website ✨</h1>
             <h3>welcome to the cool website! its awesome, right?</h3>
             <b><p>this website gets daily updates :D</p></b>
