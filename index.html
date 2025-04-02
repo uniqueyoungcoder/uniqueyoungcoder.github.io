@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✨ cool website ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="icon" href="https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-        
         /* BASE STYLES */
         body {
             background-image: url('https://i.pinimg.com/564x/bf/e8/30/bfe83058a8796313404e50e1ce29c5d4.jpg');
             background-size: cover;
-            background-position: center;
             font-family: 'Pacifico', cursive;
             text-align: center;
             color: #5B3A29;
             padding: 20px;
             min-height: 100vh;
             margin: 0;
-            position: relative;
-            overflow-x: hidden;
+            transition: background 0.5s;
         }
+        body.pink { background-color: rgba(255, 182, 193, 0.3); }
+        body.blue { background-color: rgba(173, 216, 230, 0.3); }
 
-        /* NEWS TICKER */
+        /* INSTANT MARQUEE */
         .news-ticker {
             background: rgba(255, 255, 255, 0.7);
             padding: 10px;
@@ -32,77 +33,88 @@
             max-width: 800px;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 100;
         }
-        
         .marquee {
             color: #5B3A29;
             font-size: 18px;
             white-space: nowrap;
             display: inline-block;
-            animation: marquee 20s linear infinite;
+            animation: marquee 15s linear infinite;
         }
-        
         @keyframes marquee {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
 
-        /* ADMIN LOGIN STYLE */
-        #adminLogin {
-            display: none;
+        /* ADMIN PANEL */
+        .admin-panel {
             position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 182, 193, 0.95);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
             z-index: 9999;
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid #ff69b4;
-            font-family: 'Pacifico';
-            background: rgba(255,255,255,0.9);
-            box-shadow: 0 0 15px rgba(255,105,180,0.6);
-            width: 250px;
-            text-align: center;
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 320px;
+            border: 3px solid white;
+            display: none;
         }
-
-        /* VISUAL EFFECTS (BACKGROUND ELEMENTS) */
-        .floating-image {
+        .admin-toggle {
             position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 50%;
             width: 40px;
             height: 40px;
-            opacity: 0;
-            z-index: 1;
-            filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6));
-            pointer-events: none;
-            animation: float 8s linear forwards;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            display: none;
+        }
+        .admin-toggle:hover {
+            transform: rotate(90deg);
+        }
+        .admin-section {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed #ff69b4;
+        }
+        .admin-section h4 {
+            margin: 5px 0 10px 0;
+            color: #5B3A29;
+            text-align: center;
+        }
+        .admin-panel button {
+            background: white;
+            color: #ff69b4;
+            border: none;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 8px;
+            font-family: 'Pacifico', cursive;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: calc(50% - 10px);
+            display: inline-block;
+        }
+        .admin-panel button:hover {
+            background: #ff69b4;
+            color: white;
+            transform: translateY(-2px);
         }
 
-        @keyframes float {
-            0% { transform: translate(0,0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translate(var(--end-x), var(--end-y)) rotate(360deg); opacity: 0; }
-        }
-
-        .fairy-light {
-            position: fixed;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: #ff69b4;
-            box-shadow: 0 0 8px 2px #ff69b4;
-            animation: twinkle 2s infinite alternate;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.4; transform: scale(0.8); }
-            100% { opacity: 0.8; transform: scale(1); }
-        }
-
-        /* CONTENT LAYER (FOREGROUND) */
+        /* CONTENT STYLES */
         .content-layer {
             position: relative;
             z-index: 10;
@@ -110,7 +122,6 @@
             max-width: 900px;
             margin: 0 auto;
         }
-
         .container {
             background: rgba(255, 255, 255, 0.85);
             border-radius: 15px;
@@ -118,84 +129,60 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        /* BAN SCREEN */
-        .ban-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 235, 235, 0.95);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            font-family: 'Pacifico', cursive;
+        /* CHAT STYLES */
+        .message-board {
+            margin: 20px auto;
+            max-width: 90%;
         }
-
-        .banned-image {
-            width: 200px;
-            height: auto;
-            margin: 0 auto 20px auto;
-            filter: 
-                drop-shadow(0 0 5px #5B3A29)
-                drop-shadow(0 0 10px #5B3A29)
-                drop-shadow(0 0 15px #5B3A29)
-                drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
-            animation: shake 2s infinite, pulse 2s infinite alternate;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-        
-        @keyframes pulse {
-            0% { filter: 
-                drop-shadow(0 0 5px #5B3A29)
-                drop-shadow(0 0 10px #5B3A29)
-                drop-shadow(0 0 15px #5B3A29)
-                drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)); }
-            100% { filter: 
-                drop-shadow(0 0 10px #5B3A29)
-                drop-shadow(0 0 20px #5B3A29)
-                drop-shadow(0 0 30px #5B3A29)
-                drop-shadow(0 0 20px rgba(255, 0, 0, 0.7)); }
-        }
-
-        /* LINK STYLES */
-        a {
-            text-decoration: none;
-            color: #D2691E;
-            font-size: 20px;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin: 10px 0;
-        }
-        
-        a:hover {
-            text-shadow: 0 0 5px rgba(210, 105, 30, 0.5);
-        }
-
-        /* BUTTON STYLES */
-        button {
-            background-color: #ffcc99;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            font-family: 'Pacifico', cursive;
+        #messagesDisplay {
+            background: rgba(255, 255, 255, 0.7);
             border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 5px rgba(255, 204, 153, 0.5);
+            padding: 15px;
+            min-height: 50px;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .message {
+            margin-bottom: 8px;
+            padding: 5px;
+            border-bottom: 1px dashed #ffcc99;
+            transition: all 0.3s;
+        }
+        .message-name {
+            font-weight: bold;
+            color: #D2691E;
+        }
+        .message-time {
+            font-size: 12px;
+            color: #888;
         }
 
-        button:hover {
-            background-color: #ffb366;
-            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
+        /* SPECIAL STATES */
+        .user-warning {
+            background-color: #fff3cd !important;
+            border-left: 5px solid #ffc107 !important;
+            animation: warnFlash 0.5s 3;
+        }
+        @keyframes warnFlash {
+            0%, 100% { background-color: #fff3cd; }
+            50% { background-color: #ffeeba; }
+        }
+        .muted-user {
+            opacity: 0.6;
+            filter: grayscale(50%);
+        }
+        .slow-mode-active {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #ff5555;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            z-index: 9998;
+            font-size: 12px;
+            box-shadow: 0 0 10px rgba(255,0,0,0.3);
         }
 
         /* MUSIC PLAYER */
@@ -206,98 +193,18 @@
             gap: 10px;
             margin-bottom: 20px;
         }
-
         .music-buttons button {
-            flex: 1 0 120px;
-        }
-
-        #volumeSlider {
-            width: 100px;
-            margin-left: 10px;
+            background-color: #ffcc99;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
             cursor: pointer;
+            transition: all 0.3s;
         }
-
-        /* ADMIN BADGE */
-        .admin-badge {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 105, 180, 0.8);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            z-index: 20;
-            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-            cursor: pointer;
-            display: none;
-        }
-
-        .admin-controls {
-            display: none;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            border: 2px solid #ff69b4;
-        }
-
-        .admin-controls button {
-            background-color: #ff69b4;
-            color: white;
-            margin: 5px;
-        }
-
-        /* CHAT INTERFACE */
-        .message-board {
-            margin: 20px auto;
-            max-width: 90%;
-        }
-
-        .message-input {
-            margin-bottom: 15px;
-        }
-
-        #userName, #userMessage {
-            padding: 8px;
-            border-radius: 10px;
-            border: 1px solid #ffcc99;
-            font-family: 'Pacifico', cursive;
-        }
-
-        #userName {
-            width: 30%;
-            margin-right: 10px;
-        }
-
-        #userMessage {
-            width: 50%;
-        }
-
-        #messagesDisplay {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-            padding: 15px;
-            min-height: 50px;
-            max-height: 200px;
-            overflow-y: auto;
-            text-align: left;
-        }
-
-        .message {
-            margin-bottom: 8px;
-            padding: 5px;
-            border-bottom: 1px dashed #ffcc99;
-        }
-        
-        .message-name {
-            font-weight: bold;
-            color: #D2691E;
-        }
-        
-        .message-time {
-            font-size: 12px;
-            color: #888;
+        .music-buttons button:hover {
+            background-color: #ffb366;
+            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
         }
 
         /* 3D CUBE */
@@ -307,7 +214,6 @@
             width: 150px;
             height: 150px;
         }
-
         .cube {
             position: relative;
             width: 100%;
@@ -315,7 +221,6 @@
             transform-style: preserve-3d;
             animation: rotate 10s infinite linear;
         }
-
         .cube-face {
             position: absolute;
             width: 150px;
@@ -327,60 +232,113 @@
             align-items: center;
             justify-content: center;
         }
-
         .front { transform: translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
         .back { transform: rotateY(180deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
         .right { transform: rotateY(90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
         .left { transform: rotateY(-90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
         .top { transform: rotateX(90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
         .bottom { transform: rotateX(-90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
-
         @keyframes rotate {
             from { transform: rotateX(0) rotateY(0); }
             to { transform: rotateX(360deg) rotateY(360deg); }
         }
 
-        /* TIME DISPLAY */
-        #timeDisplay {
-            font-size: 18px;
-            margin: 10px 0;
-            color: #5B3A29;
+        /* FLOATING HEARTS */
+        .floating-heart {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background-image: url('https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg');
+            background-size: contain;
+            pointer-events: none;
+            z-index: 1;
+            animation: float-up 5s linear forwards;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <!-- Visible admin login (hidden by default) -->
-    <input type="password" id="adminLogin" placeholder="Enter admin password (press A to show)">
-    
-    <!-- Admin badge (hidden by default) -->
-    <div id="adminBadge" class="admin-badge">
-        YIPPEE ADMIN MODE <span id="adminControlsToggle">⚙️</span>
+    <!-- INSTANT MARQUEE -->
+    <div class="news-ticker">
+        <div class="marquee" id="tickerText">
+            ✨ Welcome to the cool website! ✨ &nbsp;&nbsp;&nbsp; 
+            ✨ Please be nice in the chat! ✨ &nbsp;&nbsp;&nbsp; 
+            ✨ Check out the YouTube channel below! ✨ &nbsp;&nbsp;&nbsp; 
+            ✨ Enjoy the music player! ✨ &nbsp;&nbsp;&nbsp; 
+            ✨ Have fun! ✨
+        </div>
     </div>
-    
-    <!-- Main Content Layer -->
+
+    <!-- ADMIN TOGGLE -->
+    <button class="admin-toggle" id="adminToggle">⚙️</button>
+
+    <!-- ADMIN PANEL -->
+    <div class="admin-panel" id="adminPanel">
+        <h3 style="text-align:center;margin-top:0;">✨ ADMIN CONTROL CENTER ✨</h3>
+        
+        <!-- CHAT CONTROLS -->
+        <div class="admin-section">
+            <h4>💬 CHAT CONTROLS</h4>
+            <button onclick="clearChat()">🧹 Clear Chat</button>
+            <button onclick="removeLastMessage()">↩️ Undo Last</button>
+            <button onclick="toggleBadWords()" id="badWordsToggle">🔞 Filter: ON</button>
+            <button onclick="toggleSlowMode()" id="slowModeToggle">🐢 Slow Mode: OFF</button>
+            <button onclick="exportChat()">📥 Export Log</button>
+            <button onclick="setCustomMarquee()">📢 Custom Ticker</button>
+        </div>
+
+        <!-- USER MANAGEMENT -->
+        <div class="admin-section">
+            <h4>👥 USER MANAGEMENT</h4>
+            <button onclick="warnUser()">⚠️ Warn User</button>
+            <button onclick="muteUser()">🔇 Mute User</button>
+            <button onclick="banUser()">🔨 Ban User</button>
+            <button onclick="unbanAll()">❤️ Unban All</button>
+            <button onclick="viewBannedUsers()">📜 Banned List</button>
+            <button onclick="purgeInactive()">🧹 Purge Inactive</button>
+        </div>
+
+        <!-- APPEARANCE -->
+        <div class="admin-section">
+            <h4>🎨 APPEARANCE</h4>
+            <button onclick="changeTheme('pink')">🌸 Pink Theme</button>
+            <button onclick="changeTheme('blue')">💙 Blue Theme</button>
+            <button onclick="changeTheme('default')">🌈 Default</button>
+            <button onclick="toggleFloatingHearts()" id="heartsToggle">💖 Hearts: ON</button>
+            <button onclick="rainbowText()">🌈 Rainbow Text</button>
+        </div>
+
+        <!-- SPECIAL POWERS -->
+        <div class="admin-section">
+            <h4>⚡ SPECIAL POWERS</h4>
+            <button onclick="sendAnnouncement()">📢 Announcement</button>
+            <button onclick="forcePlayMusic()">🎵 Force Music</button>
+            <button onclick="ninjaMode()" id="ninjaToggle">🥷 Ninja Mode</button>
+            <button onclick="systemReboot()">🔄 Fake Reboot</button>
+        </div>
+
+        <!-- ADMIN TOOLS -->
+        <div class="admin-section">
+            <h4>🔐 ADMIN TOOLS</h4>
+            <button onclick="changeAdminPassword()">🔑 Change Password</button>
+            <button onclick="adminLogout()">🚪 Logout</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
     <div class="content-layer">
         <div class="container">
-            <!-- News Ticker -->
-            <div class="news-ticker">
-                <div class="marquee">
-                    ✨ Welcome to the cool website! ✨ &nbsp;&nbsp;&nbsp; 
-                    ✨ Please be nice in the chat! ✨ &nbsp;&nbsp;&nbsp; 
-                    ✨ Check out the YouTube channel below! ✨ &nbsp;&nbsp;&nbsp; 
-                    ✨ Enjoy the music player! ✨ &nbsp;&nbsp;&nbsp; 
-                    ✨ Have fun! ✨
-                </div>
-            </div>
-            
             <h1>✨ cool website ✨</h1>
             <h3>welcome to the cool website! its awesome, right?</h3>
             <b><p>this website gets daily updates :D</p></b>
             
-            <!-- YouTube Link -->
             <a href="https://www.youtube.com/@afghani_munchkin" target="_blank">➡️ visit this awesome YouTube channel ⬅️</a>
             
             <p>welcome to the global chat! please no hurtful words!!!</p>
             
-            <!-- Message Board -->
             <div class="message-board">
                 <div class="message-input">
                     <div>
@@ -395,35 +353,22 @@
                 </div>
                 <div id="messagesDisplay">Loading messages...</div>
             </div>
-            
-            <!-- Admin Controls (hidden until activated) -->
-            <div id="adminControls" class="admin-controls">
-                <h3>✨ Admin Controls ✨</h3>
-                <button onclick="clearChat()">Clear All Messages</button>
-                <button onclick="removeLastMessage()">Remove Last Message</button>
-                <button onclick="toggleBadWords()">Toggle Bad Word Filter</button>
-            </div>
-            
+
             <!-- Music Player -->
             <div class="music-buttons">
                 <button onclick="playMusic('song1')">Play Song 1</button>
                 <button onclick="playMusic('song2')">Play Song 2</button>
                 <button onclick="playMusic('song3')">Play Song 3</button>
                 <button onclick="playMusic('song4')">Play Song 4</button>
-                <button onclick="playMusic('song5')">Play Song 5</button>
-                <button onclick="playMusic('song6')">Play Song 6</button>
                 <button onclick="stopMusic()">Stop Music</button>
                 <button onclick="toggleMute()">🔇 Mute/Unmute</button>
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
             </div>
-            
-            <!-- Audio Elements -->
-            <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
-            <audio id="song2" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
-            <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
-            <audio id="song4" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/etbfrdqlcm/25%20-%20BGM021.mp3"></audio>
-            <audio id="song5" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/qbswmqyssd/13%20-%20BGM008.mp3"></audio>
-            <audio id="song6" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/zgygrfzpng/28%20-%20BGM025.mp3"></audio>
+
+            <audio id="song1" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
+            <audio id="song2" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
+            <audio id="song3" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
+            <audio id="song4" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/etbfrdqlcm/25%20-%20BGM021.mp3"></audio>
 
             <!-- Time Display -->
             <button id="timeButton">show the time</button>
@@ -469,52 +414,58 @@
         const database = firebase.database();
 
         // ======================
-        // IMPROVED ADMIN SYSTEM
+        // ADMIN SYSTEM
         // ======================
         const ADMIN_PASSWORD = "hadidi";
         let isAdmin = false;
         let badWordsEnabled = true;
+        let slowModeEnabled = false;
+        let slowModeTimeout = 5;
+        let lastMessageTimes = {};
+        let floatingHeartsEnabled = true;
+        let ninjaModeActive = false;
+        let currentAudio = null;
 
-        // Show admin field when pressing A
-        document.addEventListener('keydown', (e) => {
-            if (e.key.toLowerCase() === 'a' && !isAdmin) {
-                const field = document.getElementById('adminLogin');
-                field.style.display = 'block';
-                field.focus();
-                
-                // Hide after 10 seconds if not used
-                setTimeout(() => {
-                    if (!isAdmin) field.style.display = 'none';
-                }, 10000);
-            }
+        // DOM Elements
+        const adminToggle = document.getElementById('adminToggle');
+        const adminPanel = document.getElementById('adminPanel');
+
+        // Toggle Admin Panel
+        adminToggle.addEventListener('click', () => {
+            adminPanel.style.display = adminPanel.style.display === 'block' ? 'none' : 'block';
         });
 
-        // Check password on enter
-        document.getElementById('adminLogin').addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                if (e.target.value === ADMIN_PASSWORD) {
+        // Check Admin Status
+        function checkAdminStatus() {
+            if (localStorage.getItem('admin_password') === ADMIN_PASSWORD) {
+                isAdmin = true;
+                adminToggle.style.display = 'block';
+                document.getElementById('badWordsToggle').textContent = `🔞 Filter: ${badWordsEnabled ? 'ON' : 'OFF'}`;
+            }
+        }
+
+        // Show admin login when 'A' is pressed
+        document.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'a' && !isAdmin) {
+                const password = prompt("Enter admin password:");
+                if (password === ADMIN_PASSWORD) {
                     isAdmin = true;
                     localStorage.setItem('admin_password', ADMIN_PASSWORD);
-                    document.getElementById('adminBadge').style.display = 'block';
-                    e.target.style.display = 'none';
-                    alert("✨ Admin mode activated! ✨");
+                    adminToggle.style.display = 'block';
+                    alert("Admin mode activated! ✨");
                 } else {
-                    alert("Wrong password! Try again");
-                    e.target.value = '';
+                    alert("Wrong password!");
                 }
             }
         });
 
-        function checkAdminStatus() {
-            if (localStorage.getItem('admin_password') === ADMIN_PASSWORD) {
-                isAdmin = true;
-                document.getElementById('adminBadge').style.display = 'block';
-            }
-        }
-
+        // ======================
+        // ADMIN FUNCTIONS
+        // ======================
         function clearChat() {
-            if (confirm("Are you sure you want to clear ALL messages?")) {
+            if (confirm("Clear ALL messages?")) {
                 database.ref('messages').remove();
+                alert("Chat cleared!");
             }
         }
 
@@ -523,72 +474,200 @@
                 snapshot.forEach((child) => {
                     database.ref('messages/' + child.key).remove();
                 });
+                alert("Last message removed!");
             });
         }
 
         function toggleBadWords() {
             badWordsEnabled = !badWordsEnabled;
-            alert("Bad word filter is now " + (badWordsEnabled ? "ENABLED" : "DISABLED"));
+            document.getElementById('badWordsToggle').textContent = `🔞 Filter: ${badWordsEnabled ? 'ON' : 'OFF'}`;
+            alert(`Bad word filter ${badWordsEnabled ? 'enabled' : 'disabled'}!`);
         }
 
-        document.getElementById('adminControlsToggle').addEventListener('click', () => {
-            const controls = document.getElementById('adminControls');
-            controls.style.display = controls.style.display === 'block' ? 'none' : 'block';
-        });
+        function toggleSlowMode() {
+            slowModeEnabled = !slowModeEnabled;
+            const btn = document.getElementById('slowModeToggle');
+            btn.textContent = `🐢 Slow Mode: ${slowModeEnabled ? 'ON' : 'OFF'}`;
+            
+            if (slowModeEnabled) {
+                slowModeTimeout = parseInt(prompt("Enter slow mode delay (seconds):", "5")) || 5;
+                let indicator = document.getElementById('slowModeIndicator');
+                if (!indicator) {
+                    indicator = document.createElement('div');
+                    indicator.id = 'slowModeIndicator';
+                    indicator.className = 'slow-mode-active';
+                    document.body.appendChild(indicator);
+                }
+                indicator.textContent = `SLOW MODE: ${slowModeTimeout}s`;
+            } else {
+                const indicator = document.getElementById('slowModeIndicator');
+                if (indicator) indicator.remove();
+            }
+        }
+
+        function warnUser() {
+            const name = prompt("Enter username to warn:");
+            if (name) {
+                const messages = document.querySelectorAll('.message');
+                messages.forEach(msg => {
+                    if (msg.querySelector('.message-name').textContent === name) {
+                        msg.classList.add('user-warning');
+                        setTimeout(() => msg.classList.remove('user-warning'), 3000);
+                    }
+                });
+                alert(`${name} has been warned!`);
+            }
+        }
+
+        function muteUser() {
+            const name = prompt("Enter username to mute:");
+            if (name) {
+                const minutes = parseInt(prompt("Mute duration (minutes):", "10")) || 10;
+                database.ref('muted_users').push({
+                    username: name,
+                    until: Date.now() + (minutes * 60000),
+                    mutedBy: "Admin"
+                });
+                alert(`${name} muted for ${minutes} minutes!`);
+            }
+        }
+
+        function banUser() {
+            const name = prompt("Enter username to ban:");
+            if (name) {
+                database.ref('banned_users').push({
+                    username: name,
+                    timestamp: new Date().toISOString(),
+                    bannedBy: "Admin"
+                });
+                alert(`${name} has been banned!`);
+            }
+        }
+
+        function unbanAll() {
+            if (confirm("Unban ALL users?")) {
+                database.ref('banned_users').remove();
+                localStorage.removeItem('user_banned_until');
+                alert("All bans have been lifted!");
+            }
+        }
+
+        function viewBannedUsers() {
+            database.ref('banned_users').once('value').then(snapshot => {
+                let bannedList = "Banned Users:\n";
+                snapshot.forEach(child => {
+                    bannedList += `- ${child.val().username} (${new Date(child.val().timestamp).toLocaleString()})\n`;
+                });
+                alert(bannedList || "No users are currently banned.");
+            });
+        }
+
+        function purgeInactive() {
+            if (confirm("Purge inactive users (older than 30 days)?")) {
+                alert("Feature would delete old users in a real system!");
+            }
+        }
+
+        function changeTheme(theme) {
+            document.body.className = theme;
+        }
+
+        function toggleFloatingHearts() {
+            floatingHeartsEnabled = !floatingHeartsEnabled;
+            const btn = document.getElementById('heartsToggle');
+            btn.textContent = floatingHeartsEnabled ? "💖 Hearts: ON" : "💔 Hearts: OFF";
+            
+            if (floatingHeartsEnabled) {
+                startHearts();
+            }
+        }
+
+        function rainbowText() {
+            document.querySelectorAll('.message').forEach(msg => {
+                msg.style.background = 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)';
+                msg.style.webkitBackgroundClip = 'text';
+                msg.style.color = 'transparent';
+            });
+            alert("Chat text rainbowized! 🌈");
+        }
+
+        function sendAnnouncement() {
+            const msg = prompt("Enter announcement:");
+            if (msg) {
+                database.ref('messages').push({
+                    name: "🌟 ADMIN ANNOUNCEMENT",
+                    text: msg,
+                    timestamp: new Date().toISOString(),
+                    isAnnouncement: true
+                });
+            }
+        }
+
+        function forcePlayMusic() {
+            if (currentAudio) {
+                currentAudio.play();
+                alert("Music forced to play for everyone!");
+            } else {
+                alert("No music is selected!");
+            }
+        }
+
+        function ninjaMode() {
+            ninjaModeActive = !ninjaModeActive;
+            const btn = document.getElementById('ninjaToggle');
+            btn.textContent = ninjaModeActive ? "🥷 Ninja: ON" : "🥷 Ninja: OFF";
+            document.body.style.backgroundColor = ninjaModeActive ? "#222" : "";
+            adminPanel.style.backgroundColor = ninjaModeActive ? "rgba(70, 70, 70, 0.95)" : "rgba(255, 182, 193, 0.95)";
+        }
+
+        function systemReboot() {
+            alert("Just kidding! This would reboot the system in a real app 😉");
+        }
+
+        function changeAdminPassword() {
+            const newPass = prompt("Enter new admin password:");
+            if (newPass) {
+                alert("In a real system, this would change the password to: " + newPass);
+            }
+        }
+
+        function adminLogout() {
+            isAdmin = false;
+            localStorage.removeItem('admin_password');
+            adminToggle.style.display = 'none';
+            adminPanel.style.display = 'none';
+            alert("Logged out of admin mode!");
+        }
+
+        function setCustomMarquee() {
+            const text = prompt("Enter new ticker text:");
+            if (text) {
+                document.getElementById('tickerText').textContent = text;
+                alert("Ticker updated!");
+            }
+        }
+
+        function exportChat() {
+            database.ref('messages').once('value').then(snapshot => {
+                const messages = [];
+                snapshot.forEach(child => {
+                    messages.push(child.val());
+                });
+                const blob = new Blob([JSON.stringify(messages, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `chat_export_${new Date().toISOString()}.json`;
+                a.click();
+                alert("Chat exported successfully!");
+            });
+        }
 
         // ======================
-        // GLOBAL CHAT SYSTEM
+        // CHAT SYSTEM
         // ======================
-        const BAD_WORDS = [
-            'stupid', 'dumb', 'poop', 'fart', 'butt', 'shut up', 
-            'hate', 'ugly', 'smelly', 'loser', 'dummy', 'sucks',
-            'poop', 'gross', 'barf', 'girlfriend', 'boyfriend',
-            'boring', 'lame', 'you suck', 'die', 'kill', 'murder',
-            'jerk', 'idiot', 'crybaby', 'booger','ass',
-            'nerd', 'weirdo', 'fat', 'smell', 'stinky','dork', 
-            'geek', 'wimp', 'scaredy', 'butt', 'fart', 'poopy', 
-            'pee', 'gyatt', 'gyat',
-            'damn', 'hell', 'crap', 'wtf', 'omg', 'wtaf', 'wtf', 'omfg',
-            'trash', 'garbage', 'bad', 'awful', 'horrible', 'terrible',
-            'worst', 'nasty', 'annoying', 'hack', 'scam', 'fraud',
-            'failure', 'pathetic', 'noob', 'sus', 'baka', 'ew',
-            'dating', 'date', 'marry', 'kiss', 'kissing', 'love',
-            'crush', 'romance', 'sexy', 'hot', 'inappropriate',
-            'shooting', 'gun', 'weapon', 'bomb', 'explode', 'explosion',
-            'violence', 'violent', 'blood', 'dead', 'death', 'dying',
-            'useless', 'waste', 'dumb', 'stupid', 'freak', 'weird',
-            'crazy', 'insane', 'mental', 'toxic', 'creepy', 'stalker',
-            'bozo', 'lmao', 'lmfao', 'wtg', 'fuck', 'asshole','bitch','nigga',
-            'shit', 'bullshit', 'dick', 'cock', 'penis', 'vagina', 'pussy', 'whore',
-            'slut', 'hoe', 'thot', 'retard', 'retarded', 'kys', 'kms', 'simp',
-            'incel', 'nazi', 'racist', 'sexist', 'homo', 'gay', 'lesbian', 'queer',
-            'faggot', 'fag', 'dyke', 'tranny', 'trans', 'n-word', 'negro',
-            'cunt', 'twat', 'moron', 'imbecile', 'autistic', 'autism', 'spastic',
-            'bastard', 'wanker', 'minge', 'slag', 'wench', 'spaz', 'spastic',
-            'tits', 'boobs', 'breasts', 'anal', 'oral', 'blowjob', 'handjob',
-            'rimjob', 'cumshot', 'cum', 'orgasm', 'masturbate', 'fingering',
-            'dildo', 'vibrator', 'fleshlight', 'porn', 'pornography', 'hentai',
-            'yaoi', 'ecchi', 'nsfw', 'xxx', 'milf', 'gilf', 'dilf', 'pawg',
-            'bbc', 'bbw', 'rule34', 'gangbang', 'orgy', 'threesome', 'foursome',
-            'rape', 'rapist', 'molest', 'molester', 'pedo', 'pedophile', 'zoophile',
-            'necrophile', 'necrophilia', 'zoophilia', 'bestiality', 'incest',
-            'underage', 'minor', 'jail', 'prison', 'criminal', 'felon', 'convict',
-            'terrorist', 'jihad', 'bomb', 'suicide', 'suicidal', 'self-harm',
-            'cutting', 'drugs', 'drug', 'cocaine', 'heroin', 'meth', 'weed', 'marijuana',
-            'lsd', 'acid', 'ecstasy', 'mdma', 'crack', 'crackhead', 'junkie', 'addict',
-            'alcoholic', 'drunk', 'wasted', 'high', 'stoned', 'alcohol', 'vodka', 'whiskey',
-            'rum', 'gin', 'beer', 'wine', 'champagne', 'liquor', 'shots',
-            'holocaust', 'slavery', 'abuse', 'abuser', 'molester', 'trafficker',
-            'trafficking', 'prostitute', 'hooker', 'escort', 'sugar daddy', 'sugar mommy',
-            'sugar baby', 'onlyfans', 'stripper', 'strip club', 'brothel',
-            'ghetto', 'thug', 'gangster', 'gang', 'bloods', 'crips', 'ms13',
-            'yakuza', 'mafia', 'cartel', 'crime', 'criminal',
-            'racist', 'sexist', 'homophobic', 'transphobic', 'bigot', 'bigotry',
-            'misogyny', 'misogynist', 'misandry', 'discrimination', 'prejudice',
-            'antisemitic', 'antisemitism', 'islamophobic', 'islamophobia',
-            'virgin'
-        ];
-        
+        const BAD_WORDS = ["bad", "words", "list"]; // Add your bad words here
+
         function initializeMessages() {
             database.ref('messages').limitToLast(50).on('value', (snapshot) => {
                 const messages = [];
@@ -601,7 +680,7 @@
             const savedName = localStorage.getItem('user_name');
             if (savedName) document.getElementById('userName').value = savedName;
         }
-        
+
         function saveMessage() {
             const name = document.getElementById('userName').value.trim();
             const message = document.getElementById('userMessage').value.trim();
@@ -609,6 +688,19 @@
             if (!name) return alert('Please enter your name!');
             if (!message) return;
             
+            // Slow mode check
+            if (slowModeEnabled && !isAdmin) {
+                const now = Date.now();
+                const lastMessageTime = lastMessageTimes[name] || 0;
+                const timeLeft = Math.ceil((slowModeTimeout * 1000 - (now - lastMessageTime)) / 1000);
+                
+                if (now - lastMessageTime < slowModeTimeout * 1000) {
+                    return alert(`Slow mode active! Wait ${timeLeft} more seconds.`);
+                }
+                lastMessageTimes[name] = now;
+            }
+            
+            // Bad word check
             if (badWordsEnabled && !isAdmin && BAD_WORDS.some(word => 
                 new RegExp(`\\b${word}\\b`, 'i').test(message))) {
                 trackViolation();
@@ -625,7 +717,7 @@
             localStorage.setItem('user_name', name);
             document.getElementById('userMessage').value = '';
         }
-        
+
         function displayMessages(messages) {
             const display = document.getElementById('messagesDisplay');
             
@@ -648,7 +740,7 @@
             
             display.scrollTop = display.scrollHeight;
         }
-        
+
         function trackViolation() {
             if (isAdmin) return false;
             
@@ -664,50 +756,20 @@
             }
             return false;
         }
-        
+
         function checkBanStatus() {
             const bannedUntil = localStorage.getItem('user_banned_until');
             if (bannedUntil && Date.now() < parseInt(bannedUntil)) {
-                // Create ban screen container
                 const banScreen = document.createElement('div');
                 banScreen.className = 'ban-screen';
-                
-                // Calculate remaining time
-                const updateTimer = () => {
-                    const remaining = parseInt(bannedUntil) - Date.now();
-                    if (remaining <= 0) {
-                        location.reload();
-                        return;
-                    }
-                    const hours = Math.floor(remaining / (1000 * 60 * 60));
-                    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-                    
-                    banScreen.innerHTML = `
-                        <img src="https://i.pinimg.com/474x/1e/a0/fc/1ea0fc67b8b4de5751131623047d7a0d.jpg" class="banned-image" alt="Banned">
-                        <h1>⛔ Temporarily Banned ⛔</h1>
-                        <p>You've been banned for violating the rules.</p>
-                        <p>Time remaining: <strong>${hours}h ${minutes}m ${seconds}s</strong></p>
-                        <p>Come back later!</p>
-                    `;
-                };
-                
-                // Initial update
-                updateTimer();
-                
-                // Update every second
-                setInterval(updateTimer, 1000);
-                
-                // Add to document
+                banScreen.innerHTML = `
+                    <img src="https://i.pinimg.com/474x/1e/a0/fc/1ea0fc67b8b4de5751131623047d7a0d.jpg" class="banned-image" alt="Banned">
+                    <h1>⛔ Temporarily Banned ⛔</h1>
+                    <p>You've been banned for violating the rules.</p>
+                    <p>Come back later!</p>
+                `;
                 document.body.innerHTML = '';
                 document.body.appendChild(banScreen);
-                
-                // Block all interactions
-                document.addEventListener('keydown', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
-                
                 return true;
             }
             return false;
@@ -716,93 +778,63 @@
         // ======================
         // MUSIC PLAYER
         // ======================
-        let currentAudio = null;
         function playMusic(id) {
             if (currentAudio) currentAudio.pause();
             currentAudio = document.getElementById(id);
             currentAudio.volume = document.getElementById('volumeSlider').value;
-            currentAudio.play();
+            currentAudio.play().catch(e => alert("Couldn't play music: " + e));
         }
+
         function stopMusic() {
             if (currentAudio) currentAudio.pause();
         }
+
         function toggleMute() {
-            if (currentAudio) currentAudio.muted = !currentAudio.muted;
+            if (currentAudio) {
+                currentAudio.muted = !currentAudio.muted;
+                document.querySelector('[onclick="toggleMute()"]').textContent = 
+                    currentAudio.muted ? "🔊 Unmute" : "🔇 Mute";
+            }
         }
+
         function setVolume(vol) {
             if (currentAudio) currentAudio.volume = vol;
         }
 
         // ======================
-        // TIME DISPLAY
-        // ======================
-        document.getElementById('timeButton').addEventListener('click', function() {
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            const now = new Date().toLocaleTimeString('en-US', options);
-            document.getElementById('timeDisplay').textContent = now;
-        });
-
-        // ======================
         // VISUAL EFFECTS
         // ======================
-        function createFloatingImage() {
-            const img = document.createElement('img');
-            img.src = 'https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg';
-            img.classList.add('floating-image');
+        function startHearts() {
+            if (!floatingHeartsEnabled) return;
             
-            const startX = Math.random() * window.innerWidth;
-            const startY = Math.random() * window.innerHeight * 0.6;
-            const endX = Math.random() * window.innerWidth;
-            const endY = startY + (Math.random() * 300 - 100);
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(heart);
             
-            img.style.left = `${startX}px`;
-            img.style.top = `${startY}px`;
-            img.style.setProperty('--end-x', `${endX - startX}px`);
-            img.style.setProperty('--end-y', `${endY - startY}px`);
-            img.style.animationDuration = `${8 + Math.random() * 10}s`;
-            
-            document.body.appendChild(img);
-            setTimeout(() => img.remove(), 20000);
-        }
-
-        function createFairyLights() {
-            const colors = ['#ff69b4', '#ffb6c1', '#ffc0cb', '#ffd700', '#87cefa'];
-            for (let i = 0; i < 15; i++) {
-                const light = document.createElement('div');
-                light.classList.add('fairy-light');
-                light.style.left = `${Math.random() * 100}%`;
-                light.style.top = `${Math.random() * 100}%`;
-                light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                light.style.animationDelay = `${Math.random() * 3}s`;
-                document.body.appendChild(light);
-            }
+            setTimeout(() => heart.remove(), 5000);
+            setTimeout(startHearts, 300);
         }
 
         // ======================
-        // INITIALIZE EVERYTHING
+        // INITIALIZATION
         // ======================
         window.onload = function() {
             checkAdminStatus();
             initializeMessages();
-            createFairyLights();
-            checkBanStatus(); // Check ban status on load
+            checkBanStatus();
+            startHearts();
             
-            // Create floating images more frequently
-            setInterval(createFloatingImage, 500);
-            for (let i = 0; i < 8; i++) {
-                setTimeout(createFloatingImage, i * 500);
-            }
-            
-            // Add Enter key support for message input
+            // Time display
+            document.getElementById('timeButton').addEventListener('click', function() {
+                const now = new Date().toLocaleTimeString('en-US', { 
+                    hour: '2-digit', minute: '2-digit', second: '2-digit' 
+                });
+                document.getElementById('timeDisplay').textContent = now;
+            });
+
+            // Enter key for messages
             document.getElementById('userMessage').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') saveMessage();
             });
