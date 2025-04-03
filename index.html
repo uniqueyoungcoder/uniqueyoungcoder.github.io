@@ -13,16 +13,33 @@
         body {
             background-image: url('https://i.pinimg.com/564x/bf/e8/30/bfe83058a8796313404e50e1ce29c5d4.jpg');
             background-size: cover;
+            background-attachment: fixed;
             font-family: 'Pacifico', cursive;
             text-align: center;
             color: #5B3A29;
             padding: 20px;
             min-height: 100vh;
             margin: 0;
-            transition: background 0.5s;
+            transition: all 0.5s ease;
         }
         body.pink { background-color: rgba(255, 182, 193, 0.3); }
         body.blue { background-color: rgba(173, 216, 230, 0.3); }
+        body.dark-mode {
+            background-image: url('https://wallpapercave.com/wp/wp5403837.jpg');
+            color: #eee;
+        }
+        body.dark-mode .container,
+        body.dark-mode #messagesDisplay,
+        body.dark-mode .news-ticker,
+        body.dark-mode #timeDisplay {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #eee;
+        }
+        body.dark-mode input[type="text"] {
+            background-color: rgba(50, 50, 50, 0.8);
+            color: #eee;
+            border-color: #555;
+        }
 
         /* TEXT INPUT STYLES */
         input[type="text"] {
@@ -129,10 +146,20 @@
             border: 3px solid white;
             display: none;
         }
-        .admin-toggle {
+        
+        /* ICON STACK */
+        .icon-stack {
             position: fixed;
             top: 10px;
             right: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 10000;
+        }
+        
+        .admin-toggle {
             background: #ff69b4;
             color: white;
             border: none;
@@ -141,14 +168,40 @@
             height: 40px;
             font-size: 20px;
             cursor: pointer;
-            z-index: 10000;
             box-shadow: 0 0 10px rgba(0,0,0,0.3);
             transition: transform 0.3s;
             display: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .admin-toggle:hover {
             transform: rotate(90deg);
         }
+        
+        .theme-toggle {
+            background: #5B3A29;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        body.dark-mode .theme-toggle {
+            background: #eee;
+            color: #222;
+        }
+
         .admin-section {
             margin-bottom: 15px;
             padding-bottom: 15px;
@@ -259,56 +312,75 @@
             margin-bottom: 20px;
         }
 
-        /* 3D CUBE */
-        .cube-container {
-            perspective: 800px;
-            margin: 40px auto;
-            width: 150px;
-            height: 150px;
-        }
-        .cube {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            animation: rotate 10s infinite linear;
-        }
-        .cube-face {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background-size: cover;
-            background-position: center;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .front { transform: translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
-        .back { transform: rotateY(180deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
-        .right { transform: rotateY(90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
-        .left { transform: rotateY(-90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
-        .top { transform: rotateX(90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
-        .bottom { transform: rotateX(-90deg) translateZ(75px); background-image: url('https://i.pinimg.com/236x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg'); }
-        @keyframes rotate {
-            from { transform: rotateX(0) rotateY(0); }
-            to { transform: rotateX(360deg) rotateY(360deg); }
-        }
-
-        /* FLOATING HEARTS */
-        .floating-heart {
+        /* FLOATING CATS */
+        .floating-cat {
             position: fixed;
-            width: 20px;
-            height: 20px;
-            background-image: url('https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg');
+            width: 80px;
+            height: 80px;
+            background-image: url('https://i.pinimg.com/474x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg');
             background-size: contain;
+            background-repeat: no-repeat;
             pointer-events: none;
             z-index: 1;
-            animation: float-up 5s linear forwards;
+            animation: float 15s linear infinite;
         }
-        @keyframes float-up {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        @keyframes float {
+            0% { 
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            100% { 
+                transform: translate(calc(100vw - 100px), -100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* BAN SCREEN */
+        .ban-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            color: white;
+            font-family: 'Pacifico', cursive;
+            text-align: center;
+            padding: 20px;
+        }
+        .ban-screen img {
+            max-width: 200px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        .ban-screen h1 {
+            color: #ff5555;
+            margin-bottom: 10px;
+        }
+        .ban-screen p {
+            margin: 5px 0;
+        }
+
+        /* YOUTUBE LINK */
+        .yt-link {
+            color: #5B3A29;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        .yt-link:hover {
+            text-decoration: underline;
+            transform: scale(1.05);
+        }
+        body.dark-mode .yt-link {
+            color: #ffcc99;
         }
     </style>
 </head>
@@ -324,8 +396,11 @@
         </div>
     </div>
 
-    <!-- ADMIN TOGGLE -->
-    <button class="admin-toggle" id="adminToggle">⚙️</button>
+    <!-- ICON STACK -->
+    <div class="icon-stack">
+        <button class="theme-toggle" id="themeToggle">🌓</button>
+        <button class="admin-toggle" id="adminToggle">⚙️</button>
+    </div>
 
     <!-- ADMIN PANEL -->
     <div class="admin-panel" id="adminPanel">
@@ -350,7 +425,6 @@
             <button onclick="banUser()">🔨 Ban User</button>
             <button onclick="unbanAll()">❤️ Unban All</button>
             <button onclick="viewBannedUsers()">📜 Banned List</button>
-            <button onclick="purgeInactive()">🧹 Purge Inactive</button>
         </div>
 
         <!-- APPEARANCE -->
@@ -359,8 +433,7 @@
             <button onclick="changeTheme('pink')">🌸 Pink Theme</button>
             <button onclick="changeTheme('blue')">💙 Blue Theme</button>
             <button onclick="changeTheme('default')">🌈 Default</button>
-            <button onclick="toggleFloatingHearts()" id="heartsToggle">💖 Hearts: ON</button>
-            <button onclick="rainbowText()">🌈 Rainbow Text</button>
+            <button onclick="toggleFloatingCats()" id="catsToggle">🐱 Cats: ON</button>
         </div>
 
         <!-- SPECIAL POWERS -->
@@ -368,14 +441,11 @@
             <h4>⚡ SPECIAL POWERS</h4>
             <button onclick="sendAnnouncement()">📢 Announcement</button>
             <button onclick="forcePlayMusic()">🎵 Force Music</button>
-            <button onclick="ninjaMode()" id="ninjaToggle">🥷 Ninja Mode</button>
-            <button onclick="systemReboot()">🔄 Fake Reboot</button>
         </div>
 
         <!-- ADMIN TOOLS -->
         <div class="admin-section">
             <h4>🔐 ADMIN TOOLS</h4>
-            <button onclick="changeAdminPassword()">🔑 Change Password</button>
             <button onclick="adminLogout()">🚪 Logout</button>
         </div>
     </div>
@@ -387,7 +457,7 @@
             <h3>welcome to the cool website! its awesome, right?</h3>
             <b><p>this website gets daily updates :D</p></b>
             
-            <a href="https://www.youtube.com/@afghani_munchkin" target="_blank" style="color:#654321">➡️ visit this awesome YouTube channel ⬅️</a>
+            <a href="https://www.youtube.com/@afghani_munchkin" target="_blank" class="yt-link">➡️ visit this awesome YouTube channel ⬅️</a>
             
             <p>welcome to the global chat! please no hurtful words!!!</p>
             
@@ -412,6 +482,8 @@
                 <button onclick="playMusic('song2')">Play Song 2</button>
                 <button onclick="playMusic('song3')">Play Song 3</button>
                 <button onclick="playMusic('song4')">Play Song 4</button>
+                <button onclick="playMusic('song5')">Play Song 5</button>
+                <button onclick="playMusic('song6')">Play Song 6</button>
                 <button onclick="stopMusic()">Stop Music</button>
                 <button onclick="toggleMute()">🔇 Mute/Unmute</button>
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
@@ -421,22 +493,12 @@
             <audio id="song2" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
             <audio id="song3" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
             <audio id="song4" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/etbfrdqlcm/25%20-%20BGM021.mp3"></audio>
+            <audio id="song5" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/qbswmqyssd/13%20-%20BGM008.mp3"></audio>
+            <audio id="song6" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/fqvsaxobny/31%20-%20BGM028.mp3"></audio>
 
             <!-- Time Display -->
             <button id="timeButton">show the time</button>
             <div id="timeDisplay"></div>
-            
-            <!-- 3D Cube -->
-            <div class="cube-container">
-                <div class="cube">
-                    <div class="cube-face front"></div>
-                    <div class="cube-face back"></div>
-                    <div class="cube-face right"></div>
-                    <div class="cube-face left"></div>
-                    <div class="cube-face top"></div>
-                    <div class="cube-face bottom"></div>
-                </div>
-            </div>
             
             <p>thx for visiting my website <3</p>
         </div>
@@ -474,25 +536,41 @@
         let slowModeEnabled = false;
         let slowModeTimeout = 5;
         let lastMessageTimes = {};
-        let floatingHeartsEnabled = true;
-        let ninjaModeActive = false;
+        let floatingCatsEnabled = true;
         let currentAudio = null;
+        let darkMode = false;
 
         // DOM Elements
         const adminToggle = document.getElementById('adminToggle');
         const adminPanel = document.getElementById('adminPanel');
+        const themeToggle = document.getElementById('themeToggle');
 
         // Toggle Admin Panel
         adminToggle.addEventListener('click', () => {
             adminPanel.style.display = adminPanel.style.display === 'block' ? 'none' : 'block';
         });
 
+        // Toggle Dark/Light Mode
+        themeToggle.addEventListener('click', () => {
+            darkMode = !darkMode;
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                themeToggle.textContent = '🌞';
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeToggle.textContent = '🌓';
+            }
+        });
+
         // Check Admin Status
         function checkAdminStatus() {
-            if (localStorage.getItem('admin_password') === ADMIN_PASSWORD) {
+            const savedPassword = localStorage.getItem('admin_password');
+            if (savedPassword === ADMIN_PASSWORD) {
                 isAdmin = true;
-                adminToggle.style.display = 'block';
+                adminToggle.style.display = 'flex';
                 document.getElementById('badWordsToggle').textContent = `🔞 Filter: ${badWordsEnabled ? 'ON' : 'OFF'}`;
+            } else {
+                localStorage.removeItem('admin_password');
             }
         }
 
@@ -503,7 +581,7 @@
                 if (password === ADMIN_PASSWORD) {
                     isAdmin = true;
                     localStorage.setItem('admin_password', ADMIN_PASSWORD);
-                    adminToggle.style.display = 'block';
+                    adminToggle.style.display = 'flex';
                     alert("Admin mode activated! ✨");
                 } else {
                     alert("Wrong password!");
@@ -614,33 +692,20 @@
             });
         }
 
-        function purgeInactive() {
-            if (confirm("Purge inactive users (older than 30 days)?")) {
-                alert("Feature would delete old users in a real system!");
-            }
-        }
-
         function changeTheme(theme) {
             document.body.className = theme;
+            darkMode = false;
+            themeToggle.textContent = '🌓';
         }
 
-        function toggleFloatingHearts() {
-            floatingHeartsEnabled = !floatingHeartsEnabled;
-            const btn = document.getElementById('heartsToggle');
-            btn.textContent = floatingHeartsEnabled ? "💖 Hearts: ON" : "💔 Hearts: OFF";
+        function toggleFloatingCats() {
+            floatingCatsEnabled = !floatingCatsEnabled;
+            const btn = document.getElementById('catsToggle');
+            btn.textContent = floatingCatsEnabled ? "🐱 Cats: ON" : "🐱 Cats: OFF";
             
-            if (floatingHeartsEnabled) {
-                startHearts();
+            if (floatingCatsEnabled) {
+                startFloatingCats();
             }
-        }
-
-        function rainbowText() {
-            document.querySelectorAll('.message').forEach(msg => {
-                msg.style.background = 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)';
-                msg.style.webkitBackgroundClip = 'text';
-                msg.style.color = 'transparent';
-            });
-            alert("Chat text rainbowized! 🌈");
         }
 
         function sendAnnouncement() {
@@ -661,25 +726,6 @@
                 alert("Music forced to play for everyone!");
             } else {
                 alert("No music is selected!");
-            }
-        }
-
-        function ninjaMode() {
-            ninjaModeActive = !ninjaModeActive;
-            const btn = document.getElementById('ninjaToggle');
-            btn.textContent = ninjaModeActive ? "🥷 Ninja: ON" : "🥷 Ninja: OFF";
-            document.body.style.backgroundColor = ninjaModeActive ? "#222" : "";
-            adminPanel.style.backgroundColor = ninjaModeActive ? "rgba(70, 70, 70, 0.95)" : "rgba(255, 182, 193, 0.95)";
-        }
-
-        function systemReboot() {
-            alert("Just kidding! This would reboot the system in a real app 😉");
-        }
-
-        function changeAdminPassword() {
-            const newPass = prompt("Enter new admin password:");
-            if (newPass) {
-                alert("In a real system, this would change the password to: " + newPass);
             }
         }
 
@@ -856,18 +902,58 @@
         // ======================
         // VISUAL EFFECTS
         // ======================
-        function startHearts() {
-            if (!floatingHeartsEnabled) return;
+        function createFloatingCat() {
+            if (!floatingCatsEnabled) return;
             
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(heart);
+            const cat = document.createElement('div');
+            cat.className = 'floating-cat';
             
-            setTimeout(() => heart.remove(), 5000);
-            setTimeout(startHearts, 300);
+            // Random position and size
+            const startX = Math.random() * 20; // Start from left side
+            const startY = Math.random() * 20 + 80; // Start from bottom
+            const size = Math.random() * 40 + 60; // 60-100px
+            
+            cat.style.left = startX + 'vw';
+            cat.style.top = startY + 'vh';
+            cat.style.width = size + 'px';
+            cat.style.height = size + 'px';
+            
+            // Random animation duration (10-20s)
+            const duration = Math.random() * 10 + 15;
+            cat.style.animationDuration = duration + 's';
+            
+            // Random rotation direction
+            cat.style.animationName = Math.random() > 0.5 ? 'float' : 'floatReverse';
+            
+            document.body.appendChild(cat);
+            
+            // Remove after animation completes
+            setTimeout(() => cat.remove(), duration * 1000);
         }
+
+        function startFloatingCats() {
+            if (!floatingCatsEnabled) return;
+            
+            createFloatingCat();
+            // Create new cats at random intervals (1-3 seconds)
+            setTimeout(startFloatingCats, Math.random() * 2000 + 1000);
+        }
+
+        // Reverse float animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatReverse {
+                0% { 
+                    transform: translate(100vw, 0) rotate(0deg);
+                    opacity: 1;
+                }
+                100% { 
+                    transform: translate(-100px, -100vh) rotate(-360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
 
         // ======================
         // INITIALIZATION
@@ -876,14 +962,16 @@
             checkAdminStatus();
             initializeMessages();
             checkBanStatus();
-            startHearts();
+            startFloatingCats();
             
             // Time display
             document.getElementById('timeButton').addEventListener('click', function() {
-                const now = new Date().toLocaleTimeString('en-US', { 
-                    hour: '2-digit', minute: '2-digit', second: '2-digit' 
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', minute: '2-digit', second: '2-digit',
+                    hour12: true
                 });
-                document.getElementById('timeDisplay').textContent = now;
+                document.getElementById('timeDisplay').textContent = timeString;
             });
 
             // Enter key for messages
