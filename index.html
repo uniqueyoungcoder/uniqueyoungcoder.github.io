@@ -11,7 +11,7 @@
     <style>
         /* BASE STYLES */
         body {
-            background-image: url('https://i.pinimg.com/564x/bf/e8/30/bfe83058a8796313404e50e1ce29c5d4.jpg');
+            background-image: url('https://i.pinimg.com/736x/f8/0e/aa/f80eaa200099915e225f262386fa56c4.jpg');
             background-size: cover;
             background-attachment: fixed;
             font-family: 'Pacifico', cursive;
@@ -123,7 +123,7 @@
             font-size: 18px;
             white-space: nowrap;
             display: inline-block;
-            animation: marquee 15s linear infinite;
+            animation: marquee 5s linear infinite;
         }
         @keyframes marquee {
             0% { transform: translateX(100%); }
@@ -315,8 +315,8 @@
         /* FLOATING CATS */
         .floating-cat {
             position: fixed;
-            width: 80px;
-            height: 80px;
+            width: 40px;
+            height: 40px;
             background-image: url('https://i.pinimg.com/474x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg');
             background-size: contain;
             background-repeat: no-repeat;
@@ -326,11 +326,11 @@
         }
         @keyframes float {
             0% { 
-                transform: translate(0, 0) rotate(0deg);
+                transform: translate(-10vw, 110vh) rotate(0deg);
                 opacity: 1;
             }
             100% { 
-                transform: translate(calc(100vw - 100px), -100vh) rotate(360deg);
+                transform: translate(110vw, -10vh) rotate(360deg);
                 opacity: 0;
             }
         }
@@ -528,10 +528,10 @@
         const database = firebase.database();
 
         // ======================
-        // ADMIN SYSTEM
+        // ADMIN SYSTEM (FIXED)
         // ======================
-        const ADMIN_PASSWORD = "hadidi";
-        let isAdmin = false;
+        const ADMIN_PASSWORD = "hadido";
+        let isAdmin = false; // Always starts false
         let badWordsEnabled = true;
         let slowModeEnabled = false;
         let slowModeTimeout = 5;
@@ -562,25 +562,12 @@
             }
         });
 
-        // Check Admin Status
-        function checkAdminStatus() {
-            const savedPassword = localStorage.getItem('admin_password');
-            if (savedPassword === ADMIN_PASSWORD) {
-                isAdmin = true;
-                adminToggle.style.display = 'flex';
-                document.getElementById('badWordsToggle').textContent = `🔞 Filter: ${badWordsEnabled ? 'ON' : 'OFF'}`;
-            } else {
-                localStorage.removeItem('admin_password');
-            }
-        }
-
         // Show admin login when 'A' is pressed
         document.addEventListener('keydown', (e) => {
             if (e.key.toLowerCase() === 'a' && !isAdmin) {
                 const password = prompt("Enter admin password:");
                 if (password === ADMIN_PASSWORD) {
                     isAdmin = true;
-                    localStorage.setItem('admin_password', ADMIN_PASSWORD);
                     adminToggle.style.display = 'flex';
                     alert("Admin mode activated! ✨");
                 } else {
@@ -590,317 +577,19 @@
         });
 
         // ======================
-        // ADMIN FUNCTIONS
+        // ADMIN FUNCTIONS (FIXED)
         // ======================
-        function clearChat() {
-            if (confirm("Clear ALL messages?")) {
-                database.ref('messages').remove();
-                alert("Chat cleared!");
-            }
-        }
-
-        function removeLastMessage() {
-            database.ref('messages').limitToLast(1).once('value', (snapshot) => {
-                snapshot.forEach((child) => {
-                    database.ref('messages/' + child.key).remove();
-                });
-                alert("Last message removed!");
-            });
-        }
-
-        function toggleBadWords() {
-            badWordsEnabled = !badWordsEnabled;
-            document.getElementById('badWordsToggle').textContent = `🔞 Filter: ${badWordsEnabled ? 'ON' : 'OFF'}`;
-            alert(`Bad word filter ${badWordsEnabled ? 'enabled' : 'disabled'}!`);
-        }
-
-        function toggleSlowMode() {
-            slowModeEnabled = !slowModeEnabled;
-            const btn = document.getElementById('slowModeToggle');
-            btn.textContent = `🐢 Slow Mode: ${slowModeEnabled ? 'ON' : 'OFF'}`;
-            
-            if (slowModeEnabled) {
-                slowModeTimeout = parseInt(prompt("Enter slow mode delay (seconds):", "5")) || 5;
-                let indicator = document.getElementById('slowModeIndicator');
-                if (!indicator) {
-                    indicator = document.createElement('div');
-                    indicator.id = 'slowModeIndicator';
-                    indicator.className = 'slow-mode-active';
-                    document.body.appendChild(indicator);
-                }
-                indicator.textContent = `SLOW MODE: ${slowModeTimeout}s`;
-            } else {
-                const indicator = document.getElementById('slowModeIndicator');
-                if (indicator) indicator.remove();
-            }
-        }
-
-        function warnUser() {
-            const name = prompt("Enter username to warn:");
-            if (name) {
-                const messages = document.querySelectorAll('.message');
-                messages.forEach(msg => {
-                    if (msg.querySelector('.message-name').textContent === name) {
-                        msg.classList.add('user-warning');
-                        setTimeout(() => msg.classList.remove('user-warning'), 3000);
-                    }
-                });
-                alert(`${name} has been warned!`);
-            }
-        }
-
-        function muteUser() {
-            const name = prompt("Enter username to mute:");
-            if (name) {
-                const minutes = parseInt(prompt("Mute duration (minutes):", "10")) || 10;
-                database.ref('muted_users').push({
-                    username: name,
-                    until: Date.now() + (minutes * 60000),
-                    mutedBy: "Admin"
-                });
-                alert(`${name} muted for ${minutes} minutes!`);
-            }
-        }
-
-        function banUser() {
-            const name = prompt("Enter username to ban:");
-            if (name) {
-                database.ref('banned_users').push({
-                    username: name,
-                    timestamp: new Date().toISOString(),
-                    bannedBy: "Admin"
-                });
-                alert(`${name} has been banned!`);
-            }
-        }
-
-        function unbanAll() {
-            if (confirm("Unban ALL users?")) {
-                database.ref('banned_users').remove();
-                localStorage.removeItem('user_banned_until');
-                alert("All bans have been lifted!");
-            }
-        }
-
-        function viewBannedUsers() {
-            database.ref('banned_users').once('value').then(snapshot => {
-                let bannedList = "Banned Users:\n";
-                snapshot.forEach(child => {
-                    bannedList += `- ${child.val().username} (${new Date(child.val().timestamp).toLocaleString()})\n`;
-                });
-                alert(bannedList || "No users are currently banned.");
-            });
-        }
-
-        function changeTheme(theme) {
-            document.body.className = theme;
-            darkMode = false;
-            themeToggle.textContent = '🌓';
-        }
-
-        function toggleFloatingCats() {
-            floatingCatsEnabled = !floatingCatsEnabled;
-            const btn = document.getElementById('catsToggle');
-            btn.textContent = floatingCatsEnabled ? "🐱 Cats: ON" : "🐱 Cats: OFF";
-            
-            if (floatingCatsEnabled) {
-                startFloatingCats();
-            }
-        }
-
-        function sendAnnouncement() {
-            const msg = prompt("Enter announcement:");
-            if (msg) {
-                database.ref('messages').push({
-                    name: "🌟 ADMIN ANNOUNCEMENT",
-                    text: msg,
-                    timestamp: new Date().toISOString(),
-                    isAnnouncement: true
-                });
-            }
-        }
-
-        function forcePlayMusic() {
-            if (currentAudio) {
-                currentAudio.play();
-                alert("Music forced to play for everyone!");
-            } else {
-                alert("No music is selected!");
-            }
-        }
-
         function adminLogout() {
             isAdmin = false;
-            localStorage.removeItem('admin_password');
             adminToggle.style.display = 'none';
             adminPanel.style.display = 'none';
             alert("Logged out of admin mode!");
         }
 
-        function setCustomMarquee() {
-            const text = prompt("Enter new ticker text:");
-            if (text) {
-                document.getElementById('tickerText').textContent = text;
-                alert("Ticker updated!");
-            }
-        }
-
-        function exportChat() {
-            database.ref('messages').once('value').then(snapshot => {
-                const messages = [];
-                snapshot.forEach(child => {
-                    messages.push(child.val());
-                });
-                const blob = new Blob([JSON.stringify(messages, null, 2)], {type: 'application/json'});
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `chat_export_${new Date().toISOString()}.json`;
-                a.click();
-                alert("Chat exported successfully!");
-            });
-        }
+        // ... (keep all other admin functions the same as before) ...
 
         // ======================
-        // CHAT SYSTEM
-        // ======================
-        const BAD_WORDS = ["bad", "words", "list"]; // Add your bad words here
-
-        function initializeMessages() {
-            database.ref('messages').limitToLast(50).on('value', (snapshot) => {
-                const messages = [];
-                snapshot.forEach((childSnapshot) => {
-                    messages.push(childSnapshot.val());
-                });
-                displayMessages(messages);
-            });
-            
-            const savedName = localStorage.getItem('user_name');
-            if (savedName) document.getElementById('userName').value = savedName;
-        }
-
-        function saveMessage() {
-            const name = document.getElementById('userName').value.trim();
-            const message = document.getElementById('userMessage').value.trim();
-            
-            if (!name) return alert('Please enter your name!');
-            if (!message) return;
-            
-            // Slow mode check
-            if (slowModeEnabled && !isAdmin) {
-                const now = Date.now();
-                const lastMessageTime = lastMessageTimes[name] || 0;
-                const timeLeft = Math.ceil((slowModeTimeout * 1000 - (now - lastMessageTime)) / 1000);
-                
-                if (now - lastMessageTime < slowModeTimeout * 1000) {
-                    return alert(`Slow mode active! Wait ${timeLeft} more seconds.`);
-                }
-                lastMessageTimes[name] = now;
-            }
-            
-            // Bad word check
-            if (badWordsEnabled && !isAdmin && BAD_WORDS.some(word => 
-                new RegExp(`\\b${word}\\b`, 'i').test(message))) {
-                trackViolation();
-                return alert("No bad words please!");
-            }
-            
-            const newMessage = {
-                name: name,
-                text: message,
-                timestamp: new Date().toISOString()
-            };
-            
-            database.ref('messages').push(newMessage);
-            localStorage.setItem('user_name', name);
-            document.getElementById('userMessage').value = '';
-        }
-
-        function displayMessages(messages) {
-            const display = document.getElementById('messagesDisplay');
-            
-            if (!messages || messages.length === 0) {
-                display.innerHTML = 'No messages yet! Be the first to say something!';
-                return;
-            }
-            
-            display.innerHTML = messages.map(msg => {
-                const date = new Date(msg.timestamp);
-                const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                return `
-                    <div class="message">
-                        <span class="message-name">${msg.name}</span>
-                        <span class="message-time">(${timeString})</span>
-                        <div>${msg.text}</div>
-                    </div>
-                `;
-            }).join('');
-            
-            display.scrollTop = display.scrollHeight;
-        }
-
-        function trackViolation() {
-            if (isAdmin) return false;
-            
-            let violations = parseInt(localStorage.getItem('user_violations')) || 0;
-            violations++;
-            localStorage.setItem('user_violations', violations.toString());
-            
-            if (violations >= 3) {
-                const banUntil = Date.now() + (24 * 60 * 60 * 1000);
-                localStorage.setItem('user_banned_until', banUntil.toString());
-                checkBanStatus();
-                return true;
-            }
-            return false;
-        }
-
-        function checkBanStatus() {
-            const bannedUntil = localStorage.getItem('user_banned_until');
-            if (bannedUntil && Date.now() < parseInt(bannedUntil)) {
-                const banScreen = document.createElement('div');
-                banScreen.className = 'ban-screen';
-                banScreen.innerHTML = `
-                    <img src="https://i.pinimg.com/474x/1e/a0/fc/1ea0fc67b8b4de5751131623047d7a0d.jpg" class="banned-image" alt="Banned">
-                    <h1>⛔ Temporarily Banned ⛔</h1>
-                    <p>You've been banned for violating the rules.</p>
-                    <p>Come back later!</p>
-                `;
-                document.body.innerHTML = '';
-                document.body.appendChild(banScreen);
-                return true;
-            }
-            return false;
-        }
-
-        // ======================
-        // MUSIC PLAYER
-        // ======================
-        function playMusic(id) {
-            if (currentAudio) currentAudio.pause();
-            currentAudio = document.getElementById(id);
-            currentAudio.volume = document.getElementById('volumeSlider').value;
-            currentAudio.play().catch(e => alert("Couldn't play music: " + e));
-        }
-
-        function stopMusic() {
-            if (currentAudio) currentAudio.pause();
-        }
-
-        function toggleMute() {
-            if (currentAudio) {
-                currentAudio.muted = !currentAudio.muted;
-                document.querySelector('[onclick="toggleMute()"]').textContent = 
-                    currentAudio.muted ? "🔊 Unmute" : "🔇 Mute";
-            }
-        }
-
-        function setVolume(vol) {
-            if (currentAudio) currentAudio.volume = vol;
-        }
-
-        // ======================
-        // VISUAL EFFECTS
+        // FLOATING CATS (FIXED)
         // ======================
         function createFloatingCat() {
             if (!floatingCatsEnabled) return;
@@ -909,9 +598,9 @@
             cat.className = 'floating-cat';
             
             // Random position and size
-            const startX = Math.random() * 20; // Start from left side
-            const startY = Math.random() * 20 + 80; // Start from bottom
-            const size = Math.random() * 40 + 60; // 60-100px
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            const size = Math.random() * 20 + 40;
             
             cat.style.left = startX + 'vw';
             cat.style.top = startY + 'vh';
@@ -921,9 +610,6 @@
             // Random animation duration (10-20s)
             const duration = Math.random() * 10 + 15;
             cat.style.animationDuration = duration + 's';
-            
-            // Random rotation direction
-            cat.style.animationName = Math.random() > 0.5 ? 'float' : 'floatReverse';
             
             document.body.appendChild(cat);
             
@@ -935,31 +621,19 @@
             if (!floatingCatsEnabled) return;
             
             createFloatingCat();
-            // Create new cats at random intervals (1-3 seconds)
-            setTimeout(startFloatingCats, Math.random() * 2000 + 1000);
+            // Create new cats every second
+            setTimeout(startFloatingCats, 1000);
         }
 
-        // Reverse float animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes floatReverse {
-                0% { 
-                    transform: translate(100vw, 0) rotate(0deg);
-                    opacity: 1;
-                }
-                100% { 
-                    transform: translate(-100px, -100vh) rotate(-360deg);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
         // ======================
-        // INITIALIZATION
+        // INITIALIZATION (FIXED)
         // ======================
         window.onload = function() {
-            checkAdminStatus();
+            // RESET ADMIN STATUS ON EVERY LOAD
+            isAdmin = false;
+            adminToggle.style.display = 'none';
+            adminPanel.style.display = 'none';
+            
             initializeMessages();
             checkBanStatus();
             startFloatingCats();
@@ -979,6 +653,8 @@
                 if (e.key === 'Enter') saveMessage();
             });
         };
+
+        // ... (keep rest of the code the same as previous versions) ...
     </script>
 </body>
 </html>
