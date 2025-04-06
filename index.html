@@ -128,6 +128,49 @@
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
+    /* ANNOUNCEMENT STYLES */
+    .announcement {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 182, 193, 0.95);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+      z-index: 9998;
+      color: #5B3A29;
+      font-size: 18px;
+    }
+    /* ROTATING CUBE */
+    .rotating-cube {
+      width: 100px; /* Increased from 50px */
+      height: 100px; /* Increased from 50px */
+      margin: 20px auto;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: rotate 6s infinite linear;
+    }
+    .cube-face {
+      position: absolute;
+      width: 100px; /* Increased from 50px */
+      height: 100px; /* Increased from 50px */
+      background: url('https://i.pinimg.com/474x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg') center/cover no-repeat;
+      border: 2px solid transparent; /* Changed to transparent */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .front  { transform: translateZ(50px); } /* Adjusted for larger size */
+    .back   { transform: translateZ(-50px) rotateY(180deg); } /* Adjusted for larger size */
+    .right  { transform: rotateY(90deg) translateZ(50px); } /* Adjusted for larger size */
+    .left   { transform: rotateY(-90deg) translateZ(50px); } /* Adjusted for larger size */
+    .top    { transform: rotateX(90deg) translateZ(50px); } /* Adjusted for larger size */
+    .bottom { transform: rotateX(-90deg) translateZ(50px); } /* Adjusted for larger size */
+    @keyframes rotate {
+      from { transform: rotateX(0deg) rotateY(0deg); }
+      to { transform: rotateX(360deg) rotateY(360deg); }
+    }
     /* ADMIN PANEL */
     .admin-panel {
       position: fixed;
@@ -311,7 +354,7 @@
       background-repeat: no-repeat;
       pointer-events: none;
       z-index: 1;
-      animation: float 15s linear infinite;
+      animation: float 5s linear infinite;
     }
     @keyframes float {
       0% { 
@@ -375,10 +418,10 @@
   <!-- INSTANT MARQUEE -->
   <div class="news-ticker">
     <div class="marquee" id="tickerText">
-      ✨ Welcome to the cool website! ✨ &nbsp;&nbsp;&nbsp; 
-      ✨ Please be nice in the chat! ✨ &nbsp;&nbsp;&nbsp; 
-      ✨ Check out the YouTube channel below! ✨ &nbsp;&nbsp;&nbsp; 
-      ✨ Enjoy the music player! ✨ &nbsp;&nbsp;&nbsp; 
+      ✨ Welcome to the cool website! ✨     
+      ✨ Please be nice in the chat! ✨     
+      ✨ Check out the YouTube channel below! ✨     
+      ✨ Enjoy the music player! ✨     
       ✨ Have fun! ✨
     </div>
   </div>
@@ -469,13 +512,22 @@
       <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
       <audio id="song2" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
       <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
-      <audio id="song4" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/etbfrdqlcm/25%20-%20BGM021.mp3"></audio>
+      <audio id="song4" src="https://vgmsite.com/soundtracks/sanrio-pu  rol and-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/etbfrdqlcm/25%20-%20BGM021.mp3"></audio>
       <audio id="song5" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/qbswmqyssd/13%20-%20BGM008.mp3"></audio>
       <audio id="song6" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/fqvsaxobny/31%20-%20BGM028.mp3"></audio>
       <!-- Time Display -->
       <div class="time-container">
         <button id="timeButton">show the time</button>
         <div id="timeDisplay"></div>
+      </div>
+      <!-- Rotating Cube -->
+      <div class="rotating-cube">
+        <div class="cube-face front"></div>
+        <div class="cube-face back"></div>
+        <div class="cube-face right"></div>
+        <div class="cube-face left"></div>
+        <div class="cube-face top"></div>
+        <div class="cube-face bottom"></div>
       </div>
       <p>thx for visiting my website <3</p>
     </div>
@@ -511,6 +563,7 @@
     let floatingCatsEnabled = true;
     let currentAudio = null;
     let darkMode = false;
+    let announcementDiv = null;
 
     // ======================
     // DOM ELEMENTS
@@ -530,10 +583,10 @@
       darkMode = !darkMode;
       if (darkMode) {
         document.body.classList.add('dark-mode');
-        themeToggle.textContent = '🌞';
+        themeToggle.textContent = '☀️';
       } else {
         document.body.classList.remove('dark-mode');
-        themeToggle.textContent = '🌓';
+        themeToggle.textContent = '🌕';
       }
     });
 
@@ -554,7 +607,6 @@
     // MUSIC PLAYER FUNCTIONS
     // ======================
     function playMusic(songId) {
-      // Stop current song if different from the selected one.
       if (currentAudio && currentAudio.id !== songId) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
@@ -629,16 +681,19 @@
 
     function checkBanStatus() {
       // Stub for ban-check functionality
-      // You can implement ban logic here if needed
     }
 
     // ======================
-    // ADMIN FUNCTIONS (Stubs/Basic Implementations)
+    // ADMIN FUNCTIONS
     // ======================
     function clearChat() {
       if (confirm("Are you sure you want to clear the chat?")) {
         database.ref('messages').remove();
         document.getElementById('messagesDisplay').innerHTML = '';
+        if (announcementDiv) {
+          announcementDiv.remove();
+          announcementDiv = null;
+        }
       }
     }
 
@@ -671,12 +726,25 @@
       }
     }
 
+    function sendAnnouncement() {
+      if (!isAdmin) return;
+      const announcementText = prompt("Enter announcement:");
+      if (announcementText) {
+        if (announcementDiv) {
+          announcementDiv.remove();
+        }
+        announcementDiv = document.createElement('div');
+        announcementDiv.className = 'announcement';
+        announcementDiv.textContent = "📢 " + announcementText;
+        document.body.appendChild(announcementDiv);
+      }
+    }
+
     function warnUser() { alert("Warn user function not implemented."); }
     function muteUser() { alert("Mute user function not implemented."); }
     function banUser() { alert("Ban user function not implemented."); }
     function unbanAll() { alert("Unban all function not implemented."); }
     function viewBannedUsers() { alert("View banned users function not implemented."); }
-    function sendAnnouncement() { alert("Send announcement function not implemented."); }
     function forcePlayMusic() { alert("Force play music function not implemented."); }
     function adminLogout() {
       isAdmin = false;
@@ -699,7 +767,7 @@
       cat.style.top = startY + 'vh';
       cat.style.width = size + 'px';
       cat.style.height = size + 'px';
-      const duration = Math.random() * 10 + 15;
+      const duration = Math.random() * 3 + 2;
       cat.style.animationDuration = duration + 's';
       document.body.appendChild(cat);
       setTimeout(() => cat.remove(), duration * 1000);
@@ -708,7 +776,7 @@
     function startFloatingCats() {
       if (!floatingCatsEnabled) return;
       createFloatingCat();
-      setTimeout(startFloatingCats, 1000);
+      setTimeout(startFloatingCats, 200);
     }
 
     // ======================
