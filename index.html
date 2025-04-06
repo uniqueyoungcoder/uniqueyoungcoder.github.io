@@ -1,660 +1,750 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ cool website ✨</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="icon" href="https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg">
-    <style>
-        /* BASE STYLES */
-        body {
-            background-image: url('https://i.pinimg.com/736x/f8/0e/aa/f80eaa200099915e225f262386fa56c4.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            font-family: 'Pacifico', cursive;
-            text-align: center;
-            color: #5B3A29;
-            padding: 20px;
-            min-height: 100vh;
-            margin: 0;
-            transition: all 0.5s ease;
-        }
-        body.pink { background-color: rgba(255, 182, 193, 0.3); }
-        body.blue { background-color: rgba(173, 216, 230, 0.3); }
-        body.dark-mode {
-            background-image: url('https://wallpapercave.com/wp/wp5403837.jpg');
-            color: #eee;
-        }
-        body.dark-mode .container,
-        body.dark-mode #messagesDisplay,
-        body.dark-mode .news-ticker,
-        body.dark-mode #timeDisplay {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #eee;
-        }
-        body.dark-mode input[type="text"] {
-            background-color: rgba(50, 50, 50, 0.8);
-            color: #eee;
-            border-color: #555;
-        }
-
-        /* TEXT INPUT STYLES */
-        input[type="text"] {
-            font-family: 'Pacifico', cursive;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 2px solid #ffcc99;
-            background-color: rgba(255, 255, 255, 0.8);
-            margin: 5px 0;
-            width: 200px;
-            transition: all 0.3s;
-        }
-        
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #ffb366;
-            box-shadow: 0 0 10px rgba(255, 179, 102, 0.5);
-        }
-
-        /* BUTTON STYLES */
-        button {
-            font-family: 'Pacifico', cursive;
-            background-color: #ffcc99;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 5px;
-            color: #5B3A29;
-            font-size: 16px;
-        }
-        
-        button:hover {
-            background-color: #ffb366;
-            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
-            transform: translateY(-2px);
-        }
-
-        /* TIME BUTTON STYLES */
-        #timeButton {
-            background-color: #ffcc99;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 10px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        #timeButton:hover {
-            background-color: #ffb366;
-            box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
-        }
-        
-        #timeDisplay {
-            font-size: 24px;
-            margin: 10px 0;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-            display: inline-block;
-            min-width: 150px;
-        }
-
-        /* INSTANT MARQUEE */
-        .news-ticker {
-            background: rgba(255, 255, 255, 0.7);
-            padding: 10px;
-            margin: 0 auto 20px auto;
-            border-radius: 10px;
-            max-width: 800px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 100;
-        }
-        .marquee {
-            color: #5B3A29;
-            font-size: 18px;
-            white-space: nowrap;
-            display: inline-block;
-            animation: marquee 5s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* ADMIN PANEL */
-        .admin-panel {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 182, 193, 0.95);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
-            z-index: 9999;
-            max-height: 80vh;
-            overflow-y: auto;
-            width: 320px;
-            border: 3px solid white;
-            display: none;
-        }
-        
-        /* ICON STACK */
-        .icon-stack {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            z-index: 10000;
-        }
-        
-        .admin-toggle {
-            background: #ff69b4;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            transition: transform 0.3s;
-            display: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .admin-toggle:hover {
-            transform: rotate(90deg);
-        }
-        
-        .theme-toggle {
-            background: #5B3A29;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .theme-toggle:hover {
-            transform: scale(1.1);
-        }
-        body.dark-mode .theme-toggle {
-            background: #eee;
-            color: #222;
-        }
-
-        .admin-section {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 2px dashed #ff69b4;
-        }
-        .admin-section h4 {
-            margin: 5px 0 10px 0;
-            color: #5B3A29;
-            text-align: center;
-        }
-        .admin-panel button {
-            background: white;
-            color: #ff69b4;
-            border: none;
-            padding: 8px 12px;
-            margin: 5px;
-            border-radius: 8px;
-            font-family: 'Pacifico', cursive;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            width: calc(50% - 10px);
-            display: inline-block;
-        }
-        .admin-panel button:hover {
-            background: #ff69b4;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* CONTENT STYLES */
-        .content-layer {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-
-        /* CHAT STYLES */
-        .message-board {
-            margin: 20px auto;
-            max-width: 90%;
-        }
-        #messagesDisplay {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-            padding: 15px;
-            min-height: 50px;
-            max-height: 200px;
-            overflow-y: auto;
-            text-align: left;
-        }
-        .message {
-            margin-bottom: 8px;
-            padding: 5px;
-            border-bottom: 1px dashed #ffcc99;
-            transition: all 0.3s;
-        }
-        .message-name {
-            font-weight: bold;
-            color: #D2691E;
-        }
-        .message-time {
-            font-size: 12px;
-            color: #888;
-        }
-
-        /* SPECIAL STATES */
-        .user-warning {
-            background-color: #fff3cd !important;
-            border-left: 5px solid #ffc107 !important;
-            animation: warnFlash 0.5s 3;
-        }
-        @keyframes warnFlash {
-            0%, 100% { background-color: #fff3cd; }
-            50% { background-color: #ffeeba; }
-        }
-        .muted-user {
-            opacity: 0.6;
-            filter: grayscale(50%);
-        }
-        .slow-mode-active {
-            position: fixed;
-            top: 60px;
-            right: 20px;
-            background: #ff5555;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 10px;
-            z-index: 9998;
-            font-size: 12px;
-            box-shadow: 0 0 10px rgba(255,0,0,0.3);
-        }
-
-        /* MUSIC PLAYER */
-        .music-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* FLOATING CATS */
-        .floating-cat {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            background-image: url('https://i.pinimg.com/474x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg');
-            background-size: contain;
-            background-repeat: no-repeat;
-            pointer-events: none;
-            z-index: 1;
-            animation: float 15s linear infinite;
-        }
-        @keyframes float {
-            0% { 
-                transform: translate(-10vw, 110vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% { 
-                transform: translate(110vw, -10vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* BAN SCREEN */
-        .ban-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-            color: white;
-            font-family: 'Pacifico', cursive;
-            text-align: center;
-            padding: 20px;
-        }
-        .ban-screen img {
-            max-width: 200px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-        }
-        .ban-screen h1 {
-            color: #ff5555;
-            margin-bottom: 10px;
-        }
-        .ban-screen p {
-            margin: 5px 0;
-        }
-
-        /* YOUTUBE LINK */
-        .yt-link {
-            color: #5B3A29;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
-            display: inline-block;
-            margin: 10px 0;
-        }
-        .yt-link:hover {
-            text-decoration: underline;
-            transform: scale(1.05);
-        }
-        body.dark-mode .yt-link {
-            color: #ffcc99;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✨ cool website ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="icon" href="https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg" />
+  <style>
+    /* BASE STYLES */
+    body {
+      background-image: url('https://i.pinimg.com/736x/f8/0e/aa/f80eaa200099915e225f262386fa56c4.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      font-family: 'Pacifico', cursive;
+      text-align: center;
+      color: #5B3A29;
+      padding: 20px;
+      min-height: 100vh;
+      margin: 0;
+      transition: all 0.5s ease;
+    }
+    body.pink { background-color: rgba(255, 182, 193, 0.3); }
+    body.blue { background-color: rgba(173, 216, 230, 0.3); }
+    body.dark-mode {
+      background-image: url('https://wallpapercave.com/wp/wp5403837.jpg');
+      color: #eee;
+    }
+    body.dark-mode .container,
+    body.dark-mode #messagesDisplay,
+    body.dark-mode .news-ticker,
+    body.dark-mode #timeDisplay {
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #eee;
+    }
+    body.dark-mode input[type="text"] {
+      background-color: rgba(50, 50, 50, 0.8);
+      color: #eee;
+      border-color: #555;
+    }
+    /* TEXT INPUT STYLES */
+    input[type="text"] {
+      font-family: 'Pacifico', cursive;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 2px solid #ffcc99;
+      background-color: rgba(255, 255, 255, 0.8);
+      margin: 5px 0;
+      width: 200px;
+      transition: all 0.3s;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #ffb366;
+      box-shadow: 0 0 10px rgba(255, 179, 102, 0.5);
+    }
+    /* BUTTON STYLES */
+    button {
+      font-family: 'Pacifico', cursive;
+      background-color: #ffcc99;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 5px;
+      color: #5B3A29;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #ffb366;
+      box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
+      transform: translateY(-2px);
+    }
+    /* TIME BUTTON STYLES */
+    #timeButton {
+      background-color: #ffcc99;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 10px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    #timeButton:hover {
+      background-color: #ffb366;
+      box-shadow: 0 0 15px rgba(255, 153, 102, 0.8);
+    }
+    #timeDisplay {
+      font-size: 24px;
+      margin: 10px 0;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      display: inline-block;
+      min-width: 150px;
+    }
+    /* INSTANT MARQUEE */
+    .news-ticker {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 10px;
+      margin: 0 auto 20px auto;
+      border-radius: 10px;
+      max-width: 800px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 100;
+    }
+    .marquee {
+      color: #5B3A29;
+      font-size: 18px;
+      white-space: nowrap;
+      display: inline-block;
+      animation: marquee 10s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    /* ADMIN PANEL */
+    .admin-panel {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 182, 193, 0.95);
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+      z-index: 9999;
+      max-height: 80vh;
+      overflow-y: auto;
+      width: 320px;
+      border: 3px solid white;
+      display: none;
+    }
+    /* ICON STACK */
+    .icon-stack {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 10000;
+    }
+    .admin-toggle {
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .admin-toggle:hover {
+      transform: rotate(90deg);
+    }
+    .theme-toggle {
+      background: #5B3A29;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+    body.dark-mode .theme-toggle {
+      background: #eee;
+      color: #222;
+    }
+    .admin-section {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 2px dashed #ff69b4;
+    }
+    .admin-section h4 {
+      margin: 5px 0 10px 0;
+      color: #5B3A29;
+      text-align: center;
+    }
+    .admin-panel button {
+      background: white;
+      color: #ff69b4;
+      border: none;
+      padding: 8px 12px;
+      margin: 5px;
+      border-radius: 8px;
+      font-family: 'Pacifico', cursive;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: calc(50% - 10px);
+      display: inline-block;
+    }
+    .admin-panel button:hover {
+      background: #ff69b4;
+      color: white;
+      transform: translateY(-2px);
+    }
+    /* CONTENT STYLES */
+    .content-layer {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    /* CHAT STYLES */
+    .message-board {
+      margin: 20px auto;
+      max-width: 90%;
+    }
+    #messagesDisplay {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      padding: 15px;
+      min-height: 50px;
+      max-height: 200px;
+      overflow-y: auto;
+      text-align: left;
+    }
+    .message {
+      margin-bottom: 8px;
+      padding: 5px;
+      border-bottom: 1px dashed #ffcc99;
+      transition: all 0.3s;
+    }
+    .message-name {
+      font-weight: bold;
+      color: #D2691E;
+    }
+    .message-time {
+      font-size: 12px;
+      color: #888;
+    }
+    /* SPECIAL STATES */
+    .user-warning {
+      background-color: #fff3cd !important;
+      border-left: 5px solid #ffc107 !important;
+      animation: warnFlash 0.5s 3;
+    }
+    @keyframes warnFlash {
+      0%, 100% { background-color: #fff3cd; }
+      50% { background-color: #ffeeba; }
+    }
+    .muted-user {
+      opacity: 0.6;
+      filter: grayscale(50%);
+    }
+    .slow-mode-active {
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      background: #ff5555;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 10px;
+      z-index: 9998;
+      font-size: 12px;
+      box-shadow: 0 0 10px rgba(255,0,0,0.3);
+    }
+    /* MUSIC PLAYER */
+    .music-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    /* FLOATING CATS */
+    .floating-cat {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      background-image: url('https://i.pinimg.com/474x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 1;
+      animation: float 15s linear infinite;
+    }
+    @keyframes float {
+      0% { 
+        transform: translate(-10vw, 110vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% { 
+        transform: translate(110vw, -10vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    /* BAN SCREEN */
+    .ban-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      color: white;
+      font-family: 'Pacifico', cursive;
+      text-align: center;
+      padding: 20px;
+    }
+    .ban-screen img {
+      max-width: 200px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+    .ban-screen h1 {
+      color: #ff5555;
+      margin-bottom: 10px;
+    }
+    .ban-screen p {
+      margin: 5px 0;
+    }
+    /* YOUTUBE LINK */
+    .yt-link {
+      color: #5B3A29;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s;
+      display: inline-block;
+      margin: 10px 0;
+    }
+    .yt-link:hover {
+      text-decoration: underline;
+      transform: scale(1.05);
+    }
+    body.dark-mode .yt-link {
+      color: #ffcc99;
+    }
+  </style>
 </head>
 <body>
-    <!-- INSTANT MARQUEE -->
-    <div class="news-ticker">
-        <div class="marquee" id="tickerText">
-            ✨ Welcome to the cool website! ✨ &nbsp;&nbsp;&nbsp; 
-            ✨ Please be nice in the chat! ✨ &nbsp;&nbsp;&nbsp; 
-            ✨ Check out the YouTube channel below! ✨ &nbsp;&nbsp;&nbsp; 
-            ✨ Enjoy the music player! ✨ &nbsp;&nbsp;&nbsp; 
-            ✨ Have fun! ✨
-        </div>
+  <!-- INSTANT MARQUEE -->
+  <div class="news-ticker">
+    <div class="marquee" id="tickerText">
+      ✨ Welcome to the cool website! ✨ &nbsp;&nbsp;&nbsp; 
+      ✨ Please be nice in the chat! ✨ &nbsp;&nbsp;&nbsp; 
+      ✨ Check out the YouTube channel below! ✨ &nbsp;&nbsp;&nbsp; 
+      ✨ Enjoy the music player! ✨ &nbsp;&nbsp;&nbsp; 
+      ✨ Have fun! ✨
     </div>
+  </div>
 
-    <!-- ICON STACK -->
-    <div class="icon-stack">
-        <button class="theme-toggle" id="themeToggle">🌓</button>
-        <button class="admin-toggle" id="adminToggle">⚙️</button>
+  <!-- ICON STACK -->
+  <div class="icon-stack">
+    <button class="theme-toggle" id="themeToggle">🌓</button>
+    <button class="admin-toggle" id="adminToggle">⚙️</button>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="admin-panel" id="adminPanel">
+    <h3 style="text-align:center;margin-top:0;">✨ ADMIN CONTROL CENTER ✨</h3>
+    <!-- CHAT CONTROLS -->
+    <div class="admin-section">
+      <h4>💬 CHAT CONTROLS</h4>
+      <button onclick="clearChat()">🧹 Clear Chat</button>
+      <button onclick="removeLastMessage()">↩️ Undo Last</button>
+      <button onclick="toggleBadWords()" id="badWordsToggle">🔞 Filter: ON</button>
+      <button onclick="toggleSlowMode()" id="slowModeToggle">🐢 Slow Mode: OFF</button>
+      <button onclick="exportChat()">📥 Export Log</button>
+      <button onclick="setCustomMarquee()">📢 Custom Ticker</button>
     </div>
-
-    <!-- ADMIN PANEL -->
-    <div class="admin-panel" id="adminPanel">
-        <h3 style="text-align:center;margin-top:0;">✨ ADMIN CONTROL CENTER ✨</h3>
-        
-        <!-- CHAT CONTROLS -->
-        <div class="admin-section">
-            <h4>💬 CHAT CONTROLS</h4>
-            <button onclick="clearChat()">🧹 Clear Chat</button>
-            <button onclick="removeLastMessage()">↩️ Undo Last</button>
-            <button onclick="toggleBadWords()" id="badWordsToggle">🔞 Filter: ON</button>
-            <button onclick="toggleSlowMode()" id="slowModeToggle">🐢 Slow Mode: OFF</button>
-            <button onclick="exportChat()">📥 Export Log</button>
-            <button onclick="setCustomMarquee()">📢 Custom Ticker</button>
-        </div>
-
-        <!-- USER MANAGEMENT -->
-        <div class="admin-section">
-            <h4>👥 USER MANAGEMENT</h4>
-            <button onclick="warnUser()">⚠️ Warn User</button>
-            <button onclick="muteUser()">🔇 Mute User</button>
-            <button onclick="banUser()">🔨 Ban User</button>
-            <button onclick="unbanAll()">❤️ Unban All</button>
-            <button onclick="viewBannedUsers()">📜 Banned List</button>
-        </div>
-
-        <!-- APPEARANCE -->
-        <div class="admin-section">
-            <h4>🎨 APPEARANCE</h4>
-            <button onclick="changeTheme('pink')">🌸 Pink Theme</button>
-            <button onclick="changeTheme('blue')">💙 Blue Theme</button>
-            <button onclick="changeTheme('default')">🌈 Default</button>
-            <button onclick="toggleFloatingCats()" id="catsToggle">🐱 Cats: ON</button>
-        </div>
-
-        <!-- SPECIAL POWERS -->
-        <div class="admin-section">
-            <h4>⚡ SPECIAL POWERS</h4>
-            <button onclick="sendAnnouncement()">📢 Announcement</button>
-            <button onclick="forcePlayMusic()">🎵 Force Music</button>
-        </div>
-
-        <!-- ADMIN TOOLS -->
-        <div class="admin-section">
-            <h4>🔐 ADMIN TOOLS</h4>
-            <button onclick="adminLogout()">🚪 Logout</button>
-        </div>
+    <!-- USER MANAGEMENT -->
+    <div class="admin-section">
+      <h4>👥 USER MANAGEMENT</h4>
+      <button onclick="warnUser()">⚠️ Warn User</button>
+      <button onclick="muteUser()">🔇 Mute User</button>
+      <button onclick="banUser()">🔨 Ban User</button>
+      <button onclick="unbanAll()">❤️ Unban All</button>
+      <button onclick="viewBannedUsers()">📜 Banned List</button>
     </div>
-
-    <!-- MAIN CONTENT -->
-    <div class="content-layer">
-        <div class="container">
-            <h1>✨ cool website ✨</h1>
-            <h3>welcome to the cool website! its awesome, right?</h3>
-            <b><p>this website gets daily updates :D</p></b>
-            
-            <a href="https://www.youtube.com/@afghani_munchkin" target="_blank" class="yt-link">➡️ visit this awesome YouTube channel ⬅️</a>
-            
-            <p>welcome to the global chat! please no hurtful words!!!</p>
-            
-            <div class="message-board">
-                <div class="message-input">
-                    <div>
-                        <label for="userName">enter a nickname (dont use your real name!) :</label>
-                        <input type="text" id="userName" placeholder="Your nickname">
-                    </div>
-                    <div style="margin-top: 10px;">
-                        <label for="userMessage">Type your message:</label>
-                        <input type="text" id="userMessage" placeholder="Say something nice...">
-                        <button onclick="saveMessage()">send</button>
-                    </div>
-                </div>
-                <div id="messagesDisplay">Loading messages...</div>
-            </div>
-
-            <!-- Music Player -->
-            <div class="music-buttons">
-                <button onclick="playMusic('song1')">Play Song 1</button>
-                <button onclick="playMusic('song2')">Play Song 2</button>
-                <button onclick="playMusic('song3')">Play Song 3</button>
-                <button onclick="playMusic('song4')">Play Song 4</button>
-                <button onclick="playMusic('song5')">Play Song 5</button>
-                <button onclick="playMusic('song6')">Play Song 6</button>
-                <button onclick="stopMusic()">Stop Music</button>
-                <button onclick="toggleMute()">🔇 Mute/Unmute</button>
-                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
-            </div>
-
-            <audio id="song1" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
-            <audio id="song2" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
-            <audio id="song3" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
-            <audio id="song4" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/etbfrdqlcm/25%20-%20BGM021.mp3"></audio>
-            <audio id="song5" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/qbswmqyssd/13%20-%20BGM008.mp3"></audio>
-            <audio id="song6" loop src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/fqvsaxobny/31%20-%20BGM028.mp3"></audio>
-
-            <!-- Time Display -->
-            <button id="timeButton">show the time</button>
-            <div id="timeDisplay"></div>
-            
-            <p>thx for visiting my website <3</p>
-        </div>
+    <!-- APPEARANCE -->
+    <div class="admin-section">
+      <h4>🎨 APPEARANCE</h4>
+      <button onclick="changeTheme('pink')">🌸 Pink Theme</button>
+      <button onclick="changeTheme('blue')">💙 Blue Theme</button>
+      <button onclick="changeTheme('default')">🌈 Default</button>
+      <button onclick="toggleFloatingCats()" id="catsToggle">🐱 Cats: ON</button>
     </div>
+    <!-- SPECIAL POWERS -->
+    <div class="admin-section">
+      <h4>⚡ SPECIAL POWERS</h4>
+      <button onclick="sendAnnouncement()">📢 Announcement</button>
+      <button onclick="forcePlayMusic()">🎵 Force Music</button>
+    </div>
+    <!-- ADMIN TOOLS -->
+    <div class="admin-section">
+      <h4>🔐 ADMIN TOOLS</h4>
+      <button onclick="adminLogout()">🚪 Logout</button>
+    </div>
+  </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <!-- MAIN CONTENT -->
+  <div class="content-layer">
+    <div class="container">
+      <h1>✨ cool website ✨</h1>
+      <h3>welcome to the cool website! its awesome, right?</h3>
+      <b><p>this website gets daily updates :D</p></b>
+      <a href="https://www.youtube.com/@afghani_munchkin" target="_blank" class="yt-link">➡️ visit this awesome YouTube channel ⬅️</a>
+      <p>welcome to the global chat! please no hurtful words!!!</p>
+      <div class="message-board">
+        <div class="message-input">
+          <div>
+            <label for="userName">enter a nickname (dont use your real name!) :</label>
+            <input type="text" id="userName" placeholder="Your nickname">
+          </div>
+          <div style="margin-top: 10px;">
+            <label for="userMessage">Type your message:</label>
+            <input type="text" id="userMessage" placeholder="Say something nice...">
+            <button onclick="saveMessage()">send</button>
+          </div>
+        </div>
+        <div id="messagesDisplay">Loading messages...</div>
+      </div>
+      <!-- Music Player -->
+      <div class="music-buttons">
+        <button onclick="playMusic('song1')">Play Song 1</button>
+        <button onclick="playMusic('song2')">Play Song 2</button>
+        <button onclick="playMusic('song3')">Play Song 3</button>
+        <button onclick="playMusic('song4')">Play Song 4</button>
+        <button onclick="playMusic('song5')">Play Song 5</button>
+        <button onclick="playMusic('song6')">Play Song 6</button>
+        <button onclick="stopMusic()">Stop Music</button>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
+        <button onclick="toggleMute()">🔇 Mute/Unmute</button>
+      </div>
+      <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
+      <audio id="song2" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
+      <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
+      <audio id="song4" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/etbfrdqlcm/25%20-%20BGM021.mp3"></audio>
+      <audio id="song5" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/qbswmqyssd/13%20-%20BGM008.mp3"></audio>
+      <audio id="song6" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/fqvsaxobny/31%20-%20BGM028.mp3"></audio>
+      <!-- Time Display -->
+      <button id="timeButton">show the time</button>
+      <div id="timeDisplay"></div>
+      <p>thx for visiting my website <3</p>
+    </div>
+  </div>
 
-    <script>
-        // ======================
-        // FIREBASE CONFIGURATION
-        // ======================
-        const firebaseConfig = {
-            apiKey: "AIzaSyD3RX465yKlHYCIur0_GiDmtcHds4Jq04Y",
-            authDomain: "sanrio-global-chat.firebaseapp.com",
-            databaseURL: "https://sanrio-global-chat-default-rtdb.firebaseio.com",
-            projectId: "sanrio-global-chat",
-            storageBucket: "sanrio-global-chat.firebasestorage.app",
-            messagingSenderId: "842022490271",
-            appId: "1:842022490271:web:86fe18373aabeae84f52aa",
-            measurementId: "G-2K6FKNTS36"
-        };
-        
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script>
+    // ======================
+    // FIREBASE CONFIGURATION
+    // ======================
+    const firebaseConfig = {
+      apiKey: "AIzaSyD3RX465yKlHYCIur0_GiDmtcHds4Jq04Y",
+      authDomain: "sanrio-global-chat.firebaseapp.com",
+      databaseURL: "https://sanrio-global-chat-default-rtdb.firebaseio.com",
+      projectId: "sanrio-global-chat",
+      storageBucket: "sanrio-global-chat.firebasestorage.app",
+      messagingSenderId: "842022490271",
+      appId: "1:842022490271:web:86fe18373aabeae84f52aa",
+      measurementId: "G-2K6FKNTS36"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
-        // ======================
-        // ADMIN SYSTEM (FIXED)
-        // ======================
-        const ADMIN_PASSWORD = "hadido";
-        let isAdmin = false; // Always starts false
-        let badWordsEnabled = true;
-        let slowModeEnabled = false;
-        let slowModeTimeout = 5;
-        let lastMessageTimes = {};
-        let floatingCatsEnabled = true;
-        let currentAudio = null;
-        let darkMode = false;
+    // ======================
+    // GLOBAL VARIABLES & STATES
+    // ======================
+    let isAdmin = false;
+    let badWordsEnabled = true;
+    let slowModeEnabled = false;
+    let floatingCatsEnabled = true;
+    let currentAudio = null;
+    let darkMode = false;
 
-        // DOM Elements
-        const adminToggle = document.getElementById('adminToggle');
-        const adminPanel = document.getElementById('adminPanel');
-        const themeToggle = document.getElementById('themeToggle');
+    // ======================
+    // DOM ELEMENTS
+    // ======================
+    const adminToggle = document.getElementById('adminToggle');
+    const adminPanel = document.getElementById('adminPanel');
+    const themeToggle = document.getElementById('themeToggle');
 
-        // Toggle Admin Panel
-        adminToggle.addEventListener('click', () => {
-            adminPanel.style.display = adminPanel.style.display === 'block' ? 'none' : 'block';
-        });
+    // ======================
+    // ADMIN PANEL & THEME TOGGLING
+    // ======================
+    adminToggle.addEventListener('click', () => {
+      adminPanel.style.display = adminPanel.style.display === 'block' ? 'none' : 'block';
+    });
 
-        // Toggle Dark/Light Mode
-        themeToggle.addEventListener('click', () => {
-            darkMode = !darkMode;
-            if (darkMode) {
-                document.body.classList.add('dark-mode');
-                themeToggle.textContent = '🌞';
-            } else {
-                document.body.classList.remove('dark-mode');
-                themeToggle.textContent = '🌓';
-            }
-        });
+    themeToggle.addEventListener('click', () => {
+      darkMode = !darkMode;
+      if (darkMode) {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = '🌞';
+      } else {
+        document.body.classList.remove('dark-mode');
+        themeToggle.textContent = '🌓';
+      }
+    });
 
-        // Show admin login when 'A' is pressed
-        document.addEventListener('keydown', (e) => {
-            if (e.key.toLowerCase() === 'a' && !isAdmin) {
-                const password = prompt("Enter admin password:");
-                if (password === ADMIN_PASSWORD) {
-                    isAdmin = true;
-                    adminToggle.style.display = 'flex';
-                    alert("Admin mode activated! ✨");
-                } else {
-                    alert("Wrong password!");
-                }
-            }
-        });
-
-        // ======================
-        // ADMIN FUNCTIONS (FIXED)
-        // ======================
-        function adminLogout() {
-            isAdmin = false;
-            adminToggle.style.display = 'none';
-            adminPanel.style.display = 'none';
-            alert("Logged out of admin mode!");
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'a' && !isAdmin) {
+        const password = prompt("Enter admin password:");
+        if (password === "hadido") {
+          isAdmin = true;
+          adminToggle.style.display = 'flex';
+          alert("Admin mode activated! ✨");
+        } else {
+          alert("Wrong password!");
         }
+      }
+    });
 
-        // ... (keep all other admin functions the same as before) ...
+    // ======================
+    // MUSIC PLAYER FUNCTIONS
+    // ======================
+    function playMusic(songId) {
+      // Stop current song if different from the selected one.
+      if (currentAudio && currentAudio.id !== songId) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+      currentAudio = document.getElementById(songId);
+      currentAudio.loop = true;
+      currentAudio.volume = document.getElementById('volumeSlider').value;
+      currentAudio.play();
+    }
 
-        // ======================
-        // FLOATING CATS (FIXED)
-        // ======================
-        function createFloatingCat() {
-            if (!floatingCatsEnabled) return;
-            
-            const cat = document.createElement('div');
-            cat.className = 'floating-cat';
-            
-            // Random position and size
-            const startX = Math.random() * 100;
-            const startY = Math.random() * 100;
-            const size = Math.random() * 20 + 40;
-            
-            cat.style.left = startX + 'vw';
-            cat.style.top = startY + 'vh';
-            cat.style.width = size + 'px';
-            cat.style.height = size + 'px';
-            
-            // Random animation duration (10-20s)
-            const duration = Math.random() * 10 + 15;
-            cat.style.animationDuration = duration + 's';
-            
-            document.body.appendChild(cat);
-            
-            // Remove after animation completes
-            setTimeout(() => cat.remove(), duration * 1000);
-        }
+    function stopMusic() {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+      }
+    }
 
-        function startFloatingCats() {
-            if (!floatingCatsEnabled) return;
-            
-            createFloatingCat();
-            // Create new cats every second
-            setTimeout(startFloatingCats, 1000);
-        }
+    function toggleMute() {
+      if (currentAudio) {
+        currentAudio.muted = !currentAudio.muted;
+      }
+    }
 
-        // ======================
-        // INITIALIZATION (FIXED)
-        // ======================
-        window.onload = function() {
-            // RESET ADMIN STATUS ON EVERY LOAD
-            isAdmin = false;
-            adminToggle.style.display = 'none';
-            adminPanel.style.display = 'none';
-            
-            initializeMessages();
-            checkBanStatus();
-            startFloatingCats();
-            
-            // Time display
-            document.getElementById('timeButton').addEventListener('click', function() {
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('en-US', { 
-                    hour: '2-digit', minute: '2-digit', second: '2-digit',
-                    hour12: true
-                });
-                document.getElementById('timeDisplay').textContent = timeString;
-            });
+    function setVolume(value) {
+      if (currentAudio) {
+        currentAudio.volume = value;
+      }
+    }
 
-            // Enter key for messages
-            document.getElementById('userMessage').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') saveMessage();
-            });
-        };
+    // ======================
+    // CHAT FUNCTIONS
+    // ======================
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(text));
+      return div.innerHTML;
+    }
 
-        // ... (keep rest of the code the same as previous versions) ...
-    </script>
+    function initializeMessages() {
+      const messagesDisplay = document.getElementById('messagesDisplay');
+      messagesDisplay.innerHTML = '';
+      database.ref('messages').on('child_added', (snapshot) => {
+        const data = snapshot.val();
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+        messageDiv.innerHTML = '<span class="message-name">' + escapeHtml(data.name) + ': </span>' +
+                               '<span class="message-text">' + escapeHtml(data.message) + '</span>' +
+                               '<div class="message-time">' + new Date(data.timestamp).toLocaleTimeString() + '</div>';
+        messagesDisplay.appendChild(messageDiv);
+        messagesDisplay.scrollTop = messagesDisplay.scrollHeight;
+      });
+    }
+
+    function saveMessage() {
+      const nameInput = document.getElementById('userName');
+      const messageInput = document.getElementById('userMessage');
+      const name = nameInput.value.trim();
+      const message = messageInput.value.trim();
+      if (!name || !message) {
+        alert("Please enter both a nickname and a message.");
+        return;
+      }
+      const newMessage = {
+        name: name,
+        message: message,
+        timestamp: Date.now()
+      };
+      database.ref('messages').push(newMessage);
+      messageInput.value = '';
+    }
+
+    function checkBanStatus() {
+      // Stub for ban-check functionality
+      // You can implement ban logic here if needed
+    }
+
+    // ======================
+    // ADMIN FUNCTIONS (Stubs/Basic Implementations)
+    // ======================
+    function clearChat() {
+      if (confirm("Are you sure you want to clear the chat?")) {
+        database.ref('messages').remove();
+        document.getElementById('messagesDisplay').innerHTML = '';
+      }
+    }
+
+    function removeLastMessage() {
+      database.ref('messages').orderByKey().limitToLast(1).once('child_added', function(snapshot) {
+        snapshot.ref.remove();
+      });
+    }
+
+    function toggleBadWords() {
+      badWordsEnabled = !badWordsEnabled;
+      document.getElementById('badWordsToggle').textContent = badWordsEnabled ? "🔞 Filter: ON" : "🔞 Filter: OFF";
+      alert("Bad words filter is now " + (badWordsEnabled ? "enabled" : "disabled"));
+    }
+
+    function toggleSlowMode() {
+      slowModeEnabled = !slowModeEnabled;
+      document.getElementById('slowModeToggle').textContent = slowModeEnabled ? "🐢 Slow Mode: ON" : "🐢 Slow Mode: OFF";
+      alert("Slow mode is now " + (slowModeEnabled ? "enabled" : "disabled"));
+    }
+
+    function exportChat() {
+      alert("Export chat function not implemented.");
+    }
+
+    function setCustomMarquee() {
+      let newTicker = prompt("Enter new ticker text:");
+      if (newTicker) {
+        document.getElementById('tickerText').textContent = newTicker;
+      }
+    }
+
+    function warnUser() { alert("Warn user function not implemented."); }
+    function muteUser() { alert("Mute user function not implemented."); }
+    function banUser() { alert("Ban user function not implemented."); }
+    function unbanAll() { alert("Unban all function not implemented."); }
+    function viewBannedUsers() { alert("View banned users function not implemented."); }
+    function sendAnnouncement() { alert("Send announcement function not implemented."); }
+    function forcePlayMusic() { alert("Force play music function not implemented."); }
+    function adminLogout() {
+      isAdmin = false;
+      adminToggle.style.display = 'none';
+      adminPanel.style.display = 'none';
+      alert("Logged out of admin mode!");
+    }
+
+    // ======================
+    // FLOATING CATS
+    // ======================
+    function createFloatingCat() {
+      if (!floatingCatsEnabled) return;
+      const cat = document.createElement('div');
+      cat.className = 'floating-cat';
+      const startX = Math.random() * 100;
+      const startY = Math.random() * 100;
+      const size = Math.random() * 20 + 40;
+      cat.style.left = startX + 'vw';
+      cat.style.top = startY + 'vh';
+      cat.style.width = size + 'px';
+      cat.style.height = size + 'px';
+      const duration = Math.random() * 10 + 15;
+      cat.style.animationDuration = duration + 's';
+      document.body.appendChild(cat);
+      setTimeout(() => cat.remove(), duration * 1000);
+    }
+
+    function startFloatingCats() {
+      if (!floatingCatsEnabled) return;
+      createFloatingCat();
+      setTimeout(startFloatingCats, 1000);
+    }
+
+    // ======================
+    // INITIALIZATION
+    // ======================
+    window.onload = function() {
+      isAdmin = false;
+      adminToggle.style.display = 'none';
+      adminPanel.style.display = 'none';
+      initializeMessages();
+      checkBanStatus();
+      startFloatingCats();
+      document.getElementById('timeButton').addEventListener('click', function() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { 
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          hour12: true
+        });
+        document.getElementById('timeDisplay').textContent = timeString;
+      });
+      document.getElementById('userMessage').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') saveMessage();
+      });
+    };
+
+    // ======================
+    // APPEARANCE FUNCTIONS
+    // ======================
+    function changeTheme(theme) {
+      if (theme === 'pink') {
+        document.body.classList.remove('blue', 'dark-mode');
+        document.body.classList.add('pink');
+      } else if (theme === 'blue') {
+        document.body.classList.remove('pink', 'dark-mode');
+        document.body.classList.add('blue');
+      } else {
+        document.body.classList.remove('pink', 'blue', 'dark-mode');
+      }
+    }
+
+    function toggleFloatingCats() {
+      floatingCatsEnabled = !floatingCatsEnabled;
+      document.getElementById('catsToggle').textContent = floatingCatsEnabled ? "🐱 Cats: ON" : "🐱 Cats: OFF";
+    }
+  </script>
 </body>
 </html>
+
