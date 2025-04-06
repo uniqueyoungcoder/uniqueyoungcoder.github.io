@@ -11,7 +11,7 @@
   <style>
     /* BASE STYLES */
     body {
-      background-image: url('https://i.pinimg.com/736x/f8/0e/aa/f80eaa200099915e225f262386fa56c4.jpg');
+      background-image: url('https://i.pinimg.com/736x/86/a6/e4/86a6e411d9a66382434556ef07df5c15.jpg');
       background-size: cover;
       background-attachment: fixed;
       font-family: 'Pacifico', cursive;
@@ -75,6 +75,13 @@
       transform: translateY(-2px);
     }
     /* TIME BUTTON STYLES */
+    .time-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 15px auto;
+    }
     #timeButton {
       background-color: #ffcc99;
       border: none;
@@ -466,8 +473,10 @@
       <audio id="song5" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/qbswmqyssd/13%20-%20BGM008.mp3"></audio>
       <audio id="song6" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/fqvsaxobny/31%20-%20BGM028.mp3"></audio>
       <!-- Time Display -->
-      <button id="timeButton">show the time</button>
-      <div id="timeDisplay"></div>
+      <div class="time-container">
+        <button id="timeButton">show the time</button>
+        <div id="timeDisplay"></div>
+      </div>
       <p>thx for visiting my website <3</p>
     </div>
   </div>
@@ -719,7 +728,7 @@
           hour12: true
         });
         document.getElementById('timeDisplay').textContent = timeString;
-      });
+        });
       document.getElementById('userMessage').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') saveMessage();
       });
