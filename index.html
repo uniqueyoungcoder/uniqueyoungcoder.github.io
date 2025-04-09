@@ -144,8 +144,8 @@
     }
     /* ROTATING CUBE */
     .rotating-cube {
-      width: 100px; /* Increased from 50px */
-      height: 100px; /* Increased from 50px */
+      width: 100px;
+      height: 100px;
       margin: 20px auto;
       position: relative;
       transform-style: preserve-3d;
@@ -153,20 +153,20 @@
     }
     .cube-face {
       position: absolute;
-      width: 100px; /* Increased from 50px */
-      height: 100px; /* Increased from 50px */
+      width: 100px;
+      height: 100px;
       background: url('https://i.pinimg.com/474x/f8/05/1d/f8051d752caa2f99e2f6a183ca71383c.jpg') center/cover no-repeat;
-      border: 2px solid transparent; /* Changed to transparent */
+      border: 2px solid transparent;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .front  { transform: translateZ(50px); } /* Adjusted for larger size */
-    .back   { transform: translateZ(-50px) rotateY(180deg); } /* Adjusted for larger size */
-    .right  { transform: rotateY(90deg) translateZ(50px); } /* Adjusted for larger size */
-    .left   { transform: rotateY(-90deg) translateZ(50px); } /* Adjusted for larger size */
-    .top    { transform: rotateX(90deg) translateZ(50px); } /* Adjusted for larger size */
-    .bottom { transform: rotateX(-90deg) translateZ(50px); } /* Adjusted for larger size */
+    .front  { transform: translateZ(50px); }
+    .back   { transform: translateZ(-50px) rotateY(180deg); }
+    .right  { transform: rotateY(90deg) translateZ(50px); }
+    .left   { transform: rotateY(-90deg) translateZ(50px); }
+    .top    { transform: rotateX(90deg) translateZ(50px); }
+    .bottom { transform: rotateX(-90deg) translateZ(50px); }
     @keyframes rotate {
       from { transform: rotateX(0deg) rotateY(0deg); }
       to { transform: rotateX(360deg) rotateY(360deg); }
@@ -354,11 +354,11 @@
       background-repeat: no-repeat;
       pointer-events: none;
       z-index: 1;
-      animation: float 5s linear infinite;
+      animation: float 3s linear infinite;
     }
     @keyframes float {
       0% { 
-        transform: translate(-10vw, 110vh) rotate(0deg);
+        transform: translate(0, 0) rotate(0deg);
         opacity: 1;
       }
       100% { 
@@ -418,10 +418,10 @@
   <!-- INSTANT MARQUEE -->
   <div class="news-ticker">
     <div class="marquee" id="tickerText">
-      ✨ Welcome to the cool website! ✨     
-      ✨ Please be nice in the chat! ✨     
-      ✨ Check out the YouTube channel below! ✨     
-      ✨ Enjoy the music player! ✨     
+      ✨ Welcome to the cool website! ✨     
+      ✨ Please be nice in the chat! ✨     
+      ✨ Check out the YouTube channel below! ✨     
+      ✨ Enjoy the music player! ✨     
       ✨ Have fun! ✨
     </div>
   </div>
@@ -512,7 +512,7 @@
       <audio id="song1" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/ltzfymryfx/05%20-%20BGM000.mp3"></audio>
       <audio id="song2" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lqclzfqvuj/10%20-%20BGM005.mp3"></audio>
       <audio id="song3" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/lcfvvoswow/09%20-%20BGM004.mp3"></audio>
-      <audio id="song4" src="https://vgmsite.com/soundtracks/sanrio-pu  rol and-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/etbfrdqlcm/25%20-%20BGM021.mp3"></audio>
+      <audio id="song4" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/etbfrdqlcm/25%20-%20BGM021.mp3"></audio>
       <audio id="song5" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/qbswmqyssd/13%20-%20BGM008.mp3"></audio>
       <audio id="song6" src="https://vgmsite.com/soundtracks/sanrio-puroland-waku-waku-okaimono-suteki-na-oheya-o-tsukuri-masho-2010-nds-gamerip/fqvsaxobny/31%20-%20BGM028.mp3"></audio>
       <!-- Time Display -->
@@ -583,7 +583,7 @@
       darkMode = !darkMode;
       if (darkMode) {
         document.body.classList.add('dark-mode');
-        themeToggle.textContent = '☀️';
+        themeToggle.text-allowedContent = '☀️';
       } else {
         document.body.classList.remove('dark-mode');
         themeToggle.textContent = '🌕';
@@ -591,7 +591,7 @@
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 'a' && !isAdmin) {
+      if (e.key.toLowerCase() === 'z' && !isAdmin) { // Changed from 'a' to 'z'
         const password = prompt("Enter admin password:");
         if (password === "hadido") {
           isAdmin = true;
@@ -760,14 +760,39 @@
       if (!floatingCatsEnabled) return;
       const cat = document.createElement('div');
       cat.className = 'floating-cat';
-      const startX = Math.random() * 100;
-      const startY = Math.random() * 100;
-      const size = Math.random() * 20 + 40;
+
+      // Randomly choose one of four corner-aligned starting positions or a random spot
+      const spawnChoice = Math.floor(Math.random() * 5); // 0-4
+      let startX, startY;
+      switch (spawnChoice) {
+        case 0: // Top-left corner
+          startX = -10; // Slightly off-screen
+          startY = -10;
+          break;
+        case 1: // Top-right corner
+          startX = 100; // Slightly off-screen
+          startY = -10;
+          break;
+        case 2: // Bottom-left corner
+          startX = -10;
+          startY = 100;
+          break;
+        case 3: // Bottom-right corner
+          startX = 100;
+          startY = 100;
+          break;
+        case 4: // Completely random position
+          startX = Math.random() * 120 - 10; // -10vw to 110vw
+          startY = Math.random() * 120 - 10; // -10vh to 110vh
+          break;
+      }
+
+      const size = Math.random() * 20 + 40; // Random size between 40px and 60px
       cat.style.left = startX + 'vw';
       cat.style.top = startY + 'vh';
       cat.style.width = size + 'px';
       cat.style.height = size + 'px';
-      const duration = Math.random() * 3 + 2;
+      const duration = Math.random() * 2 + 1; // Random duration between 1s and 3s
       cat.style.animationDuration = duration + 's';
       document.body.appendChild(cat);
       setTimeout(() => cat.remove(), duration * 1000);
@@ -776,7 +801,7 @@
     function startFloatingCats() {
       if (!floatingCatsEnabled) return;
       createFloatingCat();
-      setTimeout(startFloatingCats, 200);
+      setTimeout(startFloatingCats, 100); // Spawn every 100ms
     }
 
     // ======================
@@ -796,7 +821,7 @@
           hour12: true
         });
         document.getElementById('timeDisplay').textContent = timeString;
-        });
+      });
       document.getElementById('userMessage').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') saveMessage();
       });
@@ -824,4 +849,3 @@
   </script>
 </body>
 </html>
-
