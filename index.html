@@ -22,8 +22,14 @@
       margin: 0;
       transition: all 0.5s ease;
     }
-    body.pink { background-color: rgba(255, 182, 193, 0.3); }
-    body.blue { background-color: rgba(173, 216, 230, 0.3); }
+    body.pink { 
+      background-image: url('https://i.pinimg.com/736x/0f/52/7c/0f527c1e0539c60ec3262bbae902a2df.jpg');
+      background-color: rgba(255, 182, 193, 0.3); 
+    }
+    body.blue { 
+      background-image: url('https://i.pinimg.com/originals/fd/72/e8/fd72e83b6412121b376b87021ee4e6f7.png');
+      background-color: rgba(173, 216, 230, 0.3); 
+    }
     body.dark-mode {
       background-image: url('https://wallpapercave.com/wp/wp5403837.jpg');
       color: #eee;
@@ -429,7 +435,7 @@
   <!-- ICON STACK -->
   <div class="icon-stack">
     <button class="theme-toggle" id="themeToggle">🌓</button>
-    <button class="admin-toggle" id="adminToggle">⚙️</button>
+    <button class="admin-toggle" id="adminToggle" style="display: none;">⚙️</button>
   </div>
 
   <!-- ADMIN PANEL -->
@@ -495,7 +501,7 @@
             <button onclick="saveMessage()">send</button>
           </div>
         </div>
-        <div id="messagesDisplay">Loading messages...</div>
+        <div id="messagesDisplay">No messages yet. Be the first to chat!</div>
       </div>
       <!-- Music Player -->
       <div class="music-buttons">
@@ -564,6 +570,19 @@
     let currentAudio = null;
     let darkMode = false;
     let announcementDiv = null;
+    let bannedUsers = [];
+    let mutedUsers = [];
+    let lastMessageTime = 0;
+    let slowModeCooldown = 5000; // 5 seconds for slow mode
+
+    // Check local storage for admin status
+    function checkAdminStatus() {
+      // Reset admin status on each page load
+      localStorage.removeItem('isAdmin');
+      isAdmin = false;
+      document.getElementById('adminToggle').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'none';
+    }
 
     // ======================
     // DOM ELEMENTS
@@ -571,6 +590,8 @@
     const adminToggle = document.getElementById('adminToggle');
     const adminPanel = document.getElementById('adminPanel');
     const themeToggle = document.getElementById('themeToggle');
+    const timeButton = document.getElementById('timeButton');
+    const timeDisplay = document.getElementById('timeDisplay');
 
     // ======================
     // ADMIN PANEL & THEME TOGGLING
@@ -583,10 +604,10 @@
       darkMode = !darkMode;
       if (darkMode) {
         document.body.classList.add('dark-mode');
-        themeToggle.text-allowedContent = '☀️';
+        themeToggle.textContent = '☀️';
       } else {
         document.body.classList.remove('dark-mode');
-        themeToggle.textContent = '🌕';
+        themeToggle.textContent = '🌓';
       }
     });
 
@@ -604,6 +625,14 @@
     });
 
     // ======================
+    // TIME DISPLAY FUNCTION
+    // ======================
+    timeButton.addEventListener('click', () => {
+      const now = new Date();
+      timeDisplay.textContent = now.toLocaleTimeString();
+    });
+
+    // ======================
     // MUSIC PLAYER FUNCTIONS
     // ======================
     function playMusic(songId) {
@@ -614,7 +643,10 @@
       currentAudio = document.getElementById(songId);
       currentAudio.loop = true;
       currentAudio.volume = document.getElementById('volumeSlider').value;
-      currentAudio.play();
+      currentAudio.play().catch(error => {
+        console.error("Audio playback failed:", error);
+        alert("Sorry, couldn't play audio. Try clicking on the page first!");
+      });
     }
 
     function stopMusic() {
@@ -648,204 +680,43 @@
 
     function initializeMessages() {
       const messagesDisplay = document.getElementById('messagesDisplay');
-      messagesDisplay.innerHTML = '';
-      database.ref('messages').on('child_added', (snapshot) => {
+      // Clear any existing messages and set default text
+      messagesDisplay.innerHTML = 'No messages yet. Be the first to chat!';
+      
+      // Set up listener for new messages
+      database.ref('messages').on('value', (snapshot) => {
         const data = snapshot.val();
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        messageDiv.innerHTML = '<span class="message-name">' + escapeHtml(data.name) + ': </span>' +
-                               '<span class="message-text">' + escapeHtml(data.message) + '</span>' +
-                               '<div class="message-time">' + new Date(data.timestamp).toLocaleTimeString() + '</div>';
-        messagesDisplay.appendChild(messageDiv);
+        
+        // If no messages exist, keep default text
+        if (!data) {
+          messagesDisplay.innerHTML = 'No messages yet. Be the first to chat!';
+          return;
+        }
+        
+        // Clear display before adding messages
+        messagesDisplay.innerHTML = '';
+        
+        // Loop through all messages
+        Object.keys(data).forEach(key => {
+          const messageData = data[key];
+          const messageDiv = document.createElement('div');
+          messageDiv.classList.add('message');
+          messageDiv.innerHTML = '<span class="message-name">' + escapeHtml(messageData.name) + ': </span>' +
+                              '<span class="message-text">' + escapeHtml(messageData.message) + '</span>' +
+                              '<div class="message-time">' + new Date(messageData.timestamp).toLocaleTimeString() + '</div>';
+          messagesDisplay.appendChild(messageDiv);
+        });
+        
         messagesDisplay.scrollTop = messagesDisplay.scrollHeight;
       });
     }
 
-    function saveMessage() {
-      const nameInput = document.getElementById('userName');
-      const messageInput = document.getElementById('userMessage');
-      const name = nameInput.value.trim();
-      const message = messageInput.value.trim();
-      if (!name || !message) {
-        alert("Please enter both a nickname and a message.");
-        return;
-      }
-      const newMessage = {
-        name: name,
-        message: message,
-        timestamp: Date.now()
-      };
-      database.ref('messages').push(newMessage);
-      messageInput.value = '';
-    }
-
-    function checkBanStatus() {
-      // Stub for ban-check functionality
-    }
-
-    // ======================
-    // ADMIN FUNCTIONS
-    // ======================
-    function clearChat() {
-      if (confirm("Are you sure you want to clear the chat?")) {
-        database.ref('messages').remove();
-        document.getElementById('messagesDisplay').innerHTML = '';
-        if (announcementDiv) {
-          announcementDiv.remove();
-          announcementDiv = null;
-        }
-      }
-    }
-
-    function removeLastMessage() {
-      database.ref('messages').orderByKey().limitToLast(1).once('child_added', function(snapshot) {
-        snapshot.ref.remove();
-      });
-    }
-
-    function toggleBadWords() {
-      badWordsEnabled = !badWordsEnabled;
-      document.getElementById('badWordsToggle').textContent = badWordsEnabled ? "🔞 Filter: ON" : "🔞 Filter: OFF";
-      alert("Bad words filter is now " + (badWordsEnabled ? "enabled" : "disabled"));
-    }
-
-    function toggleSlowMode() {
-      slowModeEnabled = !slowModeEnabled;
-      document.getElementById('slowModeToggle').textContent = slowModeEnabled ? "🐢 Slow Mode: ON" : "🐢 Slow Mode: OFF";
-      alert("Slow mode is now " + (slowModeEnabled ? "enabled" : "disabled"));
-    }
-
-    function exportChat() {
-      alert("Export chat function not implemented.");
-    }
-
-    function setCustomMarquee() {
-      let newTicker = prompt("Enter new ticker text:");
-      if (newTicker) {
-        document.getElementById('tickerText').textContent = newTicker;
-      }
-    }
-
-    function sendAnnouncement() {
-      if (!isAdmin) return;
-      const announcementText = prompt("Enter announcement:");
-      if (announcementText) {
-        if (announcementDiv) {
-          announcementDiv.remove();
-        }
-        announcementDiv = document.createElement('div');
-        announcementDiv.className = 'announcement';
-        announcementDiv.textContent = "📢 " + announcementText;
-        document.body.appendChild(announcementDiv);
-      }
-    }
-
-    function warnUser() { alert("Warn user function not implemented."); }
-    function muteUser() { alert("Mute user function not implemented."); }
-    function banUser() { alert("Ban user function not implemented."); }
-    function unbanAll() { alert("Unban all function not implemented."); }
-    function viewBannedUsers() { alert("View banned users function not implemented."); }
-    function forcePlayMusic() { alert("Force play music function not implemented."); }
-    function adminLogout() {
-      isAdmin = false;
-      adminToggle.style.display = 'none';
-      adminPanel.style.display = 'none';
-      alert("Logged out of admin mode!");
-    }
-
-    // ======================
-    // FLOATING CATS
-    // ======================
-    function createFloatingCat() {
-      if (!floatingCatsEnabled) return;
-      const cat = document.createElement('div');
-      cat.className = 'floating-cat';
-
-      // Randomly choose one of four corner-aligned starting positions or a random spot
-      const spawnChoice = Math.floor(Math.random() * 5); // 0-4
-      let startX, startY;
-      switch (spawnChoice) {
-        case 0: // Top-left corner
-          startX = -10; // Slightly off-screen
-          startY = -10;
-          break;
-        case 1: // Top-right corner
-          startX = 100; // Slightly off-screen
-          startY = -10;
-          break;
-        case 2: // Bottom-left corner
-          startX = -10;
-          startY = 100;
-          break;
-        case 3: // Bottom-right corner
-          startX = 100;
-          startY = 100;
-          break;
-        case 4: // Completely random position
-          startX = Math.random() * 120 - 10; // -10vw to 110vw
-          startY = Math.random() * 120 - 10; // -10vh to 110vh
-          break;
-      }
-
-      const size = Math.random() * 20 + 40; // Random size between 40px and 60px
-      cat.style.left = startX + 'vw';
-      cat.style.top = startY + 'vh';
-      cat.style.width = size + 'px';
-      cat.style.height = size + 'px';
-      const duration = Math.random() * 2 + 1; // Random duration between 1s and 3s
-      cat.style.animationDuration = duration + 's';
-      document.body.appendChild(cat);
-      setTimeout(() => cat.remove(), duration * 1000);
-    }
-
-    function startFloatingCats() {
-      if (!floatingCatsEnabled) return;
-      createFloatingCat();
-      setTimeout(startFloatingCats, 100); // Spawn every 100ms
-    }
-
-    // ======================
-    // INITIALIZATION
-    // ======================
-    window.onload = function() {
-      isAdmin = false;
-      adminToggle.style.display = 'none';
-      adminPanel.style.display = 'none';
-      initializeMessages();
-      checkBanStatus();
-      startFloatingCats();
-      document.getElementById('timeButton').addEventListener('click', function() {
-        const now = new Date();
-        const timeString = now.toLocaleTimeString('en-US', { 
-          hour: '2-digit', minute: '2-digit', second: '2-digit',
-          hour12: true
-        });
-        document.getElementById('timeDisplay').textContent = timeString;
-      });
-      document.getElementById('userMessage').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') saveMessage();
-      });
-    };
-
-    // ======================
-    // APPEARANCE FUNCTIONS
-    // ======================
-    function changeTheme(theme) {
-      if (theme === 'pink') {
-        document.body.classList.remove('blue', 'dark-mode');
-        document.body.classList.add('pink');
-      } else if (theme === 'blue') {
-        document.body.classList.remove('pink', 'dark-mode');
-        document.body.classList.add('blue');
-      } else {
-        document.body.classList.remove('pink', 'blue', 'dark-mode');
-      }
-    }
-
-    function toggleFloatingCats() {
-      floatingCatsEnabled = !floatingCatsEnabled;
-      document.getElementById('catsToggle').textContent = floatingCatsEnabled ? "🐱 Cats: ON" : "🐱 Cats: OFF";
-    }
-  </script>
-</body>
-</html>
+    function filterBadWords(text) {
+      if (!badWordsEnabled) return text;
+      
+      const badWords = ['bad', 'mean', 'ugly', 'hate', 'stupid', 'dumb', 'idiot'];
+      let filteredText = text;
+      
+      badWords.forEach(word => {
+        const regex = new RegExp('\\b' + word + '\\b', 'gi');
+        filt
