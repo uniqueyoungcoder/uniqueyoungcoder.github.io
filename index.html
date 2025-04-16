@@ -669,6 +669,17 @@
       }
     }
 
+    // Force play music function for admin
+    function forcePlayMusic() {
+      if (isAdmin) {
+        const songNumber = prompt("Enter song number (1-6):");
+        if (songNumber && songNumber >= 1 && songNumber <= 6) {
+          playMusic('song' + songNumber);
+          sendAnnouncement("🎵 Admin is playing music for everyone! 🎵");
+        }
+      }
+    }
+
     // ======================
     // CHAT FUNCTIONS
     // ======================
@@ -714,9 +725,343 @@
     function filterBadWords(text) {
       if (!badWordsEnabled) return text;
       
+      const badWords = ['bad', 'function filterBadWords(text) {
+      if (!badWordsEnabled) return text;
+      
       const badWords = ['bad', 'mean', 'ugly', 'hate', 'stupid', 'dumb', 'idiot'];
       let filteredText = text;
       
       badWords.forEach(word => {
         const regex = new RegExp('\\b' + word + '\\b', 'gi');
-        filt
+        filteredText = filteredText.replace(regex, '***');
+      });
+      
+      return filteredText;
+    }
+
+    function saveMessage() {
+      const userName = document.getElementById('userName').value.trim();
+      const userMessage = document.getElementById('userMessage').value.trim();
+      
+      // Basic validation
+      if (!userName || !userMessage) {
+        alert("Please enter both your name and a message!");
+        return;
+      }
+      
+      // Check if user is banned
+      if (bannedUsers.includes(userName.toLowerCase())) {
+        showBanScreen(userName);
+        return;
+      }
+      
+      // Check if user is muted
+      if (mutedUsers.includes(userName.toLowerCase())) {
+        alert("You are currently muted and cannot send messages.");
+        return;
+      }
+      
+      // Check for slow mode
+      if (slowModeEnabled) {
+        const now = Date.now();
+        if (now - lastMessageTime < slowModeCooldown) {
+          alert("Slow mode is active! Please wait a few seconds before sending another message.");
+          return;
+        }
+        lastMessageTime = now;
+      }
+      
+      // Filter bad words
+      const filteredMessage = filterBadWords(userMessage);
+      
+      // Save to Firebase
+      const newMessageRef = database.ref('messages').push();
+      newMessageRef.set({
+        name: userName,
+        message: filteredMessage,
+        timestamp: Date.now()
+      });
+      
+      // Clear message input
+      document.getElementById('userMessage').value = '';
+    }
+
+    // Function to toggle badWords filter
+    function toggleBadWords() {
+      if (!isAdmin) return;
+      
+      badWordsEnabled = !badWordsEnabled;
+      document.getElementById('badWordsToggle').textContent = badWordsEnabled ? "🔞 Filter: ON" : "🔞 Filter: OFF";
+    }
+
+    // Function to toggle slow mode
+    function toggleSlowMode() {
+      if (!isAdmin) return;
+      
+      slowModeEnabled = !slowModeEnabled;
+      document.getElementById('slowModeToggle').textContent = slowModeEnabled ? "🐢 Slow Mode: ON" : "🐢 Slow Mode: OFF";
+      
+      if (slowModeEnabled) {
+        const slowModeDiv = document.createElement('div');
+        slowModeDiv.classList.add('slow-mode-active');
+        slowModeDiv.id = 'slowModeIndicator';
+        slowModeDiv.textContent = "Slow Mode Active";
+        document.body.appendChild(slowModeDiv);
+      } else {
+        const indicator = document.getElementById('slowModeIndicator');
+        if (indicator) indicator.remove();
+      }
+    }
+
+    // Function to clear chat
+    function clearChat() {
+      if (!isAdmin) return;
+      
+      if (confirm("Are you sure you want to clear all chat messages?")) {
+        database.ref('messages').remove();
+      }
+    }
+
+    // Function to remove last message
+    function removeLastMessage() {
+      if (!isAdmin) return;
+      
+      database.ref('messages').limitToLast(1).once('value', snapshot => {
+        snapshot.forEach(child => {
+          database.ref('messages/' + child.key).remove();
+        });
+      });
+    }
+
+    // Function to show ban screen
+    function showBanScreen(username) {
+      const banScreen = document.createElement('div');
+      banScreen.classList.add('ban-screen');
+      banScreen.innerHTML = `
+        <img src="https://i.pinimg.com/236x/33/37/04/33370449505bdcd2c6f2ccdaf375692f.jpg" alt="Banned">
+        <h1>⚠️ YOU ARE BANNED! ⚠️</h1>
+        <p>Sorry ${escapeHtml(username)}, you have been banned from the chat.</p>
+        <p>Please be nicer next time!</p>
+      `;
+      document.body.appendChild(banScreen);
+      
+      setTimeout(() => {
+        banScreen.remove();
+      }, 5000);
+    }
+
+    // Function to ban a user
+    function banUser() {
+      if (!isAdmin) return;
+      
+      const username = prompt("Enter username to ban:");
+      if (!username) return;
+      
+      if (!bannedUsers.includes(username.toLowerCase())) {
+        bannedUsers.push(username.toLowerCase());
+        sendAnnouncement(`User ${username} has been banned! 😱`);
+      }
+    }
+
+    // Function to mute a user
+    function muteUser() {
+      if (!isAdmin) return;
+      
+      const username = prompt("Enter username to mute:");
+      if (!username) return;
+      
+      if (!mutedUsers.includes(username.toLowerCase())) {
+        mutedUsers.push(username.toLowerCase());
+        sendAnnouncement(`User ${username} has been muted for 5 minutes! 🤐`);
+        
+        // Auto unmute after 5 minutes
+        setTimeout(() => {
+          const index = mutedUsers.indexOf(username.toLowerCase());
+          if (index > -1) {
+            mutedUsers.splice(index, 1);
+            sendAnnouncement(`User ${username} has been unmuted! 🎉`);
+          }
+        }, 5 * 60 * 1000);
+      }
+    }
+
+    // Function to warn a user
+    function warnUser() {
+      if (!isAdmin) return;
+      
+      const username = prompt("Enter username to warn:");
+      if (!username) return;
+      
+      // Find user's messages and add warning class
+      const messages = document.querySelectorAll('.message');
+      messages.forEach(msg => {
+        const nameElement = msg.querySelector('.message-name');
+        if (nameElement && nameElement.textContent.toLowerCase().includes(username.toLowerCase())) {
+          msg.classList.add('user-warning');
+        }
+      });
+      
+      sendAnnouncement(`⚠️ ${username} has received a warning! Please follow the chat rules!`);
+    }
+
+    // Function to unban all users
+    function unbanAll() {
+      if (!isAdmin) return;
+      
+      if (confirm("Unban all users?")) {
+        bannedUsers = [];
+        sendAnnouncement("All users have been unbanned! 🎉");
+      }
+    }
+
+    // Function to view banned users
+    function viewBannedUsers() {
+      if (!isAdmin) return;
+      
+      if (bannedUsers.length === 0) {
+        alert("No users are currently banned.");
+      } else {
+        alert("Banned users: " + bannedUsers.join(", "));
+      }
+    }
+
+    // Function to export chat log
+    function exportChat() {
+      if (!isAdmin) return;
+      
+      database.ref('messages').once('value', snapshot => {
+        const data = snapshot.val();
+        if (!data) {
+          alert("No messages to export!");
+          return;
+        }
+        
+        let exportText = "===== CHAT EXPORT =====\n\n";
+        Object.keys(data).forEach(key => {
+          const messageData = data[key];
+          const date = new Date(messageData.timestamp).toLocaleString();
+          exportText += `[${date}] ${messageData.name}: ${messageData.message}\n`;
+        });
+        
+        const blob = new Blob([exportText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'chat_export.txt';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    // Function to set custom marquee text
+    function setCustomMarquee() {
+      if (!isAdmin) return;
+      
+      const newText = prompt("Enter new ticker text:");
+      if (newText) {
+        document.getElementById('tickerText').textContent = newText;
+      }
+    }
+
+    // Function to send announcement
+    function sendAnnouncement(customMessage = null) {
+      if ((!isAdmin) && (!customMessage)) return;
+      
+      // Remove previous announcement if exists
+      if (announcementDiv) {
+        announcementDiv.remove();
+      }
+      
+      const message = customMessage || prompt("Enter announcement message:");
+      if (!message) return;
+      
+      announcementDiv = document.createElement('div');
+      announcementDiv.classList.add('announcement');
+      announcementDiv.innerHTML = `<span>📢 ANNOUNCEMENT: ${escapeHtml(message)}</span>`;
+      document.body.appendChild(announcementDiv);
+      
+      setTimeout(() => {
+        announcementDiv.remove();
+        announcementDiv = null;
+      }, 5000);
+    }
+
+    // Function to change theme
+    function changeTheme(theme) {
+      if (!isAdmin) return;
+      
+      // First, remove all theme classes
+      document.body.classList.remove('pink', 'blue');
+      
+      // Then add the selected theme class
+      if (theme !== 'default') {
+        document.body.classList.add(theme);
+      }
+    }
+
+    // Function to toggle floating cats
+    function toggleFloatingCats() {
+      if (!isAdmin) return;
+      
+      floatingCatsEnabled = !floatingCatsEnabled;
+      document.getElementById('catsToggle').textContent = floatingCatsEnabled ? "🐱 Cats: ON" : "🐱 Cats: OFF";
+      
+      if (floatingCatsEnabled) {
+        spawnFloatingCats();
+      } else {
+        // Remove all existing floating cats
+        document.querySelectorAll('.floating-cat').forEach(cat => cat.remove());
+      }
+    }
+
+    // Function to spawn floating cats
+    function spawnFloatingCats() {
+      if (!floatingCatsEnabled) return;
+      
+      const cat = document.createElement('div');
+      cat.classList.add('floating-cat');
+      cat.style.left = '-40px';
+      cat.style.top = Math.random() * window.innerHeight + 'px';
+      document.body.appendChild(cat);
+      
+      // Remove cat element after animation completes
+      setTimeout(() => {
+        cat.remove();
+      }, 3000);
+      
+      // Spawn a new cat every few seconds
+      setTimeout(spawnFloatingCats, Math.random() * 3000 + 1000);
+    }
+
+    // Function to logout of admin mode
+    function adminLogout() {
+      if (!isAdmin) return;
+      
+      isAdmin = false;
+      localStorage.removeItem('isAdmin');
+      document.getElementById('adminToggle').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'none';
+      alert("Admin mode deactivated!");
+    }
+
+    // ======================
+    // INITIALIZE EVERYTHING
+    // ======================
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAdminStatus();
+      initializeMessages();
+      
+      if (floatingCatsEnabled) {
+        spawnFloatingCats();
+      }
+      
+      // Setup message input to send on Enter key
+      document.getElementById('userMessage').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          saveMessage();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
