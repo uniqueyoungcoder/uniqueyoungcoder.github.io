@@ -1,1 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Reader</title>
+    <link rel="icon" type="image/png" href="https://cdn3.iconfinder.com/data/icons/workspace-stationery/43/book-512.png" sizes="32x32">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Great+Vibes&display=swap');
 
+        body {
+            font-family: 'Crimson Text', serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png'), linear-gradient(135deg, #f5f0e1, #e8e0c8);
+            color: #2c3e50;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            text-align: center;
+            color: #1a5276;
+            font-size: 3.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            border: 2px solid #d4a373;
+        }
+
+        select, button {
+            padding: 10px 15px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            border: none;
+            background: #f9e4b7;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        select {
+            width: 300px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        select:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+            background: #fff;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #storyOutput {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            margin-top: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.5s ease-out;
+            border: 2px solid #d4a373;
+            box-sizing: border-box;
+            word-wrap: break-word;
+        }
+
+        h2 {
+            font-family: 'Great Vibes', cursive;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        /* Scrollbar styling */
+        #storyOutput::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        #storyOutput::-webkit-scrollbar-track {
+            background: #f9e4b7;
+            border-radius: 10px;
+        }
+
+        #storyOutput::-webkit-scrollbar-thumb {
+            background: #d4a373;
+            border-radius: 10px;
+        }
+
+        /* Subtle sparkle effect */
+        #storyOutput::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10%) 0 0,
+                        radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10%) 20px 20px;
+            background-size: 40px 40px;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: sparkle 4s infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0.15; }
+            50% { opacity: 0.3; }
+            100% { opacity: 0.15; }
+        }
+
+        @media (max-width: 600px) {
+            .controls {
+                flex-direction: column;
+                align-items: center;
+                padding: 15px;
+            }
+            select {
+                width: 100%;
+                font-size: 1em;
+            }
+            button {
+                width: 100%;
+                font-size: 1em;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1em;
+            }
+            #storyOutput {
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Story Reader</h1>
+    <div class="controls">
+        <select id="story">
+            <option value="">Select a Story</option>
+            <option value="The Three Little Pigs">The Three Little Pigs</option>
+            <option value="The Ugly Duckling">The Ugly Duckling</option>
+            <option value="The Princess and the Pea">The Princess and the Pea</option>
+            <option value="The Elves and the Shoemaker">The Elves and the Shoemaker</option>
+            <option value="Cinderella">Cinderella</option>
+            <option value="Little Red Riding Hood">Little Red Riding Hood</option>
+            <option value="Goldilocks and the Three Bears">Goldilocks and the Three Bears</option>
+            <option value="The Little Mermaid">The Little Mermaid</option>
+            <option value="Hansel and Gretel">Hansel and Gretel</option>
+            <option value="The Snow Queen">The Snow Queen</option>
+        </select>
+        <select id="voiceSelect">
+            <option value="">Select a Voice</option>
+        </select>
+        <button onclick="showStory()">Show Story</button>
+        <button onclick="readStory()">Read Aloud</button>
+    </div>
+    <div id="storyOutput"></div>
+
+    <script>
+        const stories = {
+            "The Three Little Pigs": { 
+                author: "Unknown, 2012 adaptation", 
+                year: 2012, 
+                summary: `Once upon a time, there were three little pigs who set out to seek their fortunes. Their mother, with tears in her eyes, bade them farewell, urging them to build strong homes to stay safe from danger. The first pig, fond of ease, built his house of straw, finishing in a day and dancing merrily. The second pig, a bit more diligent, constructed his house of sticks, sturdy enough to satisfy him. The third pig, wise and patient, labored long to build a house of bricks, solid as a fortress.
+
+A hungry wolf soon prowled the forest, eyeing the pigs. He came to the straw house and cried, “Little pig, let me come in!” The first pig refused, so the wolf huffed and puffed, blowing the house down. The pig fled to his brother’s stick house. The wolf followed, demanding entry. When refused, he huffed and puffed again, toppling the sticks. The two pigs ran to the brick house, where their brother welcomed them.
+
+The wolf, undeterred, knocked at the brick house. “Little pigs, let me in!” he growled. The third pig replied, “Not by the hair of my chinny chin chin!” The wolf huffed and puffed, but the brick house stood firm. Furious, he climbed the chimney, but the clever pigs had lit a fire below. With a howl, the wolf fell into a pot of boiling water, never to bother them again. The three pigs lived happily in the brick house, singing songs of their triumph and wisdom.`
+            },
+            "The Ugly Duckling": { 
+                author: "Hans Christian Andersen", 
+                year: 1843, 
+                summary: `In a sunny meadow by a quiet stream, a mother duck sat on her nest, waiting for her eggs to hatch. One by one, her ducklings emerged, fluffy and golden, but the last egg, larger than the rest, produced a strange, gray creature. He was clumsy, with a long neck and awkward gait, unlike his siblings. The other ducks called him ugly, pecking and mocking him. Even his mother, though kind, sighed at his oddness. Heartbroken, the duckling fled the pond, seeking a place to belong.
+
+Through fields and marshes, he wandered, facing scorn from geese, hens, and even a farmer’s cat. Winter came, harsh and cold, and he nearly froze in a icy pond, saved only by a kind peasant. Spring arrived, and the duckling, now grown, stumbled upon a lake where majestic swans glided. Fearing rejection, he bowed his head, but his reflection in the water stunned him—a swan, radiant and graceful, stared back. The swans welcomed him, their wings brushing his in friendship. Children at the lake’s edge clapped, calling him the finest of all. No longer the ugly duckling, he spread his wings, soaring with his new family, his heart full of joy and self-acceptance, knowing his trials had led him to his true self.`
+            },
+            "The Princess and the Pea": { 
+                author: "Hans Christian Andersen", 
+                year: 1835, 
+                summary: `Once, a prince sought a true princess to marry, traveling far and wide to find her. Many claimed the title, but none proved genuine—some lacked grace, others heart. Disheartened, he returned home, doubting he’d ever find his match. One stormy night, a knock echoed at the castle gate. A young maiden stood, drenched and shivering, claiming to be a princess. The queen, wary of impostors, invited her in but devised a secret test.
+
+Without a word, the queen placed a single pea beneath twenty mattresses and twenty featherbeds, piled high in the guest chamber. The maiden was given a warm bath, dry clothes, and a meal, then led to the towering bed. At dawn, the royal family asked how she slept. “Oh, dreadfully!” she cried. “Something hard pressed into me all night, leaving me black and blue!” The queen smiled, for only a true princess could feel a pea through such comfort. The prince, overjoyed, proposed at once, and the maiden, indeed a princess, accepted. They wed in a grand ceremony, and the pea was placed in a glass case in the royal museum, a symbol of their unlikely but destined love.`
+            },
+            "The Elves and the Shoemaker": { 
+                author: "Jacob Grimm", 
+                year: 1812, 
+                summary: `A kind shoemaker and his wife lived in a small village, their shop teetering on ruin. With only one piece of leather left, the shoemaker cut it carefully and left it on his bench, praying for a miracle. At dawn, he found a pair of shoes, stitched so perfectly they seemed enchanted. A merchant bought them for a high price, saving the couple from starvation. Each night, the shoemaker left out leather, and each morning, exquisite shoes appeared, their fame spreading far.
+
+Curious, the shoemaker and his wife hid one night, peering through the darkness. At midnight, two tiny elves, clad in rags, danced onto the bench, sewing and hammering with magical speed. Their work was flawless, their joy infectious. Moved by gratitude, the wife sewed tiny clothes and shoes for the elves, and the shoemaker laid them out that night. The elves, overjoyed, donned their gifts, twirling in glee. With a final bow, they vanished, never to return. The shoemaker’s shop thrived, his craftsmanship now renowned, and the couple lived in comfort, forever thankful for the elves’ selfless aid.`
+            },
+            "Cinderella": { 
+                author: "Marian Roalfe Cox", 
+                year: 1893, 
+                summary: `There was once a gentle girl named Cinderella, whose mother died, leaving her with a cruel stepmother and two vain stepsisters. They forced her to slave in the kitchen, her clothes reduced to rags, her bed a heap of ashes by the hearth. Yet she remained kind, dreaming of a better life. When the king announced a grand ball to find a bride for his son, the stepsisters preened, while Cinderella was forbidden to go.
+
+As they left, a fairy godmother appeared, touched by Cinderella’s heart. With a wave of her wand, she turned a pumpkin into a golden coach, mice into prancing horses, and Cinderella’s rags into a shimmering gown with glass slippers. “Be back by midnight,” she warned, “or the spell will break.” At the ball, the prince was enchanted by Cinderella’s grace, dancing only with her. As midnight tolled, she fled, losing a slipper on the palace steps. The prince vowed to marry the girl whose foot fit the slipper. He searched the kingdom, finding Cinderella despite her stepmother’s schemes. The slipper fit perfectly, and he took her to the palace. They married in splendor, and Cinderella forgave her family, her kindness shining as queen.`
+            },
+            "Little Red Riding Hood": { 
+                author: "Unknown, 1992 adaptation", 
+                year: 1992, 
+                summary: `A sweet girl, known as Little Red Riding Hood for her crimson cloak, was sent by her mother to deliver a basket of food to her sick grandmother, who lived deep in the forest. “Stay on the path,” her mother warned, “and beware of strangers.” As Red skipped along, a wolf spied her, his eyes glinting with hunger. “Where are you going, little girl?” he asked, feigning kindness. Naive, Red told him of her grandmother’s cottage.
+
+The wolf suggested she pick flowers, and while she did, he raced to the cottage, swallowing the grandmother whole. Dressing in her nightgown, he waited for Red. When she arrived, she noticed his strange eyes, ears, and teeth. “What big teeth you have!” she cried. “All the better to eat you with!” roared the wolf, lunging. Red screamed, and a woodsman passing by burst in, felling the wolf with his axe. He cut open the beast, freeing the grandmother, miraculously alive. The wolf was filled with stones and cast into the river. Red and her grandmother embraced, vowing to be more cautious, and lived happily, never straying from the path again.`
+            },
+            "Goldilocks and the Three Bears": { 
+                author: "Robert Southey", 
+                year: 1837, 
+                summary: `In a forest lived three bears: great big Papa Bear, middle-sized Mama Bear, and little Baby Bear. One morning, they prepared porridge and went for a walk while it cooled. A curious girl named Goldilocks, with golden curls, wandered into their cottage. She tasted the porridge: Papa’s was too hot, Mama’s too cold, but Baby’s was just right, and she ate it all. She tried their chairs: Papa’s was too hard, Mama’s too soft, but Baby’s was perfect—until it broke under her. Tired, she tested their beds, finding Baby’s just right, and fell asleep.
+
+The bears returned, noticing their disturbed home. “Somebody’s eaten my porridge!” cried Baby Bear. “Somebody’s broken my chair!” he wailed. Upstairs, they found Goldilocks asleep. “Somebody’s in my bed!” squeaked Baby Bear. Goldilocks awoke, saw the bears, and screamed. She leapt from the bed, dashed out the door, and ran home, never to trespass again. The bears repaired their chair and resumed their peaceful lives, their cottage safe from curious intruders.`
+            },
+            "The Little Mermaid": { 
+                author: "Hans Christian Andersen", 
+                year: 1837, 
+                summary: `Far beneath the sea lived a little mermaid, youngest of six sisters, who loved the world above. On her fifteenth birthday, she surfaced and saw a prince on a ship, his face kind and brave. When a storm sank the ship, she saved him, singing softly as she left him on shore. Her heart yearned for him and a human soul. Seeking the sea witch, she traded her voice for legs, each step like knives, and was warned: if the prince married another, she’d turn to foam.
+
+On land, she joined the prince’s court, mute but graceful. He loved her as a sister, unaware of her sacrifice, and soon loved a princess he believed had saved him. At their wedding, the mermaid’s heart broke. Her sisters offered a knife to kill the prince and save herself, but she refused, choosing love over life. As dawn broke, she dissolved into foam, but her selflessness lifted her to the daughters of the air, who promised her a soul through good deeds. Her spirit soared, forever seeking redemption.`
+            },
+            "Hansel and Gretel": { 
+                author: "Jacob and Wilhelm Grimm", 
+                year: 1812, 
+                summary: `Hansel and Gretel, children of a poor woodcutter, were led into a forest by their stepmother, who could no longer feed them. Hansel, clever, dropped pebbles to mark their path, guiding them home. When sent out again, only breadcrumbs marked their way, eaten by birds. Lost and hungry, they found a house of gingerbread and candy. An old woman welcomed them, but she was a witch, planning to fatten and eat them. She caged Hansel and enslaved Gretel.
+
+Each day, the near-sighted witch checked Hansel’s finger, but he tricked her with a bone. Impatient, she ordered Gretel to prepare the oven. Gretel feigned ignorance, asking the witch to show her how. When the witch leaned in, Gretel pushed her into the fire, freeing Hansel. They took the witch’s jewels and fled, following a swan across a river. At home, their stepmother was gone, and their father wept with joy. The jewels brought them wealth, and Hansel and Gretel grew up safe, their courage a legend in the village.`
+            },
+            "The Snow Queen": { 
+                author: "Hans Christian Andersen", 
+                year: 1844, 
+                summary: `Kai and Gerda, childhood friends, loved their village’s rose gardens. A demon’s mirror, shattered across the world, lodged a splinter in Kai’s eye and heart, turning him cold. The Snow Queen, pale and icy, saw his change and lured him to her palace. Gerda, heartbroken, set out to find him, facing a robber girl, a kind old woman, and a wise reindeer. Each helped her, sharing tales of the Snow Queen’s frozen realm.
+
+In the icy palace, Kai sat, numb, arranging ice into the word “eternity” for the Queen. Gerda arrived, her tears melting the splinter in his heart, her song warming his soul. The ice puzzle shifted, spelling “love,” breaking the spell. They fled, hand in hand, the Snow Queen powerless against their bond. Spring greeted them at home, roses blooming as they grew old together, their love stronger than any enchantment, a tale whispered through generations of the power of a true heart.`
+            }
+        };
+
+        // Populate voice dropdown
+        const voiceSelect = document.getElementById("voiceSelect");
+        function populateVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            voiceSelect.innerHTML = '<option value="">Select a Voice</option>';
+            voices.forEach((voice, index) => {
+                const option = document.createElement("option");
+                option.value = index;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        // Load voices
+        window.speechSynthesis.onvoiceschanged = populateVoices;
+        populateVoices();
+
+        let currentSpeech = null;
+
+        function showStory() {
+            const selected = document.getElementById("story").value;
+            const output = document.getElementById("storyOutput");
+            if (selected && stories[selected]) {
+                const story = stories[selected];
+                output.innerHTML = `<h2>${selected}</h2>
+                                    <p><strong>Author:</strong> ${story.author}</p>
+                                    <p><strong>Year:</strong> ${story.year}</p>
+                                    <p><strong>Story:</strong> ${story.summary.replace(/\n/g, '</p><p>')}</p>`;
+            } else {
+                output.innerHTML = '<p class="error">Please select a story.</p>';
+            }
+        }
+
+        function readStory() {
+            const selected = document.getElementById("story").value;
+            const output = document.getElementById("storyOutput");
+            if (selected && stories[selected]) {
+                const story = stories[selected];
+                const textToRead = `${selected}. Written by ${story.author} in ${story.year}. Story: ${story.summary}`;
+                
+                // Cancel any ongoing speech
+                if (currentSpeech) {
+                    window.speechSynthesis.cancel();
+                }
+                
+                // Create new speech utterance
+                currentSpeech = new SpeechSynthesisUtterance(textToRead);
+                const selectedVoiceIndex = voiceSelect.value;
+                const voices = window.speechSynthesis.getVoices();
+                if (selectedVoiceIndex && voices[selectedVoiceIndex]) {
+                    currentSpeech.voice = voices[selectedVoiceIndex];
+                }
+                currentSpeech.lang = 'en-US';
+                currentSpeech.volume = 1.0;
+                currentSpeech.rate = 0.85; // Slower for longer stories
+                currentSpeech.pitch = 1.1; // Pleasant tone
+                
+                // Speak the text
+                window.speechSynthesis.speak(currentSpeech);
+            } else {
+                output.innerHTML = '<p class="error">Please select a story to read aloud.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
